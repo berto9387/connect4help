@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" name="controller:ejb">
+    <output-path>$PROJECT_DIR$/controller/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>controller</module>
+        <packaging>ejb</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="controller-1.0-SNAPSHOT.jar">
+      <element id="artifact" artifact-name="controller:ejb exploded" />
+    </root>
+  </artifact>
+</component>

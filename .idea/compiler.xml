@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="app-config" />
+        <module name="app-ear" />
+        <module name="controller" />
+        <module name="model" />
+        <module name="rest-model" />
+        <module name="rest-controller" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="app-aggregator" target="1.5" />
+      <module name="app-config" target="1.7" />
+      <module name="app-ear" target="1.7" />
+      <module name="app-settings" target="1.5" />
+      <module name="controller" target="1.7" />
+      <module name="model" target="1.7" />
+      <module name="rest-controller" target="1.7" />
+      <module name="rest-model" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="app-config" options="-Xlint:all" />
+      <module name="app-ear" options="-Xlint:all" />
+      <module name="controller" options="-Xlint:all" />
+      <module name="model" options="-Xlint:all" />
+      <module name="rest-controller" options="-Xlint:all" />
+      <module name="rest-model" options="-Xlint:all" />
+    </option>
+  </component>
+</project>

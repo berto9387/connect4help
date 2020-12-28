@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="ejb" url="file://$PROJECT_DIR$/controller" />
+    <file type="javaeeApplication" url="file://$PROJECT_DIR$/app-ear" />
+    <file type="web" url="file://$PROJECT_DIR$/rest-controller" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/app-aggregator/pom.xml" />
+        <option value="$PROJECT_DIR$/app-settings/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_14" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>
