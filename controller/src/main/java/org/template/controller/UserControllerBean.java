@@ -2,6 +2,8 @@ package org.template.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.template.model.PerformUser;
+import org.template.model.RequestUser;
 import org.template.model.Service;
 import org.template.model.User;
 
@@ -29,12 +31,16 @@ public class UserControllerBean implements IUserController {
 
 
     @Override
-    public void persistUser(String firstName, String lastName) {
-        User user = new User();
+    public void persistUser(String firstName, String lastName, String role) {
+        User user=null;
+        if (role.equals("P")){
+            user = new PerformUser();
+        } else if (role.equals("R")){
+            user = new RequestUser();
+        }
         user.setName(firstName);
         user.setSurname(lastName);
         this.em.persist(user);
-        this.LOG.info("User {} {} persisted", firstName, lastName);
     }
 
     @Override
@@ -52,16 +58,7 @@ public class UserControllerBean implements IUserController {
 
     @Override
     public Service retriveService(String firstName) {
-        Query q = this.em.createQuery(
-                "SELECT u FROM User u WHERE u.name = :name");
-        q.setParameter("name", firstName);
-        try {
-            User u =(User) q.getSingleResult();
-            Service s =u.getAcceptedServices().iterator().next();
-            return s;
-        } catch (NoResultException exc){
-            return null;
-        }
+        return null;
     }
 
 

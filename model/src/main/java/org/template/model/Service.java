@@ -13,9 +13,9 @@ public class Service implements Serializable {
     private int idService;
     private String address;
     private String details;
-    private User requestUser;
+    private RequestUser requestUser;
     private Category category;
-    private User performerUser;
+    private PerformUser performerUser;
     private Boolean performed;
     private Boolean assistance;
 
@@ -92,11 +92,11 @@ public class Service implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "IdRequestUser", referencedColumnName = "idUser", nullable = false)
-    public User getRequestUser() {
+    public RequestUser getRequestUser() {
         return requestUser;
     }
 
-    public void setRequestUser(User requestUser) {
+    public void setRequestUser(RequestUser requestUser) {
         this.requestUser = requestUser;
     }
 
@@ -112,11 +112,11 @@ public class Service implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "IdPerformerUser", referencedColumnName = "idUser")
-    public User getPerformerUser() {
+    public PerformUser getPerformerUser() {
         return performerUser;
     }
 
-    public void setPerformerUser(User performerUser) {
+    public void setPerformerUser(PerformUser performerUser) {
         this.performerUser = performerUser;
     }
 }

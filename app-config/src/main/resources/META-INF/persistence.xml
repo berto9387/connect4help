@@ -6,6 +6,8 @@
     <jta-data-source>${project.settings.jdbc.dataSource.name}</jta-data-source>
     <!--//todo list all DB Model classes-->
     <class>org.template.model.User</class>
+    <class>org.template.model.RequestUser</class>
+    <class>org.template.model.PerformUser</class>
     <class>org.template.model.Service</class>
     <class>org.template.model.Category</class>
     <properties>

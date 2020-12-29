@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-public class User implements Serializable {
+@Table(name="user")
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="Role",discriminatorType = DiscriminatorType.STRING,length = 1)
+public abstract class User implements Serializable {
     private int idUser;
     private String name;
     private String surname;
@@ -19,8 +22,21 @@ public class User implements Serializable {
     private String role;
     private String telephone;
     private Timestamp timeStamp;
-    private Collection<Service> requestedServices=new ArrayList<>();
-    private Collection<Service> acceptedServices=new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(int idUser, String name, String surname, String email, String password, String address, Date dateOfBirth, String role, String telephone) {
+        this.idUser = idUser;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.role = role;
+        this.telephone = telephone;
+    }
 
     @Id
     @Column(name = "idUser")
@@ -158,21 +174,7 @@ public class User implements Serializable {
         return result;
     }
 
-    @OneToMany(mappedBy = "requestUser", fetch = FetchType.EAGER)
-    public Collection<Service> getRequestedServices() {
-        return requestedServices;
-    }
 
-    public void setRequestedServices(Collection<Service> requestedServices) {
-        this.requestedServices = requestedServices;
-    }
 
-    @OneToMany(mappedBy = "performerUser", fetch = FetchType.EAGER)
-    public Collection<Service> getAcceptedServices() {
-        return acceptedServices;
-    }
 
-    public void setAcceptedServices(Collection<Service> acceptedServices) {
-        this.acceptedServices = acceptedServices;
-    }
 }

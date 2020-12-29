@@ -33,7 +33,7 @@ public class UserControllerRestBean {
     @Path("/persist")
     public ServerResponse persistUser(@Context HttpServletRequest requestContext,
                                       RequestNewUser request) {
-        this.userController.persistUser(request.getFirstName(), request.getLastName());
+        this.userController.persistUser(request.getFirstName(), request.getLastName(),request.getRole());
 
         ServerResponse response = new ServerResponse();
         response.setResult(true);
@@ -46,12 +46,9 @@ public class UserControllerRestBean {
         User u=this.userController.retriveUser(request.getFirstName());
 
         ServerResponse response = new ServerResponse();
-        u.getAcceptedServices().iterator().next().setPerformed(false);
-        this.userController.persistUser(request.getFirstName(), request.getLastName());
-        String aux=Boolean.toString(u.getAcceptedServices().iterator().next().getPerformed());
-        System.out.println("paperino "+aux);
-        this.LOG.info("Userxxx {}  address", aux);
-        response.setCognome(aux);
+
+        String ts = u.getTimeStamp().toString();
+        response.setCognome(ts);
         return response;
     }
 }
