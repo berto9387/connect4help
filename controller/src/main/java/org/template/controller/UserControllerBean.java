@@ -9,6 +9,7 @@ import org.template.model.User;
 
 import javax.annotation.Resource;
 import javax.ejb.Local;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -18,7 +19,7 @@ import javax.persistence.Query;
 /**
  * @author Victor Mezrin
  */
-@Stateless(name = "UserControllerEJB")
+@Stateful(name = "UserControllerEJB")
 @Local(IUserController.class)
 public class UserControllerBean implements IUserController {
 
@@ -26,9 +27,8 @@ public class UserControllerBean implements IUserController {
     private EntityManager em;
     private Logger LOG = LoggerFactory.getLogger(UserControllerBean.class);
 
-    @Resource(name = "NamePrefix")
-    private String NamePrefix;
 
+    private String role;
 
     @Override
     public void persistUser(String firstName, String lastName, String role) {
@@ -57,8 +57,29 @@ public class UserControllerBean implements IUserController {
     }
 
     @Override
+    public User loginUser(String email, String password) {
+        Query q = this.em.createQuery(
+                "SELECT u FROM User u WHERE u.email = :email and u.password = :password");
+        q.setParameter("email", email);
+        q.setParameter("password", password);
+        try {
+            User u = (User) q.getSingleResult();
+            role = u.getRole();
+            return (User) q.getSingleResult();
+        } catch (NoResultException exc){
+            return null;
+        }
+
+    }
+
+    @Override
     public Service retriveService(String firstName) {
         return null;
+    }
+
+    @Override
+    public String receiveRole() {
+        return this.role;
     }
 
 
