@@ -15,5 +15,11 @@
                 <env-entry-value>${project.settings.app.NamePrefix}</env-entry-value>
             </env-entry>
         </session>
+        <session>
+            <ejb-name>AuthenticatorEJB</ejb-name>
+            <ejb-class>org.template.controller.AuthenticatorBean</ejb-class>
+            <session-type>Singleton</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
     </enterprise-beans>
 </ejb-jar>

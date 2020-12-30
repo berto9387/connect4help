@@ -1,7 +1,9 @@
 package org.template.rest.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.template.controller.Authenticator;
 import org.template.controller.IUserController;
 import org.template.controller.UserControllerBean;
 import org.template.model.PerformUser;
@@ -36,6 +38,9 @@ public class UserControllerRestBean {
     @EJB(name = "UserControllerEJB")
     IUserController userController;
 
+    @EJB(name = "AuthenticatorEJB")
+    Authenticator authenticator;
+
     @POST
     @Path("/persist")
     public ServerResponse persistUser(@Context HttpServletRequest requestContext,
@@ -47,9 +52,11 @@ public class UserControllerRestBean {
         return response;
     }
     @POST
-    @Path("/retrive")
+    @Path("/{email}")
     public ServerResponse retrieveUser(@Context HttpServletRequest requestContext,
                                       RequestNewUser request) {
+
+        Boolean outh=authenticator.isAuthTokenValid(email,token);
         HttpSession session = requestContext.getSession();
         IUserController recorderPerClient = lookupRecorder(session);
         String role=recorderPerClient.receiveRole();
@@ -57,21 +64,18 @@ public class UserControllerRestBean {
 
         ServerResponse response = new ServerResponse();
 
-        String ts = role;
-        response.setCognome(ts);
+
+        response.setCognome();
         return response;
     }
 
     @POST
     @Path("/login")
-    public ServerResponse loginUser(@Context HttpServletRequest requestContext,
-                                       RequestNewUser request) {
-        HttpSession session = requestContext.getSession();
-        IUserController recorderPerClient = lookupRecorder(session);
-        User u=recorderPerClient.loginUser(request.getEmail(),request.getPassword());
+    public ServerResponse loginUser(@Context HttpServletRequest requestContext,RequestNewUser request) {
 
+        String token=authenticator.login(request.getEmail(),request.getPassword());
         ServerResponse response = new ServerResponse();
-        response.setCognome(u.getSurname());
+        response.setCognome(token);
         return response;
     }
 
