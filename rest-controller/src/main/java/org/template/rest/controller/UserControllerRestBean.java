@@ -1,6 +1,7 @@
 package org.template.rest.controller;
 
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
@@ -29,6 +30,8 @@ import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
@@ -85,7 +88,7 @@ public class UserControllerRestBean {
                 throw new SecurityException("Invalid email/password");
 
             // Issue a token for the user
-            String token = issueToken(request.getEmail());
+            String token = issueToken(request.getEmail(),u.getRole());
 
             // Return the token on the response
             return Response.ok().header(AUTHORIZATION, "Bearer " + token).build();
@@ -104,16 +107,19 @@ public class UserControllerRestBean {
 
 
 
-    private String issueToken(String login) {
+    private String issueToken(String email,String role) {
         Key key = keygen.generateKey();
-        String jwtToken = Jwts.builder()
-                .setSubject(login)
+        Map<String,Object> cl =new HashMap<>();
+        cl.put("email",email);
+        cl.put("role",role);
+        return Jwts.builder()
+                .setSubject(email)
+                .setClaims(cl)
                 .setIssuer(uriInfo.getAbsolutePath().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
-        return jwtToken;
 
     }
 
