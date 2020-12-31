@@ -21,7 +21,7 @@
       <module name="app-settings" target="1.5" />
       <module name="controller" target="1.7" />
       <module name="model" target="1.7" />
-      <module name="rest-controller" target="1.7" />
+      <module name="rest-controller" target="8" />
       <module name="rest-model" target="1.7" />
     </bytecodeTargetLevel>
   </component>

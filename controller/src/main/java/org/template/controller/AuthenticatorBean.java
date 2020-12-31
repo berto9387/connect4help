@@ -29,7 +29,7 @@ public class AuthenticatorBean implements Authenticator {
     @Override
     public boolean isAuthTokenValid(String email, String authToken) {
         String usernameMatch1 = tokensStorage.get( authToken );
-        return usernameMatch1==email;
+        return usernameMatch1.equals(email);
     }
 
     @Override

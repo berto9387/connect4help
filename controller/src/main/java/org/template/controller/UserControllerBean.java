@@ -19,16 +19,13 @@ import javax.persistence.Query;
 /**
  * @author Victor Mezrin
  */
-@Stateful(name = "UserControllerEJB")
+@Stateless(name = "UserControllerEJB")
 @Local(IUserController.class)
 public class UserControllerBean implements IUserController {
 
     @PersistenceContext(unitName = "MainPersistenceUnit")
     private EntityManager em;
-    private Logger LOG = LoggerFactory.getLogger(UserControllerBean.class);
 
-
-    private String role;
 
     @Override
     public void persistUser(String firstName, String lastName, String role) {
@@ -43,28 +40,15 @@ public class UserControllerBean implements IUserController {
         this.em.persist(user);
     }
 
-    @Override
-    public User retriveUser(String name) {
-        Query q = this.em.createQuery(
-                "SELECT u FROM User u WHERE u.name = :name");
-        q.setParameter("name", name);
-        try {
-            return (User) q.getSingleResult();
-        } catch (NoResultException exc){
-            return null;
-        }
 
-    }
 
     @Override
-    public User loginUser(String email, String password) {
+    public User authenticate(String email, String password) {
         Query q = this.em.createQuery(
                 "SELECT u FROM User u WHERE u.email = :email and u.password = :password");
         q.setParameter("email", email);
         q.setParameter("password", password);
         try {
-            User u = (User) q.getSingleResult();
-            role = u.getRole();
             return (User) q.getSingleResult();
         } catch (NoResultException exc){
             return null;
@@ -72,15 +56,7 @@ public class UserControllerBean implements IUserController {
 
     }
 
-    @Override
-    public Service retriveService(String firstName) {
-        return null;
-    }
 
-    @Override
-    public String receiveRole() {
-        return this.role;
-    }
 
 
 }
