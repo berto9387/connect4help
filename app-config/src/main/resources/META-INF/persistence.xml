@@ -8,6 +8,7 @@
     <class>org.template.model.User</class>
     <class>org.template.model.RequestUser</class>
     <class>org.template.model.PerformUser</class>
+    <class>org.template.model.AdminUser</class>
     <class>org.template.model.Service</class>
     <class>org.template.model.Category</class>
     <properties>

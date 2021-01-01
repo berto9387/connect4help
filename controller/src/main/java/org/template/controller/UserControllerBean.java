@@ -11,10 +11,9 @@ import javax.annotation.Resource;
 import javax.ejb.Local;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.List;
 
 /**
  * @author Victor Mezrin
@@ -26,9 +25,32 @@ public class UserControllerBean implements IUserController {
     @PersistenceContext(unitName = "MainPersistenceUnit")
     private EntityManager em;
 
+    @Override
+    public User getUser(int id) {
+        Query q = this.em.createQuery(
+                "SELECT u FROM User u where u.idUser=:id");
+        q.setParameter("id", id);
+        try {
+            return (User) q.getSingleResult();
+        } catch (NoResultException exc){
+            return null;
+        }
+    }
 
     @Override
-    public void persistUser(String firstName, String lastName, String role) {
+    public List<User> findAllUser() {
+        Query q = this.em.createQuery(
+                "SELECT u FROM User u");
+        try {
+            return (List<User>) q.getResultList();
+        } catch (NoResultException exc){
+            return null;
+        }
+    }
+
+    @Override
+    public void createUser(String firstName, String lastName, String password, String email, String address,
+                           Date dateOfBirth, String role, String telephone) {
         User user=null;
         if (role.equals("P")){
             user = new PerformUser();
@@ -37,9 +59,19 @@ public class UserControllerBean implements IUserController {
         }
         user.setName(firstName);
         user.setSurname(lastName);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setAddress(address);
+        user.setDateOfBirth(dateOfBirth);
+        user.setRole(role);
+        user.setTelephone(telephone);
         this.em.persist(user);
     }
 
+    @Override
+    public void deleteUser(int id) {
+        em.remove(em.getReference(User.class, id));
+    }
 
 
     @Override

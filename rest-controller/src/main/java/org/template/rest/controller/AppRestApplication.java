@@ -1,7 +1,6 @@
 package org.template.rest.controller;
 
-import org.template.rest.filter.JWTTokenNeeded;
-import org.template.rest.filter.JWTTokenNeededFilter;
+import org.template.rest.filter.*;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -16,7 +15,9 @@ public class AppRestApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(AppRestFacadeBean.class);
-        classes.add(JWTTokenNeededFilter.class);
+        classes.add(AdminEndPointFilter.class);
+        classes.add(RequesterEndPointFilter.class);
+        classes.add(PerformerEndPointFilter.class);
         classes.add(UserControllerRestBean.class);
         return classes;
     }

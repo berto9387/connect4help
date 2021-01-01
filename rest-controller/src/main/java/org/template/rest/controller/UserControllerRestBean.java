@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.template.controller.IUserController;
 import org.template.model.User;
 import org.template.rest.filter.JWTTokenNeeded;
+import org.template.rest.filter.RequesterEndPoint;
 import org.template.rest.model.RequestLogin;
 import org.template.rest.model.RequestNewUser;
 import org.template.rest.model.ServerResponse;
+import org.template.rest.model.UserResponse;
 import org.template.rest.util.KeyGenerator;
 
 import javax.ejb.EJB;
@@ -29,9 +31,7 @@ import javax.ws.rs.core.UriInfo;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
@@ -58,59 +58,77 @@ public class UserControllerRestBean {
     @Inject
     private KeyGenerator keygen;
 
-    @POST
-    public ServerResponse create(@Context HttpServletRequest requestContext,
-                                      RequestNewUser request) {
-        //this.userController.persistUser(request.getFirstName(), request.getLastName(),request.getRole());
-
-        ServerResponse response = new ServerResponse();
-        response.setResult(true);
-        return response;
-    }
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response echo(@QueryParam("message") String message) {
-        return Response.ok().entity(message == null ? "no message" : message).build();
+    public Response findAllUsers() {
+        List<User> allUsers = this.userController.findAllUser();
+        if (allUsers == null)
+            return Response.status(NOT_FOUND).build();
+        List<UserResponse> users = new ArrayList<>();
+        for (User user : allUsers){
+            UserResponse usr = new UserResponse();
+            usr.setField(user);
+            users.add(usr);
+        }
+        return Response.ok(users).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response findUser(@PathParam("id") Integer id) {
+        User user = this.userController.getUser(id);
+        if (user == null)
+            return Response.status(NOT_FOUND).build();
+        UserResponse ur = new UserResponse();
+        ur.setField(user);
+        return Response.ok(ur).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") Integer id) {
+        //controllo token
+        this.userController.deleteUser(id);
+        return Response.noContent().build();
+    }
+
+    @PUT
+    public Response createUser(@Context HttpServletRequest requestContext,
+                                      UserResponse request) {
+        this.userController.createUser(request.getName(),request.getSurname(),request.getPassword(),
+                                        request.getEmail(),request.getAddress(),request.getDateOfBirth(),
+                                        request.getRole(),request.getTelephone());
+
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(Integer.toString(
+                request.getIdUser()
+        )).build()).build();
     }
 
     @POST
     @Path("/login")
     public Response authenticateUser(@Context HttpServletRequest requestContext,
                                      RequestLogin request) {
-
         try {
-
-
-
             // Authenticate the user using the credentials provided
             User u=userController.authenticate(request.getEmail(), request.getPassword());
             if (u==null)
                 throw new SecurityException("Invalid email/password");
-
             // Issue a token for the user
-            String token = issueToken(request.getEmail(),u.getRole());
-
+            String token = issueToken(request.getEmail(),u.getIdUser(),u.getRole());
             // Return the token on the response
             return Response.ok().header(AUTHORIZATION, "Bearer " + token).build();
-
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
         }
     }
 
-    @GET
-    @Path("/jwt")
-    @JWTTokenNeeded
-    public Response echoWithJWTToken(@QueryParam("message") String message) {
-        return Response.ok().entity(message == null ? "no message ma dio an" : message).build();
-    }
 
 
 
-    private String issueToken(String email,String role) {
+
+    private String issueToken(String email,Integer id,String role) {
         Key key = keygen.generateKey();
         Map<String,Object> cl =new HashMap<>();
-        cl.put("email",email);
+        cl.put("id",id);
         cl.put("role",role);
         return Jwts.builder()
                 .setSubject(email)
