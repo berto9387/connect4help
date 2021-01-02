@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.template.controller.IUserController;
 import org.template.model.PerformUser;
+import org.template.model.RequestUser;
 import org.template.model.Service;
 import org.template.model.User;
 import org.template.rest.filter.AdminEndPoint;
@@ -132,8 +133,6 @@ public class UserControllerRestBean {
     @Path("/{id}/services")
     public Response findUserServices(@Context HttpServletRequest requestContext,
                                      @PathParam("id") Integer id) {
-
-
         String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
         try {
             dT.decodeToken(authorizationHeader);
@@ -144,7 +143,16 @@ public class UserControllerRestBean {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         if(dT.getRole().contains("R")){
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            RequestUser user = userController.getRequestUser(id);
+            List<ServiceResponse> serviceResponses=new ArrayList<>();
+            if (user == null)
+                return Response.status(NOT_FOUND).build();
+            for (Service s : user.getRequestedServices()){
+                ServiceResponse sr = new ServiceResponse(s.getIdService(),s.getAddress(),s.getDetails(),
+                        s.getCategory().getName(), s.getPerformed(),s.getAssistance());
+                serviceResponses.add(sr);
+            }
+            return Response.ok(serviceResponses).build();
         } else if(dT.getRole().contains("P")){
             PerformUser user = userController.getPerformUser(id);
             List<ServiceResponse> serviceResponses=new ArrayList<>();

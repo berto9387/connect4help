@@ -47,6 +47,17 @@ public class UserControllerBean implements IUserController {
             return null;
         }
     }
+    @Override
+    public RequestUser getRequestUser(Integer id) {
+        Query q = this.em.createQuery(
+                "SELECT u FROM PerformUser u where u.idUser=:id");
+        q.setParameter("id", id);
+        try {
+            return (RequestUser) q.getSingleResult();
+        } catch (NoResultException exc){
+            return null;
+        }
+    }
 
     @Override
     public List<User> findAllUser() {
@@ -58,6 +69,8 @@ public class UserControllerBean implements IUserController {
             return null;
         }
     }
+
+
 
     @Override
     public void createUser(String firstName, String lastName, String password, String email, String address,

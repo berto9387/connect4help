@@ -1,6 +1,7 @@
 package org.template.controller;
 
 import org.template.model.PerformUser;
+import org.template.model.RequestUser;
 import org.template.model.Service;
 import org.template.model.User;
 
@@ -21,4 +22,6 @@ public interface IUserController {
     public PerformUser getPerformUser(int id);
 
     public List<User> findAllUser() ;
+
+    public RequestUser getRequestUser(Integer id);
 }
