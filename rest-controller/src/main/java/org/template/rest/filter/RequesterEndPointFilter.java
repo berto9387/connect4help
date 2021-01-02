@@ -24,7 +24,8 @@ public class RequesterEndPointFilter implements ContainerRequestFilter {
     // =          Injection Points          =
     // ======================================
 
-
+    public Integer id;
+    public String role;
 
     @Inject
     private KeyGenerator keyGenerator;
@@ -52,9 +53,9 @@ public class RequesterEndPointFilter implements ContainerRequestFilter {
             // Validate the token
             Key key = keyGenerator.generateKey();
             Claims claims=Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-            String email=claims.get("email", String.class);
-            String role=claims.get("role", String.class);
-            if(!role.contains("R")){
+            this.id=claims.get("id",Integer.class);
+            this.role=claims.get("role", String.class);
+            if(!this.role.contains("R")){
                 requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
             }
 

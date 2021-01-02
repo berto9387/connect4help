@@ -7,13 +7,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.template.controller.IUserController;
+import org.template.model.PerformUser;
+import org.template.model.Service;
 import org.template.model.User;
+import org.template.rest.filter.AdminEndPoint;
 import org.template.rest.filter.JWTTokenNeeded;
 import org.template.rest.filter.RequesterEndPoint;
-import org.template.rest.model.RequestLogin;
-import org.template.rest.model.RequestNewUser;
-import org.template.rest.model.ServerResponse;
-import org.template.rest.model.UserResponse;
+import org.template.rest.model.*;
+import org.template.rest.util.DecodeToken;
 import org.template.rest.util.KeyGenerator;
 
 import javax.ejb.EJB;
@@ -24,10 +25,8 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.*;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -46,6 +45,9 @@ import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserControllerRestBean {
 
+    @Inject
+    DecodeToken dT;
+
     private Logger LOG = LoggerFactory.getLogger(UserControllerRestBean.class);
     private static final String RECORDER_JNDI = "java:comp/env/UserControllerEJB";
 
@@ -57,7 +59,9 @@ public class UserControllerRestBean {
 
     @Inject
     private KeyGenerator keygen;
-
+    ////////////////////////////////////////
+    //endpoint generiche per utente
+    /////////////////////////////////////////
     @GET
     public Response findAllUsers() {
         List<User> allUsers = this.userController.findAllUser();
@@ -120,8 +124,42 @@ public class UserControllerRestBean {
             return Response.status(UNAUTHORIZED).build();
         }
     }
+    ///////////////////////////////////////////
+    // endpoint dei servizi relativi all'utente
+    /////////////////////////////////////////////
+
+    @GET
+    @Path("/{id}/services")
+    public Response findUserServices(@Context HttpServletRequest requestContext,
+                                     @PathParam("id") Integer id) {
 
 
+        String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
+        try {
+            dT.decodeToken(authorizationHeader);
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if(id!=dT.getId()){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if(dT.getRole().contains("R")){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } else if(dT.getRole().contains("P")){
+            PerformUser user = userController.getPerformUser(id);
+            List<ServiceResponse> serviceResponses=new ArrayList<>();
+            if (user == null)
+                return Response.status(NOT_FOUND).build();
+            for (Service s : user.getAcceptedServices()){
+                ServiceResponse sr = new ServiceResponse(s.getIdService(),s.getAddress(),s.getDetails(),
+                        s.getCategory().getName(), s.getPerformed(),s.getAssistance());
+                serviceResponses.add(sr);
+            }
+            return Response.ok(serviceResponses).build();
+        }
+
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 
 
 
@@ -135,7 +173,7 @@ public class UserControllerRestBean {
                 .setClaims(cl)
                 .setIssuer(uriInfo.getAbsolutePath().toString())
                 .setIssuedAt(new Date())
-                .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
+                .setExpiration(toDate(LocalDateTime.now().plusMinutes(3600L)))
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
 

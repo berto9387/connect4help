@@ -36,6 +36,17 @@ public class UserControllerBean implements IUserController {
             return null;
         }
     }
+    @Override
+    public PerformUser getPerformUser(int id) {
+        Query q = this.em.createQuery(
+                "SELECT u FROM PerformUser u where u.idUser=:id");
+        q.setParameter("id", id);
+        try {
+            return (PerformUser) q.getSingleResult();
+        } catch (NoResultException exc){
+            return null;
+        }
+    }
 
     @Override
     public List<User> findAllUser() {
