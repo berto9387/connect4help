@@ -129,6 +129,7 @@ public class UserControllerRestBean {
     // endpoint dei servizi relativi all'utente
     /////////////////////////////////////////////
 
+    //ricevi tutti i servizi relativi ad un utente
     @GET
     @Path("/{id}/services")
     public Response findUserServices(@Context HttpServletRequest requestContext,
@@ -168,8 +169,26 @@ public class UserControllerRestBean {
 
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
-
-
+    //crea un servizio
+    @POST
+    @Path("/{id}/services")
+    public Response createUserService(){
+    }
+    //ricevi uno specifico servizio creato dall'utente id
+    @GET
+    @Path("/{idUser}/services/{idService}")
+    public Response findUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
+    }
+    //Cancella uno specifico servizio creato da un utente
+    @DELETE
+    @Path("/{idUser}/services/{idService}")
+    public Response deleteUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
+    }
+    //Modifica uno specifico servizio creato da uno specifico utente
+    @PUT
+    @Path("/{idUser}/services/{idService}")
+    public Response modifyUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
+    }
 
     private String issueToken(String email,Integer id,String role) {
         Key key = keygen.generateKey();
