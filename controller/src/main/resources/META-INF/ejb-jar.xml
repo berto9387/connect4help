@@ -16,14 +16,8 @@
             </env-entry>
         </session>
         <session>
-            <ejb-name>PerformerServiceEJB</ejb-name>
-            <ejb-class>org.template.controller.PerformerServiceBean</ejb-class>
-            <session-type>Stateful</session-type>
-            <transaction-type>Container</transaction-type>
-        </session>
-        <session>
-            <ejb-name>RequestServiceEJB</ejb-name>
-            <ejb-class>org.template.controller.RequestServiceBean</ejb-class>
+            <ejb-name>ServiceEJB</ejb-name>
+            <ejb-class>org.template.controller.ServiceBean</ejb-class>
             <session-type>Stateful</session-type>
             <transaction-type>Container</transaction-type>
         </session>

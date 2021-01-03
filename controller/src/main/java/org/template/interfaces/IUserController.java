@@ -19,9 +19,6 @@ public interface IUserController {
     public void deleteUser(int id);
     public User authenticate(String email, String password) ;
     public User getUser(int id);
-    public PerformUser getPerformUser(int id);
-
-    public List<User> findAllUser() ;
-
-    public RequestUser getRequestUser(Integer id);
+    public List<User> findAllUser();
+    void updateUser(Integer id);
 }

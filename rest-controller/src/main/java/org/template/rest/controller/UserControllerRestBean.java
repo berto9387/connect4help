@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.template.interfaces.IUserController;
 import org.template.model.User;
+import org.template.rest.filter.AdminEndPoint;
+import org.template.rest.filter.JWTTokenNeeded;
 import org.template.rest.model.*;
 import org.template.rest.util.DecodeToken;
 import org.template.rest.util.KeyGenerator;
@@ -41,8 +43,6 @@ public class UserControllerRestBean {
     @Inject
     DecodeToken dT;
 
-    private Logger LOG = LoggerFactory.getLogger(UserControllerRestBean.class);
-    private static final String RECORDER_JNDI = "java:comp/env/UserControllerEJB";
 
     @EJB(name = "UserControllerEJB")
     IUserController userController;
@@ -56,6 +56,7 @@ public class UserControllerRestBean {
     //endpoint generiche per utente
     /////////////////////////////////////////
     @GET
+    @AdminEndPoint
     public Response findAllUsers() {
         List<User> allUsers = this.userController.findAllUser();
         if (allUsers == null)
@@ -69,8 +70,21 @@ public class UserControllerRestBean {
         return Response.ok(users).build();
     }
 
+    @POST
+    public Response createUser(@Context HttpServletRequest requestContext,
+                               UserResponse request) {
+        this.userController.createUser(request.getName(),request.getSurname(),request.getPassword(),
+                request.getEmail(),request.getAddress(),request.getDateOfBirth(),
+                request.getRole(),request.getTelephone());
+
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(Integer.toString(
+                request.getIdUser()
+        )).build()).build();
+    }
+
     @GET
     @Path("/{id}")
+    @JWTTokenNeeded
     public Response findUser(@PathParam("id") Integer id) {
         User user = this.userController.getUser(id);
         if (user == null)
@@ -82,23 +96,41 @@ public class UserControllerRestBean {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteUser(@PathParam("id") Integer id) {
-        //controllo token
-        this.userController.deleteUser(id);
-        return Response.noContent().build();
+    @JWTTokenNeeded
+    public Response deleteUser(@Context HttpServletRequest requestContext,@PathParam("id") Integer id) {
+        String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
+        try {
+            dT.decodeToken(authorizationHeader);
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if(dT.getRole()=="A" || id==dT.getId()){
+            this.userController.deleteUser(id);
+            return Response.noContent().build();
+        }
+
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     @PUT
-    public Response createUser(@Context HttpServletRequest requestContext,
-                                      UserResponse request) {
-        this.userController.createUser(request.getName(),request.getSurname(),request.getPassword(),
-                                        request.getEmail(),request.getAddress(),request.getDateOfBirth(),
-                                        request.getRole(),request.getTelephone());
+    @Path("/{id}")
+    @JWTTokenNeeded
+    public Response updateUser(@Context HttpServletRequest requestContext,@PathParam("id") Integer id) {
+        String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
+        try {
+            dT.decodeToken(authorizationHeader);
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if(dT.getRole()=="A" || id==dT.getId()){
+            this.userController.updateUser(id);
+            return Response.noContent().build();
+        }
 
-        return Response.created(uriInfo.getAbsolutePathBuilder().path(Integer.toString(
-                request.getIdUser()
-        )).build()).build();
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
+
+
 
     @POST
     @Path("/login")
@@ -136,26 +168,7 @@ public class UserControllerRestBean {
     }
 
 
-    // method to get the stateful bean ref from session, or lookup it
-    private IUserController lookupRecorder(HttpSession session) {
 
-        IUserController rRef;
-        rRef = (IUserController) session.getAttribute("cachedRecorderRef");
-        if (rRef == null) {
-
-            try {
-                javax.naming.Context c = new InitialContext();
-                rRef = (IUserController) c.lookup(RECORDER_JNDI);
-
-            } catch (NamingException ne) {
-                java.util.logging.Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-                throw new RuntimeException(ne);
-            }
-
-            session.setAttribute("cachedRecorderRef", rRef);
-        }
-        return rRef;
-    }
 
     private Date toDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
