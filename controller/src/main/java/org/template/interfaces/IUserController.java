@@ -1,4 +1,4 @@
-package org.template.controller;
+package org.template.interfaces;
 
 import org.template.model.PerformUser;
 import org.template.model.RequestUser;

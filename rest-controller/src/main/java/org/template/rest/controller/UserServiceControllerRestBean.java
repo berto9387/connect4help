@@ -1,8 +1,6 @@
 package org.template.rest.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.template.controller.IUserController;
+import org.template.interfaces.IUserController;
 import org.template.model.PerformUser;
 import org.template.model.RequestUser;
 import org.template.model.Service;

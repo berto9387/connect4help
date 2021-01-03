@@ -1,19 +1,12 @@
 package org.template.rest.controller;
 
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.template.controller.IUserController;
-import org.template.model.PerformUser;
-import org.template.model.RequestUser;
-import org.template.model.Service;
+import org.template.interfaces.IUserController;
 import org.template.model.User;
-import org.template.rest.filter.AdminEndPoint;
-import org.template.rest.filter.JWTTokenNeeded;
-import org.template.rest.filter.RequesterEndPoint;
 import org.template.rest.model.*;
 import org.template.rest.util.DecodeToken;
 import org.template.rest.util.KeyGenerator;
@@ -26,7 +19,6 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.*;
 import java.security.Key;
 import java.time.LocalDateTime;
@@ -125,7 +117,7 @@ public class UserControllerRestBean {
             return Response.status(UNAUTHORIZED).build();
         }
     }
-    
+
 
     private String issueToken(String email,Integer id,String role) {
         Key key = keygen.generateKey();

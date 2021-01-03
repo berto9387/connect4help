@@ -1,15 +1,11 @@
 package org.template.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.template.interfaces.IUserController;
 import org.template.model.PerformUser;
 import org.template.model.RequestUser;
-import org.template.model.Service;
 import org.template.model.User;
 
-import javax.annotation.Resource;
 import javax.ejb.Local;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.sql.Date;
