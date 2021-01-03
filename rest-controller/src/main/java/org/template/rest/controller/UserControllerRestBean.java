@@ -125,70 +125,7 @@ public class UserControllerRestBean {
             return Response.status(UNAUTHORIZED).build();
         }
     }
-    ///////////////////////////////////////////
-    // endpoint dei servizi relativi all'utente
-    /////////////////////////////////////////////
-
-    //ricevi tutti i servizi relativi ad un utente
-    @GET
-    @Path("/{id}/services")
-    public Response findUserServices(@Context HttpServletRequest requestContext,
-                                     @PathParam("id") Integer id) {
-        String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
-        try {
-            dT.decodeToken(authorizationHeader);
-        } catch (Exception e) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        if(id!=dT.getId()){
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        if(dT.getRole().contains("R")){
-            RequestUser user = userController.getRequestUser(id);
-            List<ServiceResponse> serviceResponses=new ArrayList<>();
-            if (user == null)
-                return Response.status(NOT_FOUND).build();
-            for (Service s : user.getRequestedServices()){
-                ServiceResponse sr = new ServiceResponse(s.getIdService(),s.getAddress(),s.getDetails(),
-                        s.getCategory().getName(), s.getPerformed(),s.getAssistance());
-                serviceResponses.add(sr);
-            }
-            return Response.ok(serviceResponses).build();
-        } else if(dT.getRole().contains("P")){
-            PerformUser user = userController.getPerformUser(id);
-            List<ServiceResponse> serviceResponses=new ArrayList<>();
-            if (user == null)
-                return Response.status(NOT_FOUND).build();
-            for (Service s : user.getAcceptedServices()){
-                ServiceResponse sr = new ServiceResponse(s.getIdService(),s.getAddress(),s.getDetails(),
-                        s.getCategory().getName(), s.getPerformed(),s.getAssistance());
-                serviceResponses.add(sr);
-            }
-            return Response.ok(serviceResponses).build();
-        }
-
-        return Response.status(Response.Status.UNAUTHORIZED).build();
-    }
-    //crea un servizio
-    @POST
-    @Path("/{id}/services")
-    public Response createUserService(){
-    }
-    //ricevi uno specifico servizio creato dall'utente id
-    @GET
-    @Path("/{idUser}/services/{idService}")
-    public Response findUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
-    }
-    //Cancella uno specifico servizio creato da un utente
-    @DELETE
-    @Path("/{idUser}/services/{idService}")
-    public Response deleteUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
-    }
-    //Modifica uno specifico servizio creato da uno specifico utente
-    @PUT
-    @Path("/{idUser}/services/{idService}")
-    public Response modifyUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
-    }
+    
 
     private String issueToken(String email,Integer id,String role) {
         Key key = keygen.generateKey();

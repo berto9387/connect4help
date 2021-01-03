@@ -19,6 +19,7 @@ public class AppRestApplication extends Application {
         classes.add(RequesterEndPointFilter.class);
         classes.add(PerformerEndPointFilter.class);
         classes.add(UserControllerRestBean.class);
+        classes.add(UserServiceControllerRestBean.class);
         return classes;
     }
 }

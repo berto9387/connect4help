@@ -21,7 +21,8 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    @Basic
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "Photo")
     public byte[] getPhoto() {
         return photo;
