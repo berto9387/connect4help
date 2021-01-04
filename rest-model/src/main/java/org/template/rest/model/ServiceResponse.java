@@ -1,14 +1,11 @@
 package org.template.rest.model;
 
-import javax.json.bind.annotation.JsonbDateFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.template.model.Category;
-import org.template.model.PerformUser;
-import org.template.model.RequestUser;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.template.rest.util.CustomDateSerializer;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ServiceResponse {
     private int idService;
@@ -19,27 +16,23 @@ public class ServiceResponse {
     private int performerUser;
     private Boolean performed;
     private Boolean assistance;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDate startSlot;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDate endSlot;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDate expirationDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDate insertionDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDate acceptanceDate;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date startSlot;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date endSlot;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date expirationDate;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date insertionDate;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date acceptanceDate;
     //possibile inserimento foto
 
     public ServiceResponse() {
     }
 
 
-
-    public ServiceResponse(int idService, String address, String details, int requestUser, String category,
-                           int performerUser, Boolean performed, Boolean assistance, Timestamp startSlot,
-                           Timestamp endSlot, Timestamp expirationDate, Timestamp insertionDate,
-                           Timestamp acceptanceDate) {
+    public ServiceResponse(int idService, String address, String details, int requestUser, String category, int performerUser, Boolean performed, Boolean assistance, Date startSlot, Date endSlot, Date expirationDate, Date insertionDate, Date acceptanceDate) {
         this.idService = idService;
         this.address = address;
         this.details = details;
@@ -53,6 +46,9 @@ public class ServiceResponse {
         this.expirationDate = expirationDate;
         this.insertionDate = insertionDate;
         this.acceptanceDate = acceptanceDate;
+    }
+
+    public ServiceResponse(int idService, String address, String details, int idUser, String name, int performer, Boolean performed, Boolean assistance) {
     }
 
     public int getIdService() {
@@ -119,43 +115,43 @@ public class ServiceResponse {
         this.assistance = assistance;
     }
 
-    public Timestamp getStartSlot() {
+    public Date getStartSlot() {
         return startSlot;
     }
 
-    public void setStartSlot(Timestamp startSlot) {
+    public void setStartSlot(Date startSlot) {
         this.startSlot = startSlot;
     }
 
-    public Timestamp getEndSlot() {
+    public Date getEndSlot() {
         return endSlot;
     }
 
-    public void setEndSlot(Timestamp endSlot) {
+    public void setEndSlot(Date endSlot) {
         this.endSlot = endSlot;
     }
 
-    public Timestamp getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Timestamp expirationDate) {
+    public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public Timestamp getInsertionDate() {
+    public Date getInsertionDate() {
         return insertionDate;
     }
 
-    public void setInsertionDate(Timestamp insertionDate) {
+    public void setInsertionDate(Date insertionDate) {
         this.insertionDate = insertionDate;
     }
 
-    public Timestamp getAcceptanceDate() {
+    public Date getAcceptanceDate() {
         return acceptanceDate;
     }
 
-    public void setAcceptanceDate(Timestamp acceptanceDate) {
+    public void setAcceptanceDate(Date acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
     }
 }

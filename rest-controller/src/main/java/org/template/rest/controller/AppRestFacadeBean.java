@@ -22,7 +22,7 @@ public class AppRestFacadeBean {
         return this.user;
     }
 
-    @Path("users/{id: \\d+}")
+    @Path("users/{id: \\d+}/services")
     public UserServiceControllerRestBean getUserServiceControllerRestBean() {
         return this.userService;
     }

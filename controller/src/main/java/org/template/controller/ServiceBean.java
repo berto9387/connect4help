@@ -9,9 +9,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 
 @Stateful(name = "ServiceEJB")
 public class ServiceBean implements IServiceController {
@@ -28,7 +29,7 @@ public class ServiceBean implements IServiceController {
 
     @Override
     public Collection<Service> getUserService(int id, String role) {
-        if(!services.isEmpty()){
+        if(services.size()!=0){
             return services;
         }
         Query q=null;
@@ -49,28 +50,27 @@ public class ServiceBean implements IServiceController {
     }
 
     @Override
-    public void createService(String address, String details, int requestUser, String category, Timestamp startSlot,
-                              Timestamp endSlot, Timestamp expirationDate) {
+    public void createService(String address, String details, int requestUser, String category, Date startSlot, Date endSlot, Date expirationDate) {
         Category c = new Category();
         c.setName(category);
-        Query q = this.em.createQuery("SELECT u FROM RequestUser u where u.idUser=:id");
-
-        q.setParameter("id", requestUser);
-        RequestUser u=null;
-        try {
-            u=(RequestUser) q.getSingleResult();
-        } catch (NoResultException exc){
-            //gestire caso u = null
-        }
+        RequestUser ru = new RequestUser();
+        ru.setIdUser(requestUser);
         Service ser = new Service();
         ser.setAddress(address);
         ser.setDetails(details);
         ser.setCategory(c);
-        ser.setStartSlot(startSlot);
-        ser.setEndSlot(endSlot);
-        ser.setExpirationDate(expirationDate);
+        ser.setRequestUser(ru);
+        ser.setStartSlot(convertToTimestamp(startSlot));
+        ser.setEndSlot(convertToTimestamp(endSlot));
+        ser.setExpirationDate(convertToTimestamp(expirationDate));
         services.add(ser);
         em.merge(ser);
+
+    }
+
+    private Timestamp convertToTimestamp(Date localDate){
+        return localDate == null ? null : new java.sql.Timestamp(localDate.getTime());
+
 
     }
 }

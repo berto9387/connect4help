@@ -56,6 +56,7 @@ public class UserControllerRestBean {
     //endpoint generiche per utente
     /////////////////////////////////////////
     @GET
+    @Path("/")
     @AdminEndPoint
     public Response findAllUsers() {
         List<User> allUsers = this.userController.findAllUser();
@@ -71,6 +72,7 @@ public class UserControllerRestBean {
     }
 
     @POST
+    @Path("/")
     public Response createUser(@Context HttpServletRequest requestContext,
                                UserResponse request) {
         this.userController.createUser(request.getName(),request.getSurname(),request.getPassword(),

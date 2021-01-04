@@ -19,10 +19,10 @@
       <module name="app-config" target="1.7" />
       <module name="app-ear" target="1.7" />
       <module name="app-settings" target="1.5" />
-      <module name="controller" target="1.7" />
+      <module name="controller" target="8" />
       <module name="model" target="1.7" />
       <module name="rest-controller" target="8" />
-      <module name="rest-model" target="1.7" />
+      <module name="rest-model" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

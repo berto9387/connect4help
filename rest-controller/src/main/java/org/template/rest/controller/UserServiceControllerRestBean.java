@@ -47,7 +47,7 @@ public class UserServiceControllerRestBean {
     /////////////////////////////////////////////
     @GET
     @JWTTokenNeeded
-    @Path("/services")
+    @Path("/")
     public Response findUserServices(@Context HttpServletRequest requestContext,
                                      @PathParam("id") Integer id) {
         String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
@@ -67,10 +67,18 @@ public class UserServiceControllerRestBean {
                     .stream().collect(toCollection(ArrayList::new));
 
         for (Service s : services){
-            ServiceResponse sr = new ServiceResponse(s.getIdService(),s.getAddress(),s.getDetails(),
-                    s.getRequestUser().getIdUser(),s.getCategory().getName(),s.getPerformerUser().getIdUser(),
-                    s.getPerformed(),s.getAssistance(),s.getStartSlot(),s.getEndSlot(),s.getExpirationDate(),
-                    s.getInsertionDate(),s.getAcceptanceDate());
+            int performer=0;
+            if(s.getPerformerUser()!=null)
+                performer=s.getPerformerUser().getIdUser();
+            ServiceResponse sr = new ServiceResponse(
+                    s.getIdService(),
+                    s.getAddress(),
+                    s.getDetails(),
+                    s.getRequestUser().getIdUser(),
+                    s.getCategory().getName(),
+                    performer,
+                    s.getPerformed(),
+                    s.getAssistance());
             serviceResponses.add(sr);
         }
         return Response.ok(serviceResponses).build();
@@ -79,7 +87,7 @@ public class UserServiceControllerRestBean {
     //crea un servizio
     @POST
     @RequesterEndPoint
-    @Path("/services")
+    @Path("/")
     public Response createUserService(@Context HttpServletRequest requestContext,
                                       ServiceResponse s,
                                       @PathParam("id") Integer i){
@@ -87,29 +95,29 @@ public class UserServiceControllerRestBean {
         HttpSession session = requestContext.getSession();
         IServiceController serviceController = lookupServices(session);
 
-        serviceController.createService(s.getAddress(),s.getDetails(),i,s.getCategory(),s.getStartSlot(),s.getEndSlot(),
-                s.getExpirationDate());
+        serviceController.createService(s.getAddress(),s.getDetails(),i,s.getCategory(),s.getStartSlot(),
+                s.getEndSlot(),s.getExpirationDate());
 
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
     //ricevi uno specifico servizio creato dall'utente id
     @GET
     @JWTTokenNeeded
-    @Path("/services/{idService}")
+    @Path("/{idService}")
     public Response findUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
     //Cancella uno specifico servizio creato da un utente
     @DELETE
     @RequesterEndPoint
-    @Path("/services/{idService}")
+    @Path("/{idService}")
     public Response deleteUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
     //Modifica uno specifico servizio creato da uno specifico utente
     @PUT
     @JWTTokenNeeded
-    @Path("/services/{idService}")
+    @Path("/{idService}")
     public Response modifyUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
