@@ -16,23 +16,24 @@ public class ServiceResponse {
     private int performerUser;
     private Boolean performed;
     private Boolean assistance;
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date startSlot;
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date endSlot;
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date expirationDate;
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date insertionDate;
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date acceptanceDate;
+   // @JsonSerialize(using = CustomDateSerializer.class)
+    private String startSlot;
+    //@JsonSerialize(using = CustomDateSerializer.class)
+    private String endSlot;
+    //@JsonSerialize(using = CustomDateSerializer.class)
+    private String expirationDate;
+    //@JsonSerialize(using = CustomDateSerializer.class)
+    private String insertionDate;
+    //@JsonSerialize(using = CustomDateSerializer.class)
+    private String acceptanceDate;
     //possibile inserimento foto
 
     public ServiceResponse() {
     }
 
-
-    public ServiceResponse(int idService, String address, String details, int requestUser, String category, int performerUser, Boolean performed, Boolean assistance, Date startSlot, Date endSlot, Date expirationDate, Date insertionDate, Date acceptanceDate) {
+    public ServiceResponse(int idService, String address, String details, int requestUser, String category,
+                           int performerUser, Boolean performed, Boolean assistance, String startSlot,
+                           String endSlot, String expirationDate, String insertionDate, String acceptanceDate) {
         this.idService = idService;
         this.address = address;
         this.details = details;
@@ -46,9 +47,6 @@ public class ServiceResponse {
         this.expirationDate = expirationDate;
         this.insertionDate = insertionDate;
         this.acceptanceDate = acceptanceDate;
-    }
-
-    public ServiceResponse(int idService, String address, String details, int idUser, String name, int performer, Boolean performed, Boolean assistance) {
     }
 
     public int getIdService() {
@@ -115,43 +113,43 @@ public class ServiceResponse {
         this.assistance = assistance;
     }
 
-    public Date getStartSlot() {
+    public String getStartSlot() {
         return startSlot;
     }
 
-    public void setStartSlot(Date startSlot) {
+    public void setStartSlot(String startSlot) {
         this.startSlot = startSlot;
     }
 
-    public Date getEndSlot() {
+    public String getEndSlot() {
         return endSlot;
     }
 
-    public void setEndSlot(Date endSlot) {
+    public void setEndSlot(String endSlot) {
         this.endSlot = endSlot;
     }
 
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public Date getInsertionDate() {
+    public String getInsertionDate() {
         return insertionDate;
     }
 
-    public void setInsertionDate(Date insertionDate) {
+    public void setInsertionDate(String insertionDate) {
         this.insertionDate = insertionDate;
     }
 
-    public Date getAcceptanceDate() {
+    public String getAcceptanceDate() {
         return acceptanceDate;
     }
 
-    public void setAcceptanceDate(Date acceptanceDate) {
+    public void setAcceptanceDate(String acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
     }
 }

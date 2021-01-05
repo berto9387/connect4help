@@ -66,7 +66,7 @@ public class UserServiceControllerRestBean {
         List<Service> services=serviceController.getUserService(id,dT.getRole())
                     .stream().collect(toCollection(ArrayList::new));
 
-        for (Service s : services){
+ /*       for (Service s : services){
             int performer=0;
             if(s.getPerformerUser()!=null)
                 performer=s.getPerformerUser().getIdUser();
@@ -81,13 +81,13 @@ public class UserServiceControllerRestBean {
                     s.getAssistance());
             serviceResponses.add(sr);
         }
-        return Response.ok(serviceResponses).build();
+   */     return Response.ok(serviceResponses).build();
 
     }
     //crea un servizio
     @POST
     @RequesterEndPoint
-    @Path("/")
+    @Path("/cacca")
     public Response createUserService(@Context HttpServletRequest requestContext,
                                       ServiceResponse s,
                                       @PathParam("id") Integer i){

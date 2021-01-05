@@ -9,6 +9,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +52,7 @@ public class ServiceBean implements IServiceController {
     }
 
     @Override
-    public void createService(String address, String details, int requestUser, String category, Date startSlot, Date endSlot, Date expirationDate) {
+    public void createService(String address, String details, int requestUser, String category, String startSlot, String endSlot, String expirationDate) {
         Category c = new Category();
         c.setName(category);
         RequestUser ru = new RequestUser();
@@ -68,9 +70,18 @@ public class ServiceBean implements IServiceController {
 
     }
 
-    private Timestamp convertToTimestamp(Date localDate){
-        return localDate == null ? null : new java.sql.Timestamp(localDate.getTime());
-
-
+    private Timestamp convertToTimestamp(String localDate){
+        //return localDate == null ? null : new java.sql.Timestamp(localDate.getTime());
+        //Timestamp stap = Timestamp.valueOf(localDate.atStartOfDay());
+        //return stap;
+        Timestamp time = null;
+      try {
+          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+          Date parsedDate = dateFormat.parse(localDate);
+          time = new java.sql.Timestamp(parsedDate.getTime());
+      }catch(ParseException ex){
+          ex.printStackTrace();
+      }
+      return time;
     }
 }
