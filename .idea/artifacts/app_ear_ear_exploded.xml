@@ -21,9 +21,9 @@
         <element id="archive" name="rest-model-1.0-SNAPSHOT.jar">
           <element id="module-output" name="rest-model" />
         </element>
-        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
-        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.6" />
-        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.6" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.0" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.0" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.0" />
         <element id="archive" name="app-config-1.0-SNAPSHOT.jar">
           <element id="module-output" name="app-config" />
         </element>

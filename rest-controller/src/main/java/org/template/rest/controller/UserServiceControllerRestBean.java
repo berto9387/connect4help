@@ -1,16 +1,14 @@
 package org.template.rest.controller;
 
 import org.template.interfaces.IServiceController;
-import org.template.interfaces.IUserController;
-import org.template.model.PerformUser;
-import org.template.model.RequestUser;
 import org.template.model.Service;
 import org.template.rest.filter.JWTTokenNeeded;
 import org.template.rest.filter.RequesterEndPoint;
+import org.template.rest.model.ServerResponse;
+import org.template.rest.model.ServiceRequest;
 import org.template.rest.model.ServiceResponse;
 import org.template.rest.util.DecodeToken;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.naming.InitialContext;
@@ -24,7 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static java.util.stream.Collectors.toCollection;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 @Stateless(name = "UserServiceControllerRestEJB")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -62,11 +59,11 @@ public class UserServiceControllerRestBean {
 
         HttpSession session = requestContext.getSession();
         IServiceController serviceController = lookupServices(session);
-        List<ServiceResponse> serviceResponses =new ArrayList<>();
+        List<ServiceRequest> serviceRequest =new ArrayList<>();
         List<Service> services=serviceController.getUserService(id,dT.getRole())
                     .stream().collect(toCollection(ArrayList::new));
 
- /*       for (Service s : services){
+        for (Service s : services){
             int performer=0;
             if(s.getPerformerUser()!=null)
                 performer=s.getPerformerUser().getIdUser();
@@ -79,26 +76,29 @@ public class UserServiceControllerRestBean {
                     performer,
                     s.getPerformed(),
                     s.getAssistance());
-            serviceResponses.add(sr);
+            serviceRequest.add(sr);
         }
-   */     return Response.ok(serviceResponses).build();
+        return Response.ok(serviceRequest).build();
 
     }
     //crea un servizio
     @POST
     @RequesterEndPoint
-    @Path("/cacca")
+    @Path("/")
     public Response createUserService(@Context HttpServletRequest requestContext,
-                                      ServiceResponse s,
+                                      ServiceRequest s,
                                       @PathParam("id") Integer i){
 
         HttpSession session = requestContext.getSession();
         IServiceController serviceController = lookupServices(session);
 
-        serviceController.createService(s.getAddress(),s.getDetails(),i,s.getCategory(),s.getStartSlot(),
+        Boolean er=serviceController.createService(s.getAddress(),s.getDetails(),i,s.getCategory(),s.getStartSlot(),
                 s.getEndSlot(),s.getExpirationDate());
+        ServerResponse sr = new ServerResponse();
+        sr.setResult(er);
+        return Response.ok(sr).build();
 
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+
     }
     //ricevi uno specifico servizio creato dall'utente id
     @GET

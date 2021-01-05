@@ -1,12 +1,5 @@
 package org.template.rest.model;
 
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.template.rest.util.CustomDateSerializer;
-
-import java.time.LocalDate;
-import java.util.Date;
-
 public class ServiceResponse {
     private int idService;
     private String address;
@@ -16,15 +9,10 @@ public class ServiceResponse {
     private int performerUser;
     private Boolean performed;
     private Boolean assistance;
-   // @JsonSerialize(using = CustomDateSerializer.class)
     private String startSlot;
-    //@JsonSerialize(using = CustomDateSerializer.class)
     private String endSlot;
-    //@JsonSerialize(using = CustomDateSerializer.class)
     private String expirationDate;
-    //@JsonSerialize(using = CustomDateSerializer.class)
     private String insertionDate;
-    //@JsonSerialize(using = CustomDateSerializer.class)
     private String acceptanceDate;
     //possibile inserimento foto
 
@@ -32,8 +20,8 @@ public class ServiceResponse {
     }
 
     public ServiceResponse(int idService, String address, String details, int requestUser, String category,
-                           int performerUser, Boolean performed, Boolean assistance, String startSlot,
-                           String endSlot, String expirationDate, String insertionDate, String acceptanceDate) {
+                          int performerUser, Boolean performed, Boolean assistance, String startSlot,
+                          String endSlot, String expirationDate, String insertionDate, String acceptanceDate) {
         this.idService = idService;
         this.address = address;
         this.details = details;
