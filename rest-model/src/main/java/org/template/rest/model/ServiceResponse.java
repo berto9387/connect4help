@@ -1,5 +1,9 @@
 package org.template.rest.model;
 
+import com.sun.scenario.animation.shared.TimerReceiver;
+
+import java.sql.Timestamp;
+
 public class ServiceResponse {
     private int idService;
     private String address;
@@ -9,32 +13,14 @@ public class ServiceResponse {
     private int performerUser;
     private Boolean performed;
     private Boolean assistance;
-    private String startSlot;
-    private String endSlot;
-    private String expirationDate;
-    private String insertionDate;
-    private String acceptanceDate;
+    private Timestamp startSlot;
+    private Timestamp endSlot;
+    private Timestamp expirationDate;
+    private Timestamp insertionDate;
+    private Timestamp acceptanceDate;
     //possibile inserimento foto
 
     public ServiceResponse() {
-    }
-
-    public ServiceResponse(int idService, String address, String details, int requestUser, String category,
-                          int performerUser, Boolean performed, Boolean assistance, String startSlot,
-                          String endSlot, String expirationDate, String insertionDate, String acceptanceDate) {
-        this.idService = idService;
-        this.address = address;
-        this.details = details;
-        this.requestUser = requestUser;
-        this.category = category;
-        this.performerUser = performerUser;
-        this.performed = performed;
-        this.assistance = assistance;
-        this.startSlot = startSlot;
-        this.endSlot = endSlot;
-        this.expirationDate = expirationDate;
-        this.insertionDate = insertionDate;
-        this.acceptanceDate = acceptanceDate;
     }
 
     public int getIdService() {
@@ -101,43 +87,43 @@ public class ServiceResponse {
         this.assistance = assistance;
     }
 
-    public String getStartSlot() {
+    public Timestamp getStartSlot() {
         return startSlot;
     }
 
-    public void setStartSlot(String startSlot) {
+    public void setStartSlot(Timestamp startSlot) {
         this.startSlot = startSlot;
     }
 
-    public String getEndSlot() {
+    public Timestamp getEndSlot() {
         return endSlot;
     }
 
-    public void setEndSlot(String endSlot) {
+    public void setEndSlot(Timestamp endSlot) {
         this.endSlot = endSlot;
     }
 
-    public String getExpirationDate() {
+    public Timestamp getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(Timestamp expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public String getInsertionDate() {
+    public Timestamp getInsertionDate() {
         return insertionDate;
     }
 
-    public void setInsertionDate(String insertionDate) {
+    public void setInsertionDate(Timestamp insertionDate) {
         this.insertionDate = insertionDate;
     }
 
-    public String getAcceptanceDate() {
+    public Timestamp getAcceptanceDate() {
         return acceptanceDate;
     }
 
-    public void setAcceptanceDate(String acceptanceDate) {
+    public void setAcceptanceDate(Timestamp acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
     }
 }

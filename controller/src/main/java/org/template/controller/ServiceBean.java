@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 @Stateful(name = "ServiceEJB")
 public class ServiceBean implements IServiceController {
@@ -29,7 +30,7 @@ public class ServiceBean implements IServiceController {
 
 
     @Override
-    public Collection<Service> getUserService(int id, String role) {
+    public Collection<Service> getUserServices(int id, String role) {
         if(services.size()!=0){
             return services;
         }
@@ -73,6 +74,19 @@ public class ServiceBean implements IServiceController {
             return false;
         }
 
+
+    }
+
+    @Override
+    public Service getUserService(Integer id, Integer idService, String role) {
+        if(services.size()!=0){
+            Optional<Service> matching=services.stream()
+                    .filter(s -> s.getIdService() == idService)
+                    .findFirst();
+            return matching.get();
+        }
+        this.getUserServices(id,role);
+        return this.getUserService(id,idService, role);
 
     }
 

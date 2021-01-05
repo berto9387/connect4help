@@ -59,26 +59,34 @@ public class UserServiceControllerRestBean {
 
         HttpSession session = requestContext.getSession();
         IServiceController serviceController = lookupServices(session);
-        List<ServiceRequest> serviceRequest =new ArrayList<>();
-        List<Service> services=serviceController.getUserService(id,dT.getRole())
+        List<ServiceResponse> serviceResponses =new ArrayList<>();
+        List<Service> services=serviceController.getUserServices(id,dT.getRole())
                     .stream().collect(toCollection(ArrayList::new));
 
         for (Service s : services){
             int performer=0;
             if(s.getPerformerUser()!=null)
                 performer=s.getPerformerUser().getIdUser();
-            ServiceResponse sr = new ServiceResponse(
-                    s.getIdService(),
-                    s.getAddress(),
-                    s.getDetails(),
-                    s.getRequestUser().getIdUser(),
-                    s.getCategory().getName(),
-                    performer,
-                    s.getPerformed(),
-                    s.getAssistance());
-            serviceRequest.add(sr);
+            ServiceResponse sr = new ServiceResponse();
+
+            sr.setIdService(s.getIdService());
+            sr.setAddress(s.getAddress());
+            sr.setDetails(s.getDetails());
+            sr.setCategory(s.getCategory().getName());
+            sr.setPerformed(s.getPerformed());
+            sr.setAssistance(s.getAssistance());
+            sr.setStartSlot(s.getStartSlot());
+            sr.setEndSlot(s.getEndSlot());
+            sr.setExpirationDate(s.getExpirationDate());
+            sr.setInsertionDate(s.getInsertionDate());
+            sr.setAcceptanceDate(s.getAcceptanceDate());
+            if(dT.getRole().equals("R"))
+                sr.setPerformerUser(performer);
+            sr.setRequestUser(s.getRequestUser().getIdUser());
+
+            serviceResponses.add(sr);
         }
-        return Response.ok(serviceRequest).build();
+        return Response.ok(serviceResponses).build();
 
     }
     //crea un servizio
@@ -104,8 +112,46 @@ public class UserServiceControllerRestBean {
     @GET
     @JWTTokenNeeded
     @Path("/{idService}")
-    public Response findUserService(@Context HttpServletRequest requestContext, @PathParam("id") Integer i){
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+    public Response findUserService(@Context HttpServletRequest requestContext,
+                                    @PathParam("id") Integer idUser,
+                                    @PathParam("idService") Integer idService){
+        String authorizationHeader = requestContext.getHeader(HttpHeaders.AUTHORIZATION);
+        try {
+            dT.decodeToken(authorizationHeader);
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        if(idUser!=dT.getId()){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        HttpSession session = requestContext.getSession();
+        IServiceController serviceController = lookupServices(session);
+        Service s=serviceController.getUserService(dT.getId(),idService, dT.getRole());
+
+        int performer=0;
+        if(s.getPerformerUser()!=null)
+            performer=s.getPerformerUser().getIdUser();
+        ServiceResponse sr = new ServiceResponse();
+
+        sr.setIdService(s.getIdService());
+        sr.setAddress(s.getAddress());
+        sr.setDetails(s.getDetails());
+        sr.setCategory(s.getCategory().getName());
+        sr.setPerformed(s.getPerformed());
+        sr.setAssistance(s.getAssistance());
+        sr.setStartSlot(s.getStartSlot());
+        sr.setEndSlot(s.getEndSlot());
+        sr.setExpirationDate(s.getExpirationDate());
+        sr.setInsertionDate(s.getInsertionDate());
+        sr.setAcceptanceDate(s.getAcceptanceDate());
+        if(dT.getRole().equals("R"))
+            sr.setPerformerUser(performer);
+        sr.setRequestUser(s.getRequestUser().getIdUser());
+
+        return Response.ok(sr).build();
+
+
+
     }
     //Cancella uno specifico servizio creato da un utente
     @DELETE
