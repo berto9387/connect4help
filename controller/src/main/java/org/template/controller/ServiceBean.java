@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -52,7 +51,8 @@ public class ServiceBean implements IServiceController {
     }
 
     @Override
-    public void createService(String address, String details, int requestUser, String category, String startSlot, String endSlot, String expirationDate) {
+    public Boolean createService(String address, String details, int requestUser, String category, String startSlot,
+                                 String endSlot, String expirationDate) {
         Category c = new Category();
         c.setName(category);
         RequestUser ru = new RequestUser();
@@ -66,14 +66,17 @@ public class ServiceBean implements IServiceController {
         ser.setEndSlot(convertToTimestamp(endSlot));
         ser.setExpirationDate(convertToTimestamp(expirationDate));
         services.add(ser);
-        em.merge(ser);
+        try {
+            em.merge(ser);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+
 
     }
 
     private Timestamp convertToTimestamp(String localDate){
-        //return localDate == null ? null : new java.sql.Timestamp(localDate.getTime());
-        //Timestamp stap = Timestamp.valueOf(localDate.atStartOfDay());
-        //return stap;
         Timestamp time = null;
       try {
           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

@@ -7,5 +7,5 @@ import java.util.Collection;
 public interface IServiceController {
     public Collection<Service> getUserService(int id,String role);
 
-    void createService(String address, String details, int requestUser, String category, String startSlot, String endSlot, String expirationDate);
+    Boolean createService(String address, String details, int requestUser, String category, String startSlot, String endSlot, String expirationDate);
 }
