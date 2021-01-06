@@ -8,21 +8,21 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="css/style.css" />
-    <title>Sign in & Sign up Form</title>
+    <title>Connect4Help - Sign in & Sign up</title>
   </head>
   <body>
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="#" class="sign-in-form">
+          <form id="singInForm" action="#" class="sign-in-form" method="post">
             <h2 class="title">Sign in</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input name="email" type="email" placeholder="Email" />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input name="password" type="password" placeholder="Password" />
             </div>
             <input type="submit" value="Login" class="btn solid" />
 
@@ -106,6 +106,7 @@
     </div>
 
     <script src="js/app.js"></script>
+    <script src="js/signUp.js"></script>
     <script src="js/login.js"></script>
   </body>
 </html>
