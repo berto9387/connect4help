@@ -1,7 +1,7 @@
-var signUpForm = document.getElementById("signInForm");
-signUpForm.addEventListener("submit", verifySignUp);
+var signInForm = document.getElementById("signInForm");
+signInForm.addEventListener("submit", verifySignIn);
 
-function verifySignUp(e){
+function verifySignIn(e){
 
     //signUpForm.get
     var elements = document.getElementById("signInForm").elements;
@@ -26,10 +26,12 @@ function verifySignUp(e){
     };
 
     fetch("http://localhost:8080/rest/api/users/login", requestOptions)
-        .then(response => response.text())
+        .then(response => console.log(response.headers.get('Authorization')))
         .then(result => window.alert(result + "OK"))
         .catch(error => console.log('error', error));
 
     e.preventDefault();
     return false;
+    /****************Token ritornato ma non ancora salvato(Session/cache/cookie)***********************/
+    /****************Reindirizzare alla home*****************************/
 }

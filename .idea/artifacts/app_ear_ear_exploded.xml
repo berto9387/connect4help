@@ -29,6 +29,7 @@
         </element>
         <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.2" />
         <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.2" />
+        <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt:0.9.1" />
       </element>
       <element id="directory" name="controller-1.0-SNAPSHOT.jar">
         <element id="artifact" artifact-name="controller:ejb exploded" />
