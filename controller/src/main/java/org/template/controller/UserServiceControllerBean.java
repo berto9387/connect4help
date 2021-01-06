@@ -1,6 +1,6 @@
 package org.template.controller;
 
-import org.template.interfaces.IServiceController;
+import org.template.interfaces.IUserServiceController;
 import org.template.model.*;
 
 import javax.ejb.Stateful;
@@ -16,12 +16,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-@Stateful(name = "ServiceEJB")
-public class ServiceBean implements IServiceController {
+@Stateful(name = "UserServiceEJB")
+public class UserServiceControllerBean implements IUserServiceController {
 
     private Collection<Service> services;
 
-    public ServiceBean() {
+    public UserServiceControllerBean() {
         services=new ArrayList<>();
     }
 
@@ -79,15 +79,38 @@ public class ServiceBean implements IServiceController {
 
     @Override
     public Service getUserService(Integer id, Integer idService, String role) {
+
         if(services.size()!=0){
             Optional<Service> matching=services.stream()
                     .filter(s -> s.getIdService() == idService)
                     .findFirst();
-            return matching.get();
+            if (matching.isPresent())
+                return matching.get();
+            return null;
         }
         this.getUserServices(id,role);
         return this.getUserService(id,idService, role);
 
+    }
+
+    @Override
+    public Boolean deleteUserService(Integer id, Integer idService, String role) {
+        if(this.services.size()!=0){
+            Optional<Service> matching=this.services.stream()
+                    .filter(s -> s.getIdService() == idService)
+                    .findFirst();
+            if (matching.isPresent()) {
+                Service s = matching.get();
+                if(s.getRequestUser().getIdUser()==id){
+                    em.remove(em.getReference(Service.class, idService));
+                    services.remove(s);
+                    return true;
+                }
+            }
+            return false;
+        }
+        this.getUserServices(id,role);
+        return this.deleteUserService(id,idService, role);
     }
 
     private Timestamp convertToTimestamp(String localDate){
