@@ -1,5 +1,8 @@
 package org.template.model;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -27,6 +30,7 @@ public class Service implements Serializable {
 
     @Id
     @Column(name = "idService")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getIdService() {
         return idService;
     }
@@ -183,6 +187,15 @@ public class Service implements Serializable {
         result = 31 * result + Arrays.hashCode(servicePicture);
         return result;
     }
+    @ManyToOne
+    @JoinColumn(name = "IdPerformerUser", referencedColumnName = "idUser")
+    public PerformUser getPerformerUser() {
+        return performerUser;
+    }
+
+    public void setPerformerUser(PerformUser performerUser) {
+        this.performerUser = performerUser;
+    }
 
     @ManyToOne
     @JoinColumn(name = "IdRequestUser", referencedColumnName = "idUser", nullable = false)
@@ -204,13 +217,5 @@ public class Service implements Serializable {
         this.category = category;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "IdPerformerUser", referencedColumnName = "idUser")
-    public PerformUser getPerformerUser() {
-        return performerUser;
-    }
 
-    public void setPerformerUser(PerformUser performerUser) {
-        this.performerUser = performerUser;
-    }
 }

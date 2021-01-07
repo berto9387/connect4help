@@ -69,7 +69,8 @@ public class ServiceControllerRestBean {
         sr.setExpirationDate(s.getExpirationDate());
         sr.setInsertionDate(s.getInsertionDate());
         sr.setAcceptanceDate(s.getAcceptanceDate());
-        sr.setRequestUser(s.getRequestUser().getIdUser());
+        sr.setPerformerUser((s.getPerformerUser() == null)? -1 :s.getPerformerUser().getIdUser());
+        sr.setRequestUser((s.getRequestUser()== null)? -1 :s.getRequestUser().getIdUser());
         return sr;
     }
 }

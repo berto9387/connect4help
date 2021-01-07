@@ -42,6 +42,7 @@ public abstract class User implements Serializable {
 
     @Id
     @Column(name = "idUser")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getIdUser() {
         return idUser;
     }
@@ -71,7 +72,7 @@ public abstract class User implements Serializable {
     }
 
     @Basic
-    @Column(name = "Email")
+    @Column(name = "Email",unique=true)
     public String getEmail() {
         return email;
     }

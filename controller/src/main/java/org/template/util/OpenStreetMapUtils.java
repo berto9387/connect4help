@@ -38,7 +38,6 @@ public class OpenStreetMapUtils {
 
 
         con.setRequestMethod("GET");
-        con.setRequestProperty("accept", "application/json");
         int responseCode=0;
         try {
             responseCode=con.getResponseCode();
