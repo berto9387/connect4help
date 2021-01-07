@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -32,7 +33,7 @@ public class OpenStreetMapUtils {
     private String getRequest(String url) throws Exception {
 
         final URL obj = new URL(url);
-        final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        final HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
         con.setRequestMethod("GET");
 
@@ -73,6 +74,7 @@ public class OpenStreetMapUtils {
                 query.append("+");
             }
         }
+        query.append("&format=json&addressdetails=1");
 
         try {
             queryResult = getRequest(query.toString());
