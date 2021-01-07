@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -32,7 +33,8 @@ public class OpenStreetMapUtils {
     private String getRequest(String url) throws Exception {
 
         final URL obj = new URL(url);
-        final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        final HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
 
         con.setRequestMethod("GET");
 
@@ -40,7 +42,7 @@ public class OpenStreetMapUtils {
             return null;
         }
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
 
@@ -61,7 +63,7 @@ public class OpenStreetMapUtils {
         query = new StringBuffer();
         res = new HashMap<String, Double>();
 
-        query.append(" https://nominatim.openstreetmap.org/search?q=");
+        query.append("https://nominatim.openstreetmap.org/search?q=");
 
         if (split.length == 0) {
             return null;
@@ -74,6 +76,8 @@ public class OpenStreetMapUtils {
             }
         }
 
+        query.append("&format=json&addressdetails=1");
+
         try {
             queryResult = getRequest(query.toString());
         } catch (Exception e) {
@@ -83,6 +87,8 @@ public class OpenStreetMapUtils {
         if (queryResult == null) {
             return null;
         }
+
+        System.out.println("-----> " + queryResult.toString());
 
         Object obj = JSONValue.parse(queryResult);
 

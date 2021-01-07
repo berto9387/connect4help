@@ -26,12 +26,12 @@ function verifySignUp(e){
     };
 
     fetch("http://localhost:8080/rest/api/users/", requestOptions)
-        .then(response => response.text())
-        .then(result => window.alert(result + "OK"))
+        .then(response => response.status)
+        .then(result => window.alert(result))
         .catch(error => console.log('error', error));
 
     e.preventDefault();
-    return false;
+    //return false;
 
     /************************AGGIUSTARE IL INDIRIZZAMENTO PAGINA***********************************************/
 }
