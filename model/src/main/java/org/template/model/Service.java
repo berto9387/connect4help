@@ -21,6 +21,8 @@ public class Service implements Serializable {
     private Timestamp expirationDate;
     private Timestamp insertionDate;
     private Timestamp acceptanceDate;
+    private Double latitude;
+    private Double longitude;
     private byte[] servicePicture;
 
     @Id
@@ -121,6 +123,26 @@ public class Service implements Serializable {
 
     public void setAcceptanceDate(Timestamp acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
+    }
+
+    @Basic
+    @Column(name = "Latitude")
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    @Basic
+    @Column(name = "Longitude")
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     @Lob

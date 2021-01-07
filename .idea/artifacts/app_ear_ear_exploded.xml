@@ -18,6 +18,15 @@
           <element id="module-output" name="model" />
         </element>
         <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.7" />
+        <element id="library" level="project" name="Maven: com.google.maps:google-maps-services:0.15.0" />
+        <element id="library" level="project" name="Maven: com.squareup.okhttp3:okhttp:3.14.4" />
+        <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.17.2" />
+        <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+        <element id="library" level="project" name="Maven: io.opencensus:opencensus-api:0.25.0" />
+        <element id="library" level="project" name="Maven: io.grpc:grpc-context:1.25.0" />
+        <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+        <element id="library" level="project" name="Maven: junit:junit:4.10" />
+        <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
         <element id="archive" name="rest-model-1.0-SNAPSHOT.jar">
           <element id="module-output" name="rest-model" />
         </element>

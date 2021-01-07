@@ -17,6 +17,9 @@ public class AppRestFacadeBean {
     @EJB(name = "UserServiceControllerRestEJB")
     UserServiceControllerRestBean userService;
 
+    @EJB(name = "ServiceControllerRestEJB")
+    ServiceControllerRestBean service;
+
     @Path("users")
     public UserControllerRestBean getUserControllerRestBean() {
         return this.user;
@@ -25,5 +28,10 @@ public class AppRestFacadeBean {
     @Path("users/{id: \\d+}/services")
     public UserServiceControllerRestBean getUserServiceControllerRestBean() {
         return this.userService;
+    }
+
+    @Path("services")
+    public ServiceControllerRestBean getServiceControllerRestBean() {
+        return this.service;
     }
 }

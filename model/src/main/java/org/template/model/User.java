@@ -21,6 +21,8 @@ public abstract class User implements Serializable {
     private Date dateOfBirth;
     private String role;
     private String telephone;
+    private Double latitude;
+    private Double longitude;
     private Timestamp timeStamp;
 
     public User() {
@@ -106,6 +108,25 @@ public abstract class User implements Serializable {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+    @Basic
+    @Column(name = "Latitude")
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    @Basic
+    @Column(name = "Longitude")
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     @Basic

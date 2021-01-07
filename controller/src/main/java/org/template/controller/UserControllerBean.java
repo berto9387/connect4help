@@ -4,12 +4,14 @@ import org.template.interfaces.IUserController;
 import org.template.model.PerformUser;
 import org.template.model.RequestUser;
 import org.template.model.User;
+import org.template.util.OpenStreetMapUtils;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Victor Mezrin
@@ -63,6 +65,10 @@ public class UserControllerBean implements IUserController {
         } else if (role.equals("R")){
             user = new RequestUser();
         }
+        Map<String, Double> coords;
+        coords = OpenStreetMapUtils.getInstance().getCoordinates(address);
+        user.setLatitude(coords.get("lat"));
+        user.setLongitude(coords.get("lon"));
         user.setName(firstName);
         user.setSurname(lastName);
         user.setPassword(password);

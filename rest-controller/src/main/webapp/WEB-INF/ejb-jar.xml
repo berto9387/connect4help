@@ -18,5 +18,11 @@
             <session-type>Stateless</session-type>
             <transaction-type>Container</transaction-type>
         </session>
+        <session>
+            <ejb-name>ServiceControllerRestEJB</ejb-name>
+            <ejb-class>org.template.rest.controller.ServiceControllerRestBean</ejb-class>
+            <session-type>Stateless</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
     </enterprise-beans>
 </ejb-jar>

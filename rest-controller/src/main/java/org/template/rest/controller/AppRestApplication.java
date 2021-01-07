@@ -20,6 +20,7 @@ public class AppRestApplication extends Application {
         classes.add(PerformerEndPointFilter.class);
         classes.add(UserControllerRestBean.class);
         classes.add(UserServiceControllerRestBean.class);
+        classes.add(ServiceControllerRestBean.class);
         return classes;
     }
 }
