@@ -24,9 +24,10 @@ public class ServiceControllerBean implements IServiceController {
     @Override
     public Collection<Service> getServices() {
         Query q=null;
+        int prova=75;
         q = this.em.createQuery(
-                "SELECT s FROM Service s where s.performerUser=null");
-
+                "SELECT s FROM Service s where s.performerUser.idUser=:id");
+        q.setParameter("id", prova);
         try {
             return (Collection<Service>) q.getResultList();
         } catch (NoResultException exc){

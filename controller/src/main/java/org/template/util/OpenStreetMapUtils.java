@@ -7,6 +7,7 @@ import org.json.simple.parser.JSONParser;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,8 +38,14 @@ public class OpenStreetMapUtils {
 
 
         con.setRequestMethod("GET");
-
-        if (con.getResponseCode() != 200) {
+        con.setRequestProperty("accept", "application/json");
+        int responseCode=0;
+        try {
+            responseCode=con.getResponseCode();
+        } catch (IOException e){
+            System.out.println(e);
+        }
+        if (responseCode != 200) {
             return null;
         }
 
