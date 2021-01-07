@@ -32,7 +32,7 @@ function verifySignUp(e){
 */
     fetch("http://localhost:8080/rest/api/users/", requestOptions)
         .then(response => {
-            if(response.status === 200){
+            if(response.status === 201 || response.status === 200){ /**Aggiustare i valori dentro if*/
                 return response.text()
             }else{
                 throw Error(response.statusText)
