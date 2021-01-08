@@ -24,17 +24,30 @@ public class ServiceControllerBean implements IServiceController {
     @Override
     //trova i servizi nel raggio di ....
     public Collection<Service> getServices() {
+        String HAVERSINE_FORMULA = "(6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) *" +
+                " cos(radians(s.Longitude) - radians(?2)) + sin(radians(?1)) * sin(radians(s.latitude))))";
+
         String query="\n" +
-                "    SELECT s.*,6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) -radians(?2)) +sin(radians(?1) * sin(radians(s.Latitude )))) AS distance\n" +
+                "    SELECT s.*\n" +
                 "        FROM service s\n" +
-                "        HAVING distance < 2000\n" +
-                "        ORDER BY distance LIMIT 0, 20;\n";
-        String query_1="select s.*,(6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) -radians(?2)) +sin(radians(?1) * sin(radians(s.Latitude )))) AS distance) from Service s ";
+                "        where "+HAVERSINE_FORMULA+"< ?3\n" ;
         Query q=null;
-        q= this.em.createQuery("select new Service(Service , (6371 * acos(cos(radians(lat= :lat)) * cos(radians(s.latitude)) * cos(radians(s.longitude) -radians(long= :long)) +sin(radians(lat= :lat) * sin(radians(s.Latitude )))))AS distance) from Service  having distance < 2000");
         q = this.em.createNativeQuery(query);
-        q.setParameter("lat", 3.738076);
-        q.setParameter("long", 15.497089);
+        q.setParameter(1, 3.738076);
+        q.setParameter(2, 15.497089);
+        q.setParameter(3, 2000);
+        @SqlResultSetMapping(
+                name="groupDetailsMapping",
+                classes={
+                        @ConstructorResult(
+                                targetClass=GroupDetails.class,
+                                columns={
+                                        @ColumnResult(name="GROUP_ID"),
+                                        @ColumnResult(name="USER_ID")
+                                }
+                        )
+                }
+        )
         try {
             return (Collection<Service>) q
                     .getResultList();

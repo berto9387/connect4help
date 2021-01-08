@@ -27,40 +27,13 @@ public class Service implements Serializable {
     private Double latitude;
     private Double longitude;
     private byte[] servicePicture;
-    private Double distance;
 
-    public Service(int idService, String address, String details, RequestUser requestUser, Category category, PerformUser performerUser, Boolean performed, Boolean assistance, Timestamp startSlot, Timestamp endSlot, Timestamp expirationDate, Timestamp insertionDate, Timestamp acceptanceDate, Double latitude, Double longitude, byte[] servicePicture, Double distance) {
-        this.idService = idService;
-        this.address = address;
-        this.details = details;
-        this.requestUser = requestUser;
-        this.category = category;
-        this.performerUser = performerUser;
-        this.performed = performed;
-        this.assistance = assistance;
-        this.startSlot = startSlot;
-        this.endSlot = endSlot;
-        this.expirationDate = expirationDate;
-        this.insertionDate = insertionDate;
-        this.acceptanceDate = acceptanceDate;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.servicePicture = servicePicture;
-        this.distance = distance;
-    }
+
 
     public Service() {
 
     }
 
-    @Transient
-    public Double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Double distance) {
-        this.distance = distance;
-    }
 
     @Id
     @Column(name = "idService")
