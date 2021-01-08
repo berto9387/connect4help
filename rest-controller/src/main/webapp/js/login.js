@@ -41,7 +41,7 @@ function verifySignIn(e){
         })
         .then(result => {
             localStorage.setItem("token", result.toString())
-            window.location.href = 'html/ProvaHome.html'
+            window.location.href = 'html/searchPerformer.html'
             console.log(result.toString())
         })
         .catch(error => console.log('error', error));
