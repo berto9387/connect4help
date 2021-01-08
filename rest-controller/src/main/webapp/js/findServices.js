@@ -17,7 +17,6 @@ function fs(){
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-        //body:raw,
         redirect: 'follow'
     };
 
@@ -26,5 +25,12 @@ function fs(){
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
+}
+
+function loadAddress() {
+    if(localStorage.getItem('address').toString() !== " "){
+        //console.log(localStorage.getItem('address'))
+        document.getElementById("search").value = localStorage.getItem("address").toString();
+    }
 }
 
