@@ -1,12 +1,20 @@
 package org.template.controller;
 
 import org.template.interfaces.IServiceController;
+import org.template.model.Category;
+import org.template.model.PerformUser;
+import org.template.model.RequestUser;
 import org.template.model.Service;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Collections;
+
+
+
 
 @Stateless(name = "ServiceControllerEJB")
 @Local(IServiceController.class)
@@ -21,15 +29,9 @@ public class ServiceControllerBean implements IServiceController {
     @Override
     //trova i servizi nel raggio di ....
     public Collection<Service> getServices() {
-        String HAVERSINE_FORMULA = "(6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) *" +
-                " cos(radians(s.Longitude) - radians(?2)) + sin(radians(?1)) * sin(radians(s.latitude))))";
 
-        String query="\n" +
-                "    SELECT s.*\n" +
-                "        FROM service s\n" +
-                "        where "+HAVERSINE_FORMULA+"< ?3\n" ;
-        Query q=null;
-        q = this.em.createNativeQuery(query);
+
+        Query q = this.em.createNamedQuery("Schedules");
         q.setParameter(1, 3.738076);
         q.setParameter(2, 15.497089);
         q.setParameter(3, 2000);

@@ -10,6 +10,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
+@SqlResultSetMapping(name = "ScheduleResult", entities = @EntityResult(entityClass = Service.class))
+@NamedNativeQuery(name = "Schedules",
+        query = "SELECT s.* FROM service s where (6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) - radians(?2)) + sin(radians(?1)) * sin(radians(s.Latitude))))< ?3",
+        resultSetMapping = "ScheduleResult")
 public class Service implements Serializable {
     private int idService;
     private String address;
@@ -34,6 +38,24 @@ public class Service implements Serializable {
 
     }
 
+    public Service(int idService, String address, String details, RequestUser requestUser, Category category, PerformUser performerUser, Boolean performed, Boolean assistance, Timestamp startSlot, Timestamp endSlot, Timestamp expirationDate, Timestamp insertionDate, Timestamp acceptanceDate, Double latitude, Double longitude, byte[] servicePicture) {
+        this.idService = idService;
+        this.address = address;
+        this.details = details;
+        this.requestUser = requestUser;
+        this.category = category;
+        this.performerUser = performerUser;
+        this.performed = performed;
+        this.assistance = assistance;
+        this.startSlot = startSlot;
+        this.endSlot = endSlot;
+        this.expirationDate = expirationDate;
+        this.insertionDate = insertionDate;
+        this.acceptanceDate = acceptanceDate;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.servicePicture = servicePicture;
+    }
 
     @Id
     @Column(name = "idService")
@@ -169,33 +191,7 @@ public class Service implements Serializable {
 
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Service)) return false;
-        Service service = (Service) o;
-        return idService == service.idService &&
-                Objects.equals(address, service.address) &&
-                Objects.equals(details, service.details) &&
-                Objects.equals(requestUser, service.requestUser) &&
-                Objects.equals(category, service.category) &&
-                Objects.equals(performerUser, service.performerUser) &&
-                Objects.equals(performed, service.performed) &&
-                Objects.equals(assistance, service.assistance) &&
-                Objects.equals(startSlot, service.startSlot) &&
-                Objects.equals(endSlot, service.endSlot) &&
-                Objects.equals(expirationDate, service.expirationDate) &&
-                Objects.equals(insertionDate, service.insertionDate) &&
-                Objects.equals(acceptanceDate, service.acceptanceDate) &&
-                Arrays.equals(servicePicture, service.servicePicture);
-    }
 
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(idService, address, details, requestUser, category, performerUser, performed, assistance, startSlot, endSlot, expirationDate, insertionDate, acceptanceDate);
-        result = 31 * result + Arrays.hashCode(servicePicture);
-        return result;
-    }
     @ManyToOne
     @JoinColumn(name = "IdPerformerUser", referencedColumnName = "idUser")
     public PerformUser getPerformerUser() {
@@ -226,5 +222,33 @@ public class Service implements Serializable {
         this.category = category;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Service)) return false;
+        Service service = (Service) o;
+        return idService == service.idService &&
+                Objects.equals(address, service.address) &&
+                Objects.equals(details, service.details) &&
+                Objects.equals(requestUser, service.requestUser) &&
+                Objects.equals(category, service.category) &&
+                Objects.equals(performerUser, service.performerUser) &&
+                Objects.equals(performed, service.performed) &&
+                Objects.equals(assistance, service.assistance) &&
+                Objects.equals(startSlot, service.startSlot) &&
+                Objects.equals(endSlot, service.endSlot) &&
+                Objects.equals(expirationDate, service.expirationDate) &&
+                Objects.equals(insertionDate, service.insertionDate) &&
+                Objects.equals(acceptanceDate, service.acceptanceDate) &&
+                Objects.equals(latitude, service.latitude) &&
+                Objects.equals(longitude, service.longitude) &&
+                Arrays.equals(servicePicture, service.servicePicture);
+    }
 
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(idService, address, details, requestUser, category, performerUser, performed, assistance, startSlot, endSlot, expirationDate, insertionDate, acceptanceDate, latitude, longitude);
+        result = 31 * result + Arrays.hashCode(servicePicture);
+        return result;
+    }
 }
