@@ -43,7 +43,7 @@ public class ServiceControllerRestBean {
                                  @DefaultValue("-1") @QueryParam("address") String address,
                                  @DefaultValue("-1") @QueryParam("radius") int radius) {
 
-        if(address.equals("-1") && radius == -1)
+        if((address.equals("-1") && radius == -1) || address.equals("-1") )
             return Response.status(NOT_FOUND).build();
         List<ServiceResponse> serviceResponses =new ArrayList<>();
         List<Service> services= new ArrayList<>(this.serviceController
@@ -53,6 +53,27 @@ public class ServiceControllerRestBean {
             serviceResponses.add(create_service_response(s));
         }
         return Response.ok(serviceResponses).build();
+
+    }
+
+    @GET
+    @PerformerEndPoint
+    @Path("/{id}")
+    public Response findService(@Context HttpServletRequest requestContext,
+                                 @DefaultValue("-1") @QueryParam("address") String address,
+                                 @DefaultValue("-1") @QueryParam("radius") int radius) {
+
+
+        return Response.ok().build();
+
+    }
+
+    @POST
+    @PerformerEndPoint
+    @Path("/{idService}/users/{idUser}")
+    public Response doService(@Context HttpServletRequest requestContext) {
+
+        return Response.ok().build();
 
     }
 
