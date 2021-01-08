@@ -73,14 +73,14 @@
                 <!--todo set databaseName user password-->
                 <project.settings.jdbc.serverName>localhost</project.settings.jdbc.serverName>
                 <project.settings.jdbc.portNumber>3306</project.settings.jdbc.portNumber>
-                <project.settings.jdbc.databaseName>mydb</project.settings.jdbc.databaseName>
+                <project.settings.jdbc.databaseName>mydbbis</project.settings.jdbc.databaseName>
                 <project.settings.jdbc.user>root</project.settings.jdbc.user>
-                <project.settings.jdbc.password>root</project.settings.jdbc.password>
+                <project.settings.jdbc.password>internazionale</project.settings.jdbc.password>
                 <project.settings.jdbc.driver>com.mysql.jdbc.Driver</project.settings.jdbc.driver>
                 <project.settings.jdbc.url>jdbc:mysql://${project.settings.jdbc.serverName}:${project.settings.jdbc.portNumber}/${project.settings.jdbc.databaseName}?useUnicode=yes;zeroDateTimeBehavior=convertToNull;characterEncoding=UTF-8;</project.settings.jdbc.url>
                 <!--GlassFish datasource-->
                 <project.settings.jdbc.dataSource.name>jdbc/dsmt</project.settings.jdbc.dataSource.name>
-                <project.settings.jdbc.dataSource.poolName>prova</project.settings.jdbc.dataSource.poolName>
+                <project.settings.jdbc.dataSource.poolName>dsmt</project.settings.jdbc.dataSource.poolName>
                 <project.settings.jdbc.dataSource.description>${project.settings.nameseed} JDBC Connection Pool</project.settings.jdbc.dataSource.description>
                 <!--persistence settings-->
                 <!--todo change ddlgeneration scheme if you need-->
