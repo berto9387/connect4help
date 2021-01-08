@@ -16,6 +16,9 @@ import org.template.rest.util.KeyGenerator;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -143,10 +146,16 @@ public class UserControllerRestBean {
             User u=userController.authenticate(request.getEmail(), request.getPassword());
             if (u==null)
                 throw new SecurityException("Invalid email/password");
-            // Issue a token for the user
             String token = issueToken(request.getEmail(),u.getIdUser(),u.getRole());
+            JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+            jsonObjBuilder.add( "auth_token", token );
+            jsonObjBuilder.add("id",u.getIdUser());
+            jsonObjBuilder.add("role",u.getRole());
+            jsonObjBuilder.add("address",u.getAddress());
+            JsonObject jsonObj = jsonObjBuilder.build();
+
             // Return the token on the response
-            return Response.ok().header(AUTHORIZATION, "Bearer " + token).build();
+            return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(jsonObj.toString() ).build();
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
         }
@@ -174,5 +183,13 @@ public class UserControllerRestBean {
 
     private Date toDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+    private Response.ResponseBuilder getNoCacheResponseBuilder( Response.Status status ) {
+        CacheControl cc = new CacheControl();
+        cc.setNoCache( true );
+        cc.setMaxAge( -1 );
+        cc.setMustRevalidate( true );
+
+        return Response.status( status ).cacheControl( cc );
     }
 }

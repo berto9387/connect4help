@@ -5,10 +5,7 @@ import org.template.model.Service;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Stateless(name = "ServiceControllerEJB")
@@ -36,18 +33,6 @@ public class ServiceControllerBean implements IServiceController {
         q.setParameter(1, 3.738076);
         q.setParameter(2, 15.497089);
         q.setParameter(3, 2000);
-        @SqlResultSetMapping(
-                name="groupDetailsMapping",
-                classes={
-                        @ConstructorResult(
-                                targetClass=GroupDetails.class,
-                                columns={
-                                        @ColumnResult(name="GROUP_ID"),
-                                        @ColumnResult(name="USER_ID")
-                                }
-                        )
-                }
-        )
         try {
             return (Collection<Service>) q
                     .getResultList();
