@@ -23,31 +23,36 @@ function verifySignIn(e){
         body:raw,
         redirect: 'follow'
     };
-/*
-    fetch("http://localhost:8080/rest/api/users/login", requestOptions)
-        .then(response => console.log(response.headers.get('Authorization')))
-        .then(result => window.alert(result + "OK"))
-        .catch(error => console.log('error', error));
 
-    console.log(response.headers.get('Authorization'));
-  */
     fetch("http://localhost:8080/rest/api/users/login", requestOptions)
-        .then(response =>{
-            if(response.status === 200){
-                return response.headers.get('Authorization').replace("Bearer ", "");
-            }else{
-                throw Error(response.statusText)
-            }
-        })
-        .then(result => {
-            localStorage.setItem("token", result.toString())
-            window.location.href = 'html/searchPerformer.html'
-            console.log(result.toString())
-        })
-        .catch(error => console.log('error', error));
+        .then(response => response.json()
+            .then(jsonBody => ({
+                token: response.headers.get('Authorization').replace("Bearer", ""),
+                status: response.status,
+                jsonBody
+        })))
+            .then(result => setUserInformation(result.token, result.jsonBody, result.status))
+
 
     e.preventDefault();
     return false;
-    /****************Token ritornato ma non ancora salvato(Session/cache/cookie)***********************/
-    /****************Reindirizzare alla home*****************************/
+
+}
+
+function setUserInformation(token, json, status){
+    if(status === 200){
+        localStorage.setItem("token", token.toString());
+        localStorage.setItem("id", json.id.toString());
+        localStorage.setItem("address", json.address.toString());
+        localStorage.setItem("role", json.role.toString());
+        if(json.role.toString() ==="P")
+            window.location.href = 'html/searchPerformer.html';
+        else{
+            //pagina del requester
+        }
+
+    }
+    else{
+        throw Error("Login Error");
+    }
 }
