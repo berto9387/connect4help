@@ -57,7 +57,7 @@ public class UserControllerRestBean {
     /////////////////////////////////////////
     @GET
     @Path("/")
-    @AdminEndPoint
+    //@AdminEndPoint
     public Response findAllUsers() {
         List<User> allUsers = this.userController.findAllUser();
         if (allUsers == null)
