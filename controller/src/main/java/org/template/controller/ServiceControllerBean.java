@@ -22,12 +22,19 @@ public class ServiceControllerBean implements IServiceController {
     }
 
     @Override
+    //trova i servizi nel raggio di ....
     public Collection<Service> getServices() {
+        String query="\n" +
+                "    SELECT s.*,6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) -radians(?2)) +sin(radians(?1) * sin(radians(s.Latitude )))) AS distance\n" +
+                "        FROM service s\n" +
+                "        HAVING distance < 2000\n" +
+                "        ORDER BY distance LIMIT 0, 20;\n";
+        String query_1="select s.*,(6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) -radians(?2)) +sin(radians(?1) * sin(radians(s.Latitude )))) AS distance) from Service s ";
         Query q=null;
-        int prova=9;
-        q = this.em.createQuery(
-                "SELECT s FROM Service s where s.performerUser.idUser=:id");
-        q.setParameter("id", prova);
+        q= this.em.createQuery("select new Service(Service , (6371 * acos(cos(radians(lat= :lat)) * cos(radians(s.latitude)) * cos(radians(s.longitude) -radians(long= :long)) +sin(radians(lat= :lat) * sin(radians(s.Latitude )))))AS distance) from Service  having distance < 2000");
+        q = this.em.createNativeQuery(query);
+        q.setParameter("lat", 3.738076);
+        q.setParameter("long", 15.497089);
         try {
             return (Collection<Service>) q
                     .getResultList();
@@ -36,3 +43,6 @@ public class ServiceControllerBean implements IServiceController {
         }
     }
 }
+
+
+
