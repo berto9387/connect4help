@@ -462,7 +462,7 @@ legend {
   -ms-flex-align: center;
       align-items: center;
   font-family: 'Poppins', sans-serif;
-  background: url("../img/Search_001.png");
+  background: url("../img/helping2.jpeg");
   background-size: cover;
   background-position: center center;
   padding: 15px;
@@ -498,6 +498,16 @@ legend {
 }
 
 .s01 form .inner-form .input-field input {
+  height: 100%;
+  background: #fff;
+  border-radius: .5px;
+  border: 0;
+  display: block;
+  width: 100%;
+  padding: 10px 32px;
+  font-size: 20px;
+}
+.s01 form .inner-form .input-field select {
   height: 100%;
   background: #fff;
   border-radius: .5px;

@@ -30,24 +30,35 @@ function verifySignIn(e){
         .catch(error => console.log('error', error));
 
     console.log(response.headers.get('Authorization'));
-  */
+
     fetch("http://localhost:8080/rest/api/users/login", requestOptions)
         .then(response =>{
             if(response.status === 200){
+                //RECUPERARE DATI UTENTE (ID + RUOLO)
+                //return response.json();
                 return response.headers.get('Authorization').replace("Bearer ", "");
             }else{
                 throw Error(response.statusText)
             }
         })
         .then(result => {
-            localStorage.setItem("token", result.toString())
+            localStorage.setItem("token", result.toString());
+            //console.log(result);
             window.location.href = 'html/searchPerformer.html'
             console.log(result.toString())
         })
         .catch(error => console.log('error', error));
-
+*//*
+    fetch("http://localhost:8080/rest/api/users/login", requestOptions)
+        .then(response => response.json()
+            .then(json => ({
+            headers: res.headers,
+            status: res.status,
+            json
+        }))
+            .then({ headers, status, json } => goCrazyWith(headers, status, json));
     e.preventDefault();
-    return false;
+    return false;*/
     /****************Token ritornato ma non ancora salvato(Session/cache/cookie)***********************/
     /****************Reindirizzare alla home*****************************/
 }

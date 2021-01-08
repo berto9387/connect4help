@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script src='../js/prova.js'></script>
+    <script src="../js/findServices.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -10,22 +10,30 @@
   </head>
   <body>
     <div class="s01">
-      <form>
+      <form id="findServices" method="get">
         <fieldset>
-          <legend>Insert address to search available services</legend>
+          <legend>Welcome Performer!</legend>
         </fieldset>
         <div class="inner-form">
           <div class="input-field first-wrap">
-            <input id="search" type="text" placeholder="Via, number, city..." />
+            <label>Insert address or city where you want to search services</label>
+            <input id="search" name = "address" type="text" placeholder="Via, number, city ...." />
+          </div>
+          <div class="input-field second-wrap">
+            <label>Radius</label>
+            <select name = "radius" id="location">
+                <option value="1000">1 Km</option>
+                <option value="2000">2 Km</option>
+                <option value="5000">5 Km</option>
+                <option value="10000">10 Km</option>
+                <option value="20000">20 Km</option>
+            </select>
           </div>
           <div class="input-field third-wrap">
-            <button class="btn-search" type="button">Search</button>
+            <button class="btn-search" type="button" style="margin-top: 17px;" onclick="fs()">Search</button>
           </div>
         </div>
       </form>
-      <table id="prova">
-
-      </table>
     </div>
   </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

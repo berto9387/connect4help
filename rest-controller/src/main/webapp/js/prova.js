@@ -44,5 +44,5 @@ function show(data) {
     </tr>`;
     }
     // Setting innerHTML as tab variable
-    document.getElementById("prova").innerHTML = tab;
+    //document.getElementById("prova").innerHTML = tab;
 }
