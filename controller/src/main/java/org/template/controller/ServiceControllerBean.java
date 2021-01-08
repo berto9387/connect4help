@@ -1,19 +1,14 @@
 package org.template.controller;
 
 import org.template.interfaces.IServiceController;
-import org.template.model.Category;
-import org.template.model.PerformUser;
-import org.template.model.RequestUser;
 import org.template.model.Service;
+import org.template.util.OpenStreetMapUtils;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Collections;
-
-
+import java.util.Map;
 
 
 @Stateless(name = "ServiceControllerEJB")
@@ -28,13 +23,14 @@ public class ServiceControllerBean implements IServiceController {
 
     @Override
     //trova i servizi nel raggio di ....
-    public Collection<Service> getServices() {
+    public Collection<Service> getServices(String address, int radius) {
 
-
+        Map<String, Double> coords;
+        coords = OpenStreetMapUtils.getInstance().getCoordinates(address);
         Query q = this.em.createNamedQuery("Schedules");
-        q.setParameter(1, 3.738076);
-        q.setParameter(2, 15.497089);
-        q.setParameter(3, 2000);
+        q.setParameter(1, coords.get("lat"));
+        q.setParameter(2, coords.get("lon"));
+        q.setParameter(3, radius);
         try {
             return (Collection<Service>) q
                     .getResultList();

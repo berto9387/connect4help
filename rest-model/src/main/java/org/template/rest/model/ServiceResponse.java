@@ -18,6 +18,8 @@ public class ServiceResponse {
     private Timestamp expirationDate;
     private Timestamp insertionDate;
     private Timestamp acceptanceDate;
+    private Double latitude;
+    private Double longitude;
     //possibile inserimento foto
 
     public ServiceResponse() {
@@ -125,5 +127,21 @@ public class ServiceResponse {
 
     public void setAcceptanceDate(Timestamp acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

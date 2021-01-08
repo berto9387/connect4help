@@ -17,6 +17,8 @@ import javax.ws.rs.core.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+
 @Stateless(name = "ServiceControllerRestEJB")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -37,12 +39,15 @@ public class ServiceControllerRestBean {
     @GET
     @PerformerEndPoint
     @Path("/")
-    public Response findServices(@Context HttpServletRequest requestContext) {
+    public Response findServices(@Context HttpServletRequest requestContext,
+                                 @DefaultValue("-1") @QueryParam("address") String address,
+                                 @DefaultValue("-1") @QueryParam("radius") int radius) {
 
-
+        if(address.equals("-1") && radius == -1)
+            return Response.status(NOT_FOUND).build();
         List<ServiceResponse> serviceResponses =new ArrayList<>();
         List<Service> services= new ArrayList<>(this.serviceController
-                .getServices());
+                .getServices(address, radius));
 
         for (Service s : services){
             serviceResponses.add(create_service_response(s));
@@ -71,6 +76,8 @@ public class ServiceControllerRestBean {
         sr.setAcceptanceDate(s.getAcceptanceDate());
         sr.setPerformerUser((s.getPerformerUser() == null)? -1 :s.getPerformerUser().getIdUser());
         sr.setRequestUser((s.getRequestUser()== null)? -1 :s.getRequestUser().getIdUser());
+        sr.setLatitude(s.getLatitude());
+        sr.setLongitude(s.getLongitude());
         return sr;
     }
 }
