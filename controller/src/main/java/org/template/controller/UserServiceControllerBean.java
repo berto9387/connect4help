@@ -22,7 +22,7 @@ public class UserServiceControllerBean implements IUserServiceController {
     private Collection<Service> services;
 
     public UserServiceControllerBean() {
-        services=new ArrayList<>();
+        this.services=new ArrayList<>();
     }
 
     @PersistenceContext(unitName = "MainPersistenceUnit")
@@ -66,11 +66,12 @@ public class UserServiceControllerBean implements IUserServiceController {
         ser.setStartSlot(convertToTimestamp(startSlot));
         ser.setEndSlot(convertToTimestamp(endSlot));
         ser.setExpirationDate(convertToTimestamp(expirationDate));
-        services.add(ser);
+        this.services.add(ser);
         try {
             em.merge(ser);
             return true;
         } catch (Exception e){
+            this.services.remove(ser);
             return false;
         }
 

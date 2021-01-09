@@ -1,6 +1,7 @@
 package org.template.controller;
 
 import org.template.interfaces.IServiceController;
+import org.template.model.PerformUser;
 import org.template.model.Service;
 import org.template.util.OpenStreetMapUtils;
 
@@ -37,6 +38,18 @@ public class ServiceControllerBean implements IServiceController {
         } catch (NoResultException exc){
             return null;
         }
+    }
+
+    @Override
+    public Boolean acceptService(Integer idService, Integer idUser) {
+        PerformUser u = new PerformUser();
+        u.setIdUser(idUser);
+        Query q = this.em.createQuery(
+                "update Service  set performerUser=:user where performerUser is null and idService = :id");
+        q.setParameter("user",u);
+        q.setParameter("id",idService);
+        int updateCount = q.executeUpdate();
+        return updateCount>0;
     }
 }
 

@@ -60,7 +60,7 @@ public class UserControllerRestBean {
     /////////////////////////////////////////
     @GET
     @Path("/")
-    //@AdminEndPoint
+    @AdminEndPoint
     public Response findAllUsers() {
         List<User> allUsers = this.userController.findAllUser();
         if (allUsers == null)
@@ -117,6 +117,7 @@ public class UserControllerRestBean {
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
+    //NON ANCORA IMPLEMENTATA
     @PUT
     @Path("/{id}")
     @JWTTokenNeeded

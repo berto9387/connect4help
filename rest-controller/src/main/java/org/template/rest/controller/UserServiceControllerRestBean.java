@@ -86,6 +86,7 @@ public class UserServiceControllerRestBean {
 
     }
     //ricevi uno specifico servizio creato dall'utente id
+    //PER ADESSO NON UTILIZZATA
     @GET
     @JWTTokenNeeded
     @Path("/{idService}")

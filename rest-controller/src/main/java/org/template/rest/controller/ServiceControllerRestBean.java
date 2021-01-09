@@ -41,9 +41,9 @@ public class ServiceControllerRestBean {
     @Path("/")
     public Response findServices(@Context HttpServletRequest requestContext,
                                  @DefaultValue("-1") @QueryParam("address") String address,
-                                 @DefaultValue("-1") @QueryParam("radius") int radius) {
+                                 @DefaultValue("1") @QueryParam("radius") int radius) {
 
-        if((address.equals("-1") && radius == -1) || address.equals("-1") )
+        if(address.equals("-1"))
             return Response.status(NOT_FOUND).build();
         List<ServiceResponse> serviceResponses =new ArrayList<>();
         List<Service> services= new ArrayList<>(this.serviceController
@@ -56,24 +56,19 @@ public class ServiceControllerRestBean {
 
     }
 
-    @GET
-    @PerformerEndPoint
-    @Path("/{id}")
-    public Response findService(@Context HttpServletRequest requestContext,
-                                 @DefaultValue("-1") @QueryParam("address") String address,
-                                 @DefaultValue("-1") @QueryParam("radius") int radius) {
 
-
-        return Response.ok().build();
-
-    }
-
-    @POST
+    @PUT
     @PerformerEndPoint
     @Path("/{idService}/users/{idUser}")
-    public Response doService(@Context HttpServletRequest requestContext) {
+    public Response doService(@Context HttpServletRequest requestContext,
+                              @PathParam("idService") Integer idService,
+                              @PathParam("idUser") Integer idUser) {
 
-        return Response.ok().build();
+        Boolean er = this.serviceController.acceptService(idService,idUser);
+        if(er==true)
+            return Response.ok().build();
+        else
+            return Response.status(Response.Status.UNAUTHORIZED).build();
 
     }
 
