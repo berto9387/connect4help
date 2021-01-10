@@ -33,67 +33,68 @@ function createFormSearchBar(){
 
     var divSearch = document.getElementById("divForm");
 
-    var divInnerForm = document.createElement("div")
-    divInnerForm.className = "inner-form"
+        var divInnerForm = document.createElement("div")
+        divInnerForm.className = "inner-form"
 
-    var divInputField = document.createElement("div")
-    divInputField.className = "input-filed first-wrap"
+            var divInputField = document.createElement("div")
+            divInputField.className = "input-filed first-wrap"
 
-    var label = document.createElement("label")
-    var textLabel = document.createTextNode("Insert address or city where you want to search services")
-    label.appendChild(textLabel)
+            var label = document.createElement("label")
+            var textLabel = document.createTextNode("Insert address or city where you want to search services")
+            label.appendChild(textLabel)
 
-    var inputAddress = document.createElement("input")
-    inputAddress.id = "search"
-    inputAddress.name = "address"
-    inputAddress.type = "text"
-    inputAddress.placeholder = "Via, number, city ...."
+            var inputAddress = document.createElement("input")
+            inputAddress.id = "search"
+            inputAddress.name = "address"
+            inputAddress.type = "text"
+            inputAddress.placeholder = "Via, number, city ...."
 
-    divInputField.appendChild(label)
-    divInputField.appendChild(inputAddress)
+            divInputField.appendChild(label)
+            divInputField.appendChild(inputAddress)
+
+        divInnerForm.appendChild(divInputField)
+
+            var inputFieldSecond = document.createElement("div")
+            inputFieldSecond.className = "input-filed second-wrap"
+
+            var label2 = document.createElement("label")
+            var textLabel2 = document.createTextNode("Radius")
+
+            label2.appendChild(textLabel2)
+
+            var select = document.createElement("select")
+            select.name = "radius"
+            select.id = "location"
+            var optionValue = [1, 2, 5, 10, 20];
+            for (var i = 0; i < optionValue.length; i++){
+                var option = document.createElement("option")
+                option.value = optionValue[i].toString();
+                option.appendChild(document.createTextNode(""+optionValue[i]+" Km"))
+                select.appendChild(option)
+            }
+
+            inputFieldSecond.appendChild(label2)
+            inputFieldSecond.appendChild(select)
+
+        divInnerForm.appendChild(inputFieldSecond)
+
+            var divSubmit = document.createElement("div")
+            divSubmit.className = "input-field third-wrap"
+
+            var buttonSubmit = document.createElement("button")
+            buttonSubmit.className = "btn-search"
+            buttonSubmit.type = "button"
+
+            var textSubmit = document.createTextNode("Search")
+            buttonSubmit.appendChild(textSubmit)
+
+            divSubmit.appendChild(buttonSubmit)
 
     divInnerForm.appendChild(divInputField)
-
-    var inputFieldSecond = document.createElement("div")
-    inputFieldSecond.className = "input-filed second-wrap"
-
-    var label2 = document.createElement("label")
-    var textLabel2 = document.createTextNode("Radius")
-
-    label2.appendChild(textLabel2)
-
-    var select = document.createElement("select")
-    select.name = "radius"
-    select.id = "location"
-    var optionValue = [1, 2, 5, 10, 20];
-    for (var i = 0; i < optionValue.length; i++){
-        var option = document.createElement("option")
-        option.value = optionValue[i].toString();
-        option.appendChild(document.createTextNode(""+optionValue[i]+" Km"))
-        select.appendChild(option)
-    }
-    inputFieldSecond.appendChild(label2)
-    inputFieldSecond.appendChild(select)
-
     divInnerForm.appendChild(inputFieldSecond)
+    divInnerForm.appendChild(divSubmit)
 
-    var divSubmit = document.createElement("div")
-    divSubmit.className = "input-field third-wrap"
-
-    var buttonSubmit = document.createElement("button")
-    buttonSubmit.className = "btn-search"
-    buttonSubmit.type = "button"
-
-    var textSubmit = document.createTextNode("Seatch")
-    buttonSubmit.appendChild(textSubmit)
-
-    divSubmit.appendChild(buttonSubmit)
-
-
-    formSearch.appendChild(divInputField)
-    formSearch.appendChild(inputFieldSecond)
-    formSearch.appendChild(divSubmit)
-
+    formSearch.appendChild(divInnerForm)
     divSearch.appendChild(formSearch)
 
 }

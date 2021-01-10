@@ -62,8 +62,162 @@
 /*********************************************************************************/
 /* Form Style                                                                    */
 /*********************************************************************************/
+	#divForm{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 
-		form
+	#divForm form {
+		width: 100%;
+		max-width: 1290px;
+	}
+/*
+	#divForm form legend {
+		font-size: 72px;
+		line-height: 1;
+		color: #fff;
+		margin-bottom: 60px;
+	}
+*/
+	#divForm form .inner-form {
+		background: rgba(0, 0, 0, 0.5);
+		padding: 50px 47px;
+		display: -ms-flexbox;
+		display: flex;
+		width: 100%;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+
+	#divForm form .inner-form .input-field {
+		margin-right: 30px;
+		height: 68px;
+	}
+
+	#divForm form .inner-form .input-field input {
+		height: 100%;
+		background: #fff;
+		border-radius: .5px;
+		border: 0;
+		display: block;
+		width: 100%;
+		padding: 10px 32px;
+		font-size: 20px;
+	}
+	#divForm form .inner-form .input-field select {
+		height: 100%;
+		background: #fff;
+		border-radius: .5px;
+		border: 0;
+		display: block;
+		width: 100%;
+		padding: 10px 32px;
+		font-size: 20px;
+	}
+
+	#divForm form .inner-form .input-field input.placeholder {
+		color: #9a9a9a;
+		font-size: 20px;
+	}
+
+	#divForm form .inner-form .input-field input:-moz-placeholder {
+		color: #9a9a9a;
+		font-size: 20px;
+	}
+
+	#divForm form .inner-form .input-field input::-webkit-input-placeholder {
+		color: #9a9a9a;
+		font-size: 20px;
+	}
+
+	#divForm form .inner-form .input-field input:hover, #divForm form .inner-form .input-field input:focus {
+		box-shadow: none;
+		outline: 0;
+	}
+
+	#divForm form .inner-form .input-field.first-wrap {
+		-ms-flex-positive: 1;
+		flex-grow: 1;
+	}
+
+	#divForm form .inner-form .input-field.second-wrap {
+		width: 32.77%;
+		min-width: 180px;
+	}
+
+	#divForm form .inner-form .input-field.third-wrap {
+		width: 180px;
+		margin-right: 0;
+	}
+
+	#divForm form .inner-form .input-field.third-wrap .btn-search {
+		height: 100%;
+		width: 100%;
+		background: #1ABC9C;
+		white-space: nowrap;
+		border-radius: .5px;
+		font-size: 20px;
+		color: #fff;
+		transition: all .2s ease-out, color .2s ease-out;
+		border: 0;
+		cursor: pointer;
+	}
+
+	#divForm form .inner-form .input-field.third-wrap .btn-search:hover {
+		background: #14947b;
+	}
+
+	@media screen and (max-width: 992px) {
+		#divForm form legend {
+			font-size: 50px;
+			text-align: center;
+			margin-bottom: 50px;
+		}
+		#divForm form .inner-form {
+			padding: 30px 35px;
+		}
+		#divForm form .inner-form .input-field {
+			height: 50px;
+		}
+	}
+
+	@media screen and (max-width: 767px) {
+		#divForm form legend {
+			font-size: 40px;
+			margin-bottom: 40px;
+		}
+		#divForm form .inner-form {
+			-ms-flex-wrap: wrap;
+			flex-wrap: wrap;
+			padding: 20px;
+		}
+		#divForm form .inner-form .input-field {
+			margin-right: 0;
+		}
+		#divForm form .inner-form .input-field input {
+			padding: 5px 15px;
+			font-size: 16px;
+		}
+		#divForm form .inner-form .input-field.first-wrap {
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		#divForm form .inner-form .input-field.second-wrap {
+			width: calc(50% - 10px);
+			min-width: auto;
+		}
+		#divForm form .inner-form .input-field.third-wrap {
+			width: calc(50% - 10px);
+		}
+		#divForm form .inner-form .input-field.third-wrap .btn-search {
+			font-size: 16px;
+		}
+	}
+
+
+	form
 		{
 		}
 		
