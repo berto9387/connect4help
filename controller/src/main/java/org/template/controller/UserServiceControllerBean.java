@@ -4,6 +4,7 @@ import org.template.interfaces.IUserServiceController;
 import org.template.model.*;
 
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -16,13 +17,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-@Stateful(name = "UserServiceEJB")
+@Stateless(name = "UserServiceEJB")
 public class UserServiceControllerBean implements IUserServiceController {
 
-    private Collection<Service> services;
 
     public UserServiceControllerBean() {
-        this.services=new ArrayList<>();
+
     }
 
     @PersistenceContext(unitName = "MainPersistenceUnit")
@@ -31,9 +31,7 @@ public class UserServiceControllerBean implements IUserServiceController {
 
     @Override
     public Collection<Service> getUserServices(int id, String role) {
-        if(services.size()!=0){
-            return services;
-        }
+
         Query q=null;
         if(role.contains("P")){
             q = this.em.createQuery(
@@ -44,8 +42,7 @@ public class UserServiceControllerBean implements IUserServiceController {
         }
         q.setParameter("id", id);
         try {
-            this.services = (Collection<Service>) q.getResultList();
-            return this.services;
+            return (Collection<Service>) q.getResultList();
         } catch (NoResultException exc){
             return null;
         }
@@ -66,12 +63,11 @@ public class UserServiceControllerBean implements IUserServiceController {
         ser.setStartSlot(convertToTimestamp(startSlot));
         ser.setEndSlot(convertToTimestamp(endSlot));
         ser.setExpirationDate(convertToTimestamp(expirationDate));
-        this.services.add(ser);
+
         try {
             em.merge(ser);
             return true;
         } catch (Exception e){
-            this.services.remove(ser);
             return false;
         }
 
@@ -79,40 +75,18 @@ public class UserServiceControllerBean implements IUserServiceController {
     }
 
     @Override
-    public Service getUserService(Integer id, Integer idService, String role) {
+    public Service getUserService(Integer idService) {
+        Service service = this.em.find(Service.class, idService);
 
-        if(services.size()!=0){
-            Optional<Service> matching=services.stream()
-                    .filter(s -> s.getIdService() == idService)
-                    .findFirst();
-            if (matching.isPresent())
-                return matching.get();
-            return null;
-        }
-        this.getUserServices(id,role);
-        return this.getUserService(id,idService, role);
+        return service;
 
     }
 
     @Override
-    public Boolean deleteUserService(Integer id, Integer idService, String role) {
-        if(this.services.size()!=0){
-            Optional<Service> matching=this.services.stream()
-                    .filter(s -> s.getIdService() == idService)
-                    .findFirst();
-            if (matching.isPresent()) {
-                Service s = matching.get();
-                if(s.getRequestUser().getIdUser()==id){
-                    em.remove(em.getReference(Service.class, idService));
-                    services.remove(s);
-                    return true;
-                }
-            }
-            return false;
-        }
-        this.getUserServices(id,role);
-        return this.deleteUserService(id,idService, role);
+    public void deleteUserService(Integer idService) {
+        em.remove(em.getReference(Service.class, idService));
     }
+    
 
     private Timestamp convertToTimestamp(String localDate){
         Timestamp time = null;

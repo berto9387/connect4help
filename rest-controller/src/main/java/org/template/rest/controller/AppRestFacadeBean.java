@@ -20,6 +20,7 @@ public class AppRestFacadeBean {
     @EJB(name = "ServiceControllerRestEJB")
     ServiceControllerRestBean service;
 
+
     @Path("users")
     public UserControllerRestBean getUserControllerRestBean() {
         return this.user;

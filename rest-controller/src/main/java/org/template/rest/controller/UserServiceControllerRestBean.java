@@ -9,6 +9,7 @@ import org.template.rest.model.ServiceRequest;
 import org.template.rest.model.ServiceResponse;
 import org.template.rest.util.DecodeToken;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.naming.InitialContext;
@@ -31,7 +32,9 @@ public class UserServiceControllerRestBean {
     @Context
     private UriInfo uriInfo;
 
-    private static final String RECORDER_JNDI = "java:global/app-ear-1.0-SNAPSHOT/controller-1.0-SNAPSHOT/UserServiceEJB";
+    @EJB
+    private IUserServiceController serviceController;
+
 
     public UserServiceControllerRestBean() {
     }
@@ -54,10 +57,8 @@ public class UserServiceControllerRestBean {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        HttpSession session = requestContext.getSession();
-        IUserServiceController serviceController = lookupServices(session);
         List<ServiceResponse> serviceResponses =new ArrayList<>();
-        List<Service> services= new ArrayList<>(serviceController
+        List<Service> services= new ArrayList<>(this.serviceController
                 .getUserServices(id, dT.getRole()));
 
         for (Service s : services){
@@ -74,10 +75,9 @@ public class UserServiceControllerRestBean {
                                       ServiceRequest s,
                                       @PathParam("id") Integer i){
 
-        HttpSession session = requestContext.getSession();
-        IUserServiceController serviceController = lookupServices(session);
 
-        Boolean er=serviceController.createService(s.getAddress(),s.getDetails(),i,s.getCategory(),s.getStartSlot(),
+
+        Boolean er=this.serviceController.createService(s.getAddress(),s.getDetails(),i,s.getCategory(),s.getStartSlot(),
                 s.getEndSlot(),s.getExpirationDate());
         ServerResponse sr = new ServerResponse();
         sr.setResult(er);
@@ -102,9 +102,8 @@ public class UserServiceControllerRestBean {
         if(!idUser.equals(dT.getId())){
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        HttpSession session = requestContext.getSession();
-        IUserServiceController serviceController = lookupServices(session);
-        Service s=serviceController.getUserService(dT.getId(),idService, dT.getRole());
+
+        Service s=this.serviceController.getUserService(idService);
 
         if(s!=null)
             return Response.ok(create_service_response(s)).build();
@@ -128,12 +127,8 @@ public class UserServiceControllerRestBean {
         if(!idUser.equals(dT.getId())){
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        HttpSession session = requestContext.getSession();
-        IUserServiceController serviceController = lookupServices(session);
-        Boolean er=serviceController.deleteUserService(dT.getId(),idService, dT.getRole());
-        ServerResponse sr = new ServerResponse();
-        sr.setResult(er);
-        return Response.ok(sr).build();
+        serviceController.deleteUserService(idService);
+        return Response.ok().build();
     }
     //Modifica uno specifico servizio creato da uno specifico utente
     @PUT
@@ -150,26 +145,7 @@ public class UserServiceControllerRestBean {
     ////////////////////////////
     ////PRIVATE METHOD
     ///////////////////////////
-    // method to get the stateful bean ref from session, or lookup it
-    private IUserServiceController lookupServices(HttpSession session) {
 
-        IUserServiceController rRef;
-        rRef = (IUserServiceController) session.getAttribute("cachedRecorderRef");
-        if (rRef == null) {
-
-            try {
-                javax.naming.Context c = new InitialContext();
-                rRef = (IUserServiceController) c.lookup(RECORDER_JNDI);
-
-            } catch (NamingException ne) {
-                java.util.logging.Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-                throw new RuntimeException(ne);
-            }
-
-            session.setAttribute("cachedRecorderRef", rRef);
-        }
-        return rRef;
-    }
 
     private ServiceResponse create_service_response(Service s) {
         int performer=0;

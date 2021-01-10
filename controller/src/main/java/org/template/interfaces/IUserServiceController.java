@@ -9,7 +9,7 @@ public interface IUserServiceController {
 
     Boolean createService(String address, String details, int requestUser, String category, String startSlot, String endSlot, String expirationDate);
 
-    Service getUserService(Integer id, Integer idService, String role);
+    Service getUserService(Integer idService);
 
-    Boolean deleteUserService(Integer id, Integer idService, String role);
+    void deleteUserService(Integer idService);
 }

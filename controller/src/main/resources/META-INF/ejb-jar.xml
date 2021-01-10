@@ -18,7 +18,7 @@
         <session>
             <ejb-name>UserServiceEJB</ejb-name>
             <ejb-class>org.template.controller.UserServiceControllerBean</ejb-class>
-            <session-type>Stateful</session-type>
+            <session-type>Stateless</session-type>
             <transaction-type>Container</transaction-type>
         </session>
         <session>
