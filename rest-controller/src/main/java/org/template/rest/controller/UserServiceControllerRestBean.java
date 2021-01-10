@@ -167,6 +167,8 @@ public class UserServiceControllerRestBean {
         if(dT.getRole().equals("R"))
             sr.setPerformerUser(performer);
         sr.setRequestUser(s.getRequestUser().getIdUser());
+        sr.setLatitude(s.getLatitude());
+        sr.setLongitude(s.getLongitude());
         return sr;
     }
 }
