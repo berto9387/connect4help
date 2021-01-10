@@ -11,5 +11,5 @@ public interface IUserServiceController {
 
     Service getUserService(Integer idService);
 
-    void deleteUserService(Integer idService);
+    void deleteUserService(Integer idService, String role);
 }
