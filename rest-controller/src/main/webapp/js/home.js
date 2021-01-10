@@ -7,6 +7,8 @@ function createHome(){
     }
 }
 
+//------------------------ PERFOMER ------------------------------ //
+
 function homePerformer(){
     var text = document.createTextNode("Servizi nella tua zona")
     document.getElementById('home').appendChild(text)
@@ -16,14 +18,6 @@ function homePerformer(){
     //inserimento search bar
     createFormSearchBar()
 
-}
-
-function homeRequester(){
-    var text = document.createTextNode("Stato dei tuoi servizi")
-    var text2 = document.createTextNode("Richiedi un servizio")
-
-    document.getElementById('home').appendChild(text)
-    document.getElementById('home2').appendChild(text2)
 }
 
 function createFormSearchBar(){
@@ -98,6 +92,21 @@ function createFormSearchBar(){
     divSearch.appendChild(formSearch)
 
 }
+
+
+//------------------------ REQUESTER ------------------------------ //
+
+function homeRequester(){
+    var text = document.createTextNode("Stato dei tuoi servizi")
+    var text2 = document.createTextNode("Richiedi un servizio")
+
+    document.getElementById('home').appendChild(text)
+    document.getElementById('home').href = "HomeUnique.html"
+    document.getElementById('home2').appendChild(text2)
+    document.getElementById('home2').href = "RequestService.html"
+}
+
+
 /**
 <form id="findServices" method="get">
     <div class="inner-form">

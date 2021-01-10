@@ -464,7 +464,7 @@
 	{
 		overflow: hidden;
 		padding: 2em 0em;
-		background: url(images/bg01.jpg) repeat-x center top;
+		/**background: url(../img/images.jpeg) repeat-x center top;**/
 	}
 
 	#header
@@ -527,6 +527,10 @@
 	#menu li
 	{
 		display: inline-block;
+	}
+
+	.current_page_item{
+		border: solid 1px #149179;
 	}
 	
 	#menu li a, #menu li span
