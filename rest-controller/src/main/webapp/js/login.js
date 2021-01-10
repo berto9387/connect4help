@@ -49,6 +49,7 @@ function setUserInformation(token, json, status){
             window.location.href = 'html/searchPerformer.html';
         else{
             //pagina del requester
+            window.location.href = 'html/TemplateHome.html';
         }
 
     }
