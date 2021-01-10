@@ -46,10 +46,10 @@ function setUserInformation(token, json, status){
         localStorage.setItem("address", json.address.toString());
         localStorage.setItem("role", json.role.toString());
         if(json.role.toString() ==="P")
-            window.location.href = 'html/searchPerformer.html';
+            window.location.href = 'html/HomeUnique.html';
         else{
             //pagina del requester
-            window.location.href = 'html/TemplateHome.html';
+            window.location.href = 'html/HomeUnique.html';
         }
 
     }
