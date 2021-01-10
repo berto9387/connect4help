@@ -10,13 +10,16 @@ function createHome(){
 //------------------------ PERFOMER ------------------------------ //
 
 function homePerformer(){
-    var text = document.createTextNode("Servizi nella tua zona")
+    var text = document.createTextNode("Services in your area")
     document.getElementById('home').appendChild(text)
 
-    var text2 = document.createTextNode("Servizi accettati")
+    var text2 = document.createTextNode("My Services")
     document.getElementById('home2').appendChild(text2)
+    document.getElementById('home2').href = "MyServices.html"
     //inserimento search bar
-    createFormSearchBar()
+    if(window.location.href.indexOf("HomeUnique.html") != -1)
+        createFormSearchBar()
+        //richiamo funzione di ricerca nelle zone vicine(findServices + findUserServices)
 
 }
 
