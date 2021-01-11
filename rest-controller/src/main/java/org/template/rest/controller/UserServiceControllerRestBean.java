@@ -12,6 +12,9 @@ import org.template.rest.util.DecodeToken;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,8 @@ import javax.ws.rs.core.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
 @Stateless(name = "UserServiceControllerRestEJB")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -112,7 +117,7 @@ public class UserServiceControllerRestBean {
 
     //Cancella uno specifico servizio creato da un utente
     @DELETE
-    @RequesterEndPoint
+    @JWTTokenNeeded
     @Path("/{idService}")
     public Response deleteUserService(@Context HttpServletRequest requestContext,
                                       @PathParam("id") Integer idUser,
@@ -127,7 +132,10 @@ public class UserServiceControllerRestBean {
         if(!idUser.equals(dT.getId())){
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        serviceController.deleteUserService(idService);
+        serviceController.deleteUserService(idService,dT.getRole());
+
+
+        // Return the token on the response
         return Response.ok().build();
     }
     //Modifica uno specifico servizio creato da uno specifico utente

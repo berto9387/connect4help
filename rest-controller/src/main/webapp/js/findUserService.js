@@ -1,4 +1,4 @@
-window.addEventListener("load", fs, false);
+//window.addEventListener("load", fs, false);
 
 function fs(){
 
@@ -20,19 +20,23 @@ function fs(){
         .then(result => createCards(result,localStorage.getItem("role")))
         .catch(error => console.log('error', error));
 
+    }
 
+    function createCards(result,role,search=false) {
 
-    function createCards(result,role) {
         for (var i=0; i<result.length;i++){
-            createCard(result[i],role);
+            createCard(result[i],role,search);
         }
 
     }
 
-    function createCard(resultElement,role) {
+
+
+    function createCard(resultElement,role,search) {
         var body = document.getElementById("container");
             var container = document.createElement("div");
             container.setAttribute("class","container_card");
+            container.setAttribute("id","container"+resultElement.idService);
                 var serviceBackground = document.createElement("div");
                 serviceBackground.setAttribute("class","serviceBackground");
                     var gradients = document.createElement("div");
@@ -46,13 +50,75 @@ function fs(){
                     c4h.setAttribute("class","c4h");
                     c4h.textContent="C4H";
                 serviceBackground.appendChild(c4h);
-                    var delete_card = document.createElement("a");
-                    delete_card.setAttribute("class","delete");
-                    delete_card.setAttribute("id",resultElement.idService)
+                    if(search==false) {
+                        var delete_card = document.createElement("a");
+                        delete_card.setAttribute("class", "delete");
+                        delete_card.setAttribute("id", resultElement.idService)
+                        var f = function (id) {
+                            return function () {
+                                var myHeaders = new Headers();
+                                //myHeaders.append("Content-Type", "application/json");
+                                myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token").toString());
+                                var requestOptions = {
+                                    method: 'DELETE',
+                                    headers: myHeaders,
+                                    redirect: 'follow'
+                                };
+                                var url = "http://localhost:8080/rest/api/users/" + localStorage.getItem("id") + "/services/" + id;
+
+
+                                fetch(url, requestOptions)
+                                    .then(response => response.json()) //Indirizzamentro alla pagina dei servizi
+                                    .then(result => removeContainer(id))
+                                    .catch(error => console.log('error', error));
+
+                                function removeContainer(id) {
+                                    window.alert("Service " + id + " delete");
+                                    var el = document.getElementById("container" + id);
+                                    el.remove();
+                                }
+                            };
+                        }(resultElement.idService);
+                        delete_card.addEventListener("click", f);
                         var delete_img = document.createElement("i");
-                        delete_img.setAttribute("class","fas fa-trash-alt");
-                    delete_card.appendChild(delete_img);
-                serviceBackground.appendChild(delete_card);
+                        delete_img.setAttribute("class", "fas fa-trash-alt");
+                        delete_card.appendChild(delete_img);
+                        serviceBackground.appendChild(delete_card);
+                    }else{
+                        var accepted_card = document.createElement("a");
+                        accepted_card.setAttribute("class", "accepted");
+                        accepted_card.setAttribute("id", resultElement.idService);
+                        var f = function (id) {
+                            return function () {
+                                var myHeaders = new Headers();
+                                //myHeaders.append("Content-Type", "application/json");
+                                myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token").toString());
+                                var requestOptions = {
+                                    method: 'PUT',
+                                    headers: myHeaders,
+                                    redirect: 'follow'
+                                };
+                                var url = "http://localhost:8080/rest/api/services/" + id +"/users/" + localStorage.getItem("id");
+
+                                //TODO controllare status
+                                fetch(url, requestOptions)
+                                    .then(response => response.status) //Indirizzamentro alla pagina dei servizi
+                                    .then(result => removeContainer(id))
+                                    .catch(error => console.log('error', error));
+
+                                function removeContainer(id) {
+                                    window.alert("Service " + id + " delete");
+                                    var el = document.getElementById("container" + id);
+                                    el.remove();
+                                }
+                            };
+                        }(resultElement.idService);
+                        delete_card.addEventListener("click", f);
+                        var delete_img = document.createElement("i");
+                        delete_img.setAttribute("class", "fas fa-trash-alt");
+                        delete_card.appendChild(delete_img);
+                        serviceBackground.appendChild(delete_card);
+                    }
                     var img = document.createElement("div");
                     img.setAttribute("class","shoe show");
                     img.setAttribute("color","blue");
@@ -86,7 +152,8 @@ function fs(){
                         var text = document.createElement("p");
                         text.setAttribute("class","text");
                         //TODO data e ora
-                        text.textContent=resultElement.details;
+                        text.textContent=returnDate(resultElement.startSlot)+" from "+returnHour(resultElement.startSlot)
+                        +" to "+returnHour(resultElement.endSlot);
                     description.appendChild(text);
                 info.appendChild(description);
 
@@ -134,7 +201,7 @@ function fs(){
                     description.appendChild(title);
                         var text = document.createElement("p");
                         text.setAttribute("class","text");
-                        text.textContent=resultElement.requestUser;
+                        text.setAttribute("id","countdown"+resultElement.idService);
                     description.appendChild(text);
                 info.appendChild(description);
 
@@ -144,8 +211,8 @@ function fs(){
 
 
         body.appendChild(container);
+        initCountdown(resultElement.expirationDate,"countdown"+resultElement.idService)
         initMap(parseInt(resultElement.latitude),parseInt(resultElement.longitude),"map"+resultElement.idService);
-    }
     function initMap(lat,long,where_put) {
         console.log(lat)
         const myLatLng = { lat: lat, lng: long };
@@ -160,6 +227,53 @@ function fs(){
         });
     }
 
+    function returnDate(date){
+        var t = date.replace('T', ' ').replace('Z[UTC]', ' ').split(/[- :]/);
+        // Apply each element to the Date function
+        var date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+
+        return date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+    }
+
+    function returnHour(date){
+        var t = date.replace('T', ' ').replace('Z[UTC]', ' ').split(/[- :]/);
+        // Apply each element to the Date function
+        var date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+
+        return date.getHours()+":"+date.getMinutes();
+    }
+
+    function initCountdown(date,where_put) {
+        var t = date.replace('T', ' ').replace('Z[UTC]', ' ').split(/[- :]/);
+        // Apply each element to the Date function
+        var countDownDate = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById(where_put).textContent = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById(where_put).textContent = "EXPIRED";
+            }
+        }, 1000);
+    }
 
 }
 
