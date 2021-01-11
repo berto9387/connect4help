@@ -68,7 +68,7 @@ function fs(){
 
 
                                 fetch(url, requestOptions)
-                                    .then(response => response.json()) //Indirizzamentro alla pagina dei servizi
+                                    .then(response => response) //Indirizzamentro alla pagina dei servizi
                                     .then(result => removeContainer(id))
                                     .catch(error => console.log('error', error));
 
