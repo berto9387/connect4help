@@ -1,4 +1,4 @@
-window.addEventListener("load", fs, false);
+//window.addEventListener("load", fs, false);
 
 function fs(){
 
@@ -23,7 +23,7 @@ function fs(){
 
 
     function createCards(result,role) {
-        console.log(result)
+
         for (var i=0; i<result.length;i++){
             createCard(result[i],role);
         }

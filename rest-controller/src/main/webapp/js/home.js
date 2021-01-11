@@ -17,8 +17,14 @@ function homePerformer(){
     document.getElementById('home2').appendChild(text2)
     document.getElementById('home2').href = "MyServices.html"
     //inserimento search bar
-    if(window.location.href.indexOf("HomeUnique.html") != -1)
+    if(window.location.href.indexOf("HomeUnique.html") != -1) {
         createFormSearchBar()
+        //richiamo funzione che mi carica i servizi nelle vicinanze
+        findServices()
+    }
+    else if(window.location.href.indexOf("MyServices") != -1){
+        fs()
+    }
         //richiamo funzione di ricerca nelle zone vicine(findServices + findUserServices)
 
 }
@@ -94,6 +100,8 @@ function createFormSearchBar(){
     formSearch.appendChild(divInnerForm)
     divSearch.appendChild(formSearch)
 
+    loadAddress();
+
 }
 
 
@@ -107,6 +115,9 @@ function homeRequester(){
     document.getElementById('home').href = "HomeUnique.html"
     document.getElementById('home2').appendChild(text2)
     document.getElementById('home2').href = "RequestService.html"
+
+    if(window.location.href.indexOf("HomeUnique") != -1)
+        fs()
 }
 
 
