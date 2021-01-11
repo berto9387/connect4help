@@ -84,11 +84,12 @@ public class UserServiceControllerBean implements IUserServiceController {
         if(role.equals("R"))
             em.remove(em.getReference(Service.class, idService));
         else if(role.equals("P")){
-            PerformUser u = null;
             Query q = this.em.createQuery(
                     "update Service  set performerUser=:user where performerUser is not null and idService = :id");
-            q.setParameter("user",u);
+            q.setParameter("user", null);
             q.setParameter("id",idService);
+            int quan=q.executeUpdate();
+            int aux=quan;
         }
     }
     

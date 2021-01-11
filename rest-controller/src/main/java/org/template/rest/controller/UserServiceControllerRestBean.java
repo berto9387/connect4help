@@ -117,7 +117,7 @@ public class UserServiceControllerRestBean {
 
     //Cancella uno specifico servizio creato da un utente
     @DELETE
-    @RequesterEndPoint
+    @JWTTokenNeeded
     @Path("/{idService}")
     public Response deleteUserService(@Context HttpServletRequest requestContext,
                                       @PathParam("id") Integer idUser,
@@ -133,12 +133,10 @@ public class UserServiceControllerRestBean {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         serviceController.deleteUserService(idService,dT.getRole());
-        JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add("services",idService);
-        JsonObject jsonObj = jsonObjBuilder.build();
+
 
         // Return the token on the response
-        return Response.ok().entity(jsonObj.toString() ).build();
+        return Response.ok().build();
     }
     //Modifica uno specifico servizio creato da uno specifico utente
     @PUT
