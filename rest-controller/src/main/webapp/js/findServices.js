@@ -28,7 +28,7 @@ function fs(){
 }
 
 function loadAddress() {
-    if(localStorage.getItem('address').toString() !== ""){
+    if(localStorage.getItem('role').toString() === "P" ){
         //console.log(localStorage.getItem('address'))
         document.getElementById("search").value = localStorage.getItem("address").toString();
     }
