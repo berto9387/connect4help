@@ -1,3 +1,16 @@
+
+
+function clickFindServices(){
+    var cointeinerCard = document.getElementById("container");
+    var cards = document.getElementsByClassName("container_card");
+    var lunghezza = cards.length;
+    for (var i = 0; i < lunghezza; i++){
+        cointeinerCard.removeChild(cards[i])
+    }
+
+    findServices();
+}
+
 function findServices(){
 
     //**********************************************SISTEMARE CODICE*****************************************************************************
@@ -22,7 +35,7 @@ function findServices(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/rest/api/services?address=via francesco rismondo 36 pisa&radius="+20000, requestOptions)
+    fetch("http://localhost:8080/rest/api/services?address=Via Vittorio Veneto, pisa&radius="+200000, requestOptions)
         .then(response => response.json()
             .then(jsonBody => ({
                 status: response.status,

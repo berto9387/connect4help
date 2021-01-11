@@ -91,6 +91,7 @@ function createFormSearchBar(){
             var textSubmit = document.createTextNode("Search")
             buttonSubmit.appendChild(textSubmit)
 
+            buttonSubmit.addEventListener("click", clickFindServices)
             divSubmit.appendChild(buttonSubmit)
 
     divInnerForm.appendChild(divInputField)
