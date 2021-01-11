@@ -15,14 +15,14 @@ function findServices(){
     var myHeaders = new Headers();
 
     //myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authentication", "Bearer "+localStorage.getItem("token"));
+    myHeaders.append("Authorization", "Bearer "+localStorage.getItem("token"));
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/rest/api/services?address="+obj2.address+"&radius="+2000, requestOptions)
+    fetch("http://localhost:8080/rest/api/services?address="+obj2.address+"&radius="+20000, requestOptions)
         .then(response => response.json()
             .then(jsonBody => ({
                 status: response.status,

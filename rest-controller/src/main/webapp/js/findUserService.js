@@ -20,19 +20,19 @@ function fs(){
         .then(result => createCards(result,localStorage.getItem("role")))
         .catch(error => console.log('error', error));
 
+    }
 
-
-    function createCards(result,role) {
+    function createCards(result,role,search=false) {
 
         for (var i=0; i<result.length;i++){
-            createCard(result[i],role);
+            createCard(result[i],role,search);
         }
 
     }
 
 
 
-    function createCard(resultElement,role) {
+    function createCard(resultElement,role,search) {
         var body = document.getElementById("container");
             var container = document.createElement("div");
             container.setAttribute("class","container_card");
@@ -50,40 +50,75 @@ function fs(){
                     c4h.setAttribute("class","c4h");
                     c4h.textContent="C4H";
                 serviceBackground.appendChild(c4h);
-                    var delete_card = document.createElement("a");
-                    delete_card.setAttribute("class","delete");
-                    delete_card.setAttribute("id",resultElement.idService)
-                    var f = function (id) {
-                        return function (){
-                            var myHeaders = new Headers();
-                            //myHeaders.append("Content-Type", "application/json");
-                            myHeaders.append("Authorization", "Bearer "+localStorage.getItem("token").toString());
-                            var requestOptions = {
-                                method: 'DELETE',
-                                headers: myHeaders,
-                                redirect: 'follow'
+                    if(search==false) {
+                        var delete_card = document.createElement("a");
+                        delete_card.setAttribute("class", "delete");
+                        delete_card.setAttribute("id", resultElement.idService)
+                        var f = function (id) {
+                            return function () {
+                                var myHeaders = new Headers();
+                                //myHeaders.append("Content-Type", "application/json");
+                                myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token").toString());
+                                var requestOptions = {
+                                    method: 'DELETE',
+                                    headers: myHeaders,
+                                    redirect: 'follow'
+                                };
+                                var url = "http://localhost:8080/rest/api/users/" + localStorage.getItem("id") + "/services/" + id;
+
+
+                                fetch(url, requestOptions)
+                                    .then(response => response.json()) //Indirizzamentro alla pagina dei servizi
+                                    .then(result => removeContainer(id))
+                                    .catch(error => console.log('error', error));
+
+                                function removeContainer(id) {
+                                    window.alert("Service " + id + " delete");
+                                    var el = document.getElementById("container" + id);
+                                    el.remove();
+                                }
                             };
-                            var url = "http://localhost:8080/rest/api/users/"+localStorage.getItem("id")+"/services/"+id;
-
-
-
-                            fetch(url, requestOptions)
-                                .then(response => response.json()) //Indirizzamentro alla pagina dei servizi
-                                .then(result => removeContainer(id))
-                                .catch(error => console.log('error', error));
-
-                            function removeContainer(id) {
-                                window.alert("Service "+id+" delete");
-                                var el = document.getElementById("container"+id);
-                                el.remove();
-                            }
-                        };
-                    }(resultElement.idService);
-                    delete_card.addEventListener("click",f);
+                        }(resultElement.idService);
+                        delete_card.addEventListener("click", f);
                         var delete_img = document.createElement("i");
-                        delete_img.setAttribute("class","fas fa-trash-alt");
-                    delete_card.appendChild(delete_img);
-                serviceBackground.appendChild(delete_card);
+                        delete_img.setAttribute("class", "fas fa-trash-alt");
+                        delete_card.appendChild(delete_img);
+                        serviceBackground.appendChild(delete_card);
+                    }else{
+                        var accepted_card = document.createElement("a");
+                        accepted_card.setAttribute("class", "accepted");
+                        accepted_card.setAttribute("id", resultElement.idService);
+                        var f = function (id) {
+                            return function () {
+                                var myHeaders = new Headers();
+                                //myHeaders.append("Content-Type", "application/json");
+                                myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token").toString());
+                                var requestOptions = {
+                                    method: 'PUT',
+                                    headers: myHeaders,
+                                    redirect: 'follow'
+                                };
+                                var url = "http://localhost:8080/rest/api/services/" + id +"/users/" + localStorage.getItem("id");
+
+                                //TODO controllare status
+                                fetch(url, requestOptions)
+                                    .then(response => response.status) //Indirizzamentro alla pagina dei servizi
+                                    .then(result => removeContainer(id))
+                                    .catch(error => console.log('error', error));
+
+                                function removeContainer(id) {
+                                    window.alert("Service " + id + " delete");
+                                    var el = document.getElementById("container" + id);
+                                    el.remove();
+                                }
+                            };
+                        }(resultElement.idService);
+                        delete_card.addEventListener("click", f);
+                        var delete_img = document.createElement("i");
+                        delete_img.setAttribute("class", "fas fa-trash-alt");
+                        delete_card.appendChild(delete_img);
+                        serviceBackground.appendChild(delete_card);
+                    }
                     var img = document.createElement("div");
                     img.setAttribute("class","shoe show");
                     img.setAttribute("color","blue");
@@ -178,7 +213,6 @@ function fs(){
         body.appendChild(container);
         initCountdown(resultElement.expirationDate,"countdown"+resultElement.idService)
         initMap(parseInt(resultElement.latitude),parseInt(resultElement.longitude),"map"+resultElement.idService);
-    }
     function initMap(lat,long,where_put) {
         console.log(lat)
         const myLatLng = { lat: lat, lng: long };
