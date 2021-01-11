@@ -22,7 +22,7 @@ function findServices(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/rest/api/services?address="+obj2.address+"&radius="+20000, requestOptions)
+    fetch("http://localhost:8080/rest/api/services?address=via francesco rismondo 36 pisa&radius="+20000, requestOptions)
         .then(response => response.json()
             .then(jsonBody => ({
                 status: response.status,
@@ -35,7 +35,7 @@ function findServices(){
 function setServiceInformation(json, status){
     if(status == 200 || status == 201){
         console.log(json)
-        createCards(json, localStorage.getItem("role"))
+        createCards(json, localStorage.getItem("role"),true)
     }
 }
 

@@ -86,7 +86,7 @@ function fs(){
                         serviceBackground.appendChild(delete_card);
                     }else{
                         var accepted_card = document.createElement("a");
-                        accepted_card.setAttribute("class", "accepted");
+                        accepted_card.setAttribute("class", "delete");
                         accepted_card.setAttribute("id", resultElement.idService);
                         var f = function (id) {
                             return function () {
@@ -107,17 +107,17 @@ function fs(){
                                     .catch(error => console.log('error', error));
 
                                 function removeContainer(id) {
-                                    window.alert("Service " + id + " delete");
+                                    window.alert("Service " + id + " added");
                                     var el = document.getElementById("container" + id);
                                     el.remove();
                                 }
                             };
                         }(resultElement.idService);
-                        delete_card.addEventListener("click", f);
-                        var delete_img = document.createElement("i");
-                        delete_img.setAttribute("class", "fas fa-trash-alt");
-                        delete_card.appendChild(delete_img);
-                        serviceBackground.appendChild(delete_card);
+                        accepted_card.addEventListener("click", f);
+                        var accepted_img = document.createElement("i");
+                        accepted_img.setAttribute("class", "far fa-check-circle");
+                        accepted_card.appendChild(accepted_img);
+                        serviceBackground.appendChild(accepted_card);
                     }
                     var img = document.createElement("div");
                     img.setAttribute("class","shoe show");
