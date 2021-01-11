@@ -248,7 +248,7 @@
 				width: 100%;
 				border-radius: 0.50em;
 				margin: 1em 0em;
-				padding: 1.50em 1em;
+				padding: 1em 1em;
 				box-shadow: inset 0 0.1em 0.1em 0 rgba(0,0,0,0.05);
 				border: solid 1px rgba(0,0,0,0.15);
 				-moz-transition: all 0.35s ease-in-out;
@@ -530,7 +530,7 @@
 	}
 
 	.current_page_item{
-		border: solid 1px #149179;
+		border: solid 0.2em #149179;
 	}
 	
 	#menu li a, #menu li span
@@ -593,6 +593,10 @@
 	
 	#wrapper4
 	{
+	}
+
+	#wrapper5 {
+		padding: 5em 0em 5em 0em;
 	}
 
 /*********************************************************************************/
@@ -881,5 +885,91 @@
 		text-align: center;
 		color: #FFFFFF;
 	}
-	
-	
+
+	/*********************************************************************************/
+	/* Form Add Request                                                                */
+	/*********************************************************************************/
+
+	.wrapper-add-request-form {
+		margin: auto;
+		width: 50%;
+		text-align: center;
+		background: white;
+		padding: 3%;
+		box-shadow: 5px 10px 1em;
+	}
+
+	.wrapper-add-request-form label{
+		font-family: 'Questrial', sans-serif;
+		font-size: 1.7em;
+		font-weight: bold;
+		margin: 0.5em 0em 0.2em 0em;
+		padding: 0;
+		color: #404040;
+		text-align: center;
+	}
+
+	.wrapper-add-request-form .input-error{
+		border-color: red;
+	}
+
+	.wrapper-add-request-form select, input[type="datetime-local"], input[type="text"]{
+		text-align: center;
+		text-align-last: center;
+		margin: auto;
+		width: 50%;
+		font-family: 'Questrial', sans-serif;
+		appearance: auto;
+		padding: 0.8em 0.8em;
+		border-radius: 0.50em;
+		box-shadow: inset 0 0.1em 0.1em 0 rgba(0,0,0,0.05);
+		border: solid 1px rgba(0,0,0,0.15);
+		-moz-transition: all 0.35s ease-in-out;
+		-webkit-transition: all 0.35s ease-in-out;
+		-o-transition: all 0.35s ease-in-out;
+		-ms-transition: all 0.35s ease-in-out;
+		transition: all 0.35s ease-in-out;
+		font-size: 1em;
+	}
+
+	.wrapper-add-request-form input[type="datetime-local"]{
+		width: 30%;
+	}
+
+	.add-request-input-field {
+		margin-bottom: 1.5em;
+	}
+
+	.add-request-input-field textarea{
+		resize: none;
+		width: 50%;
+		min-height: 8em;
+		margin: auto;
+	}
+
+	#buttons-container{
+		text-align: center;
+	}
+
+	#div-reset-form, #div-submit-form
+	{
+		margin: 0em 2em;
+		display: inline;
+	}
+
+	.fa-check-circle{
+		font-size: 2.3em;
+		color: forestgreen;
+	}
+
+	.fa-trash-alt{
+		font-size: 2.3em;
+		color: #de0101;
+	}
+
+	.wrapper-add-request-form input:invalid,
+	select:invalid,
+	textarea:invalid {
+		border-color: red;
+	}
+

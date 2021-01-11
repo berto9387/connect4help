@@ -104,6 +104,50 @@ function homeRequester(){
     document.getElementById('home').href = "HomeUnique.html"
     document.getElementById('home2').appendChild(text2)
     document.getElementById('home2').href = "RequestService.html"
+
+    setNavBarBorder();
+
+}
+
+function setNavBarBorder(){
+
+    if(window.location.href.indexOf("HomeUnique") === -1 ) { // Se NON siamo in HomeUnique.html togliamo la classe current_page_item
+
+        var homeUniqueBarButton = document.getElementById('home').parentElement
+        if (homeUniqueBarButton.classList.contains('current_page_item'))
+            homeUniqueBarButton.classList.remove('current_page_item')
+
+    } else {                                                  // Se siamo in HomeUnique.html aggiungiamo la classe current_page_item
+
+        homeUniqueBarButton = document.getElementById('home').parentElement
+        homeUniqueBarButton.classList.add('current_page_item')
+
+    }
+    if(window.location.href.indexOf("RequestService") === -1 ) {// Se NON siamo in ReqeustService.html togliamo la classe current_page_item
+
+        var requestServiceBarButton = document.getElementById('home2').parentElement
+        if (requestServiceBarButton.classList.contains('current_page_item'))
+            requestServiceBarButton.classList.remove('current_page_item')
+
+    } else {                                                        // Se siamo in ReqeustService.html aggiungiamo la classe current_page_item
+
+        requestServiceBarButton = document.getElementById('home2').parentElement
+        requestServiceBarButton.classList.add('current_page_item')
+
+    }
+
+    if(window.location.href.indexOf("RequestService") === -1 ) {// Se NON siamo in Chat.html togliamo la classe current_page_item
+
+        var requestServiceBarButton = document.getElementById('home3').parentElement
+        if (requestServiceBarButton.classList.contains('current_page_item'))
+            requestServiceBarButton.classList.remove('current_page_item')
+
+    } else {                                                        // Se siamo in Chat.html aggiungiamo la classe current_page_item
+
+        requestServiceBarButton = document.getElementById('home3').parentElement
+        requestServiceBarButton.classList.add('current_page_item')
+
+    }
 }
 
 
