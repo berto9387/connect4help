@@ -20,6 +20,9 @@ public class AppRestFacadeBean {
     @EJB(name = "ServiceControllerRestEJB")
     ServiceControllerRestBean service;
 
+    @EJB(name = "CategoryControllerRestEJB")
+    CategoryControllerRestBean category;
+
 
     @Path("users")
     public UserControllerRestBean getUserControllerRestBean() {
@@ -35,4 +38,7 @@ public class AppRestFacadeBean {
     public ServiceControllerRestBean getServiceControllerRestBean() {
         return this.service;
     }
+
+    @Path("categories")
+    public CategoryControllerRestBean getCategoryControllerRestBean(){return this.category;}
 }
