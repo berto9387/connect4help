@@ -21,6 +21,7 @@ public class AppRestApplication extends Application {
         classes.add(UserControllerRestBean.class);
         classes.add(UserServiceControllerRestBean.class);
         classes.add(ServiceControllerRestBean.class);
+        classes.add(CategoryControllerRestBean.class);
         return classes;
     }
 }
