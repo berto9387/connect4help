@@ -10,8 +10,56 @@ document.getElementById("submit-form")
         }
     );
 
-if(localStorage.getItem('address').toString() !== " "){ // Nel campo address di default ci va l'indirizzo dell'utente
-    document.getElementById("address").value = localStorage.getItem("address").toString();
+// Funzione chiamata dalla homeRequester() in home.js per caricare elementi dinamici della pagina
+function createBodyRequestService(){
+
+    // Settare in automatico il campo Address
+    if(localStorage.getItem('address').toString() !== " "){ // Nel campo address di default ci va l'indirizzo dell'utente
+        document.getElementById("address").value = localStorage.getItem("address").toString();
+    }
+
+    // Settare in automatico le scelte del menù a tendina Category
+    var myHeaders = new Headers();
+
+    //myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer "+localStorage.getItem("token"));
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/rest/api/categories/", requestOptions)
+        .then(response => response.json()
+            .then(jsonBody => ({
+                status: response.status,
+                jsonBody
+            })))
+        .then(result => setCategorySelectOptions(result.jsonBody, result.status))
+
+}
+
+function setCategorySelectOptions(jsonArray, status){
+
+    if(status == 200 || status == 201) {
+        console.log(jsonArray)
+
+        var select = document.getElementById("select-category")
+        for (i=0; i<jsonArray.length; i++){
+            console.log(jsonArray[i].categoryName)
+            var newOption = document.createElement("option")
+            newOption.setAttribute("value", jsonArray[i].categoryName)
+            var textNewOption = document.createTextNode(jsonArray[i].categoryName)
+
+            newOption.appendChild(textNewOption)
+
+            select.appendChild(newOption)
+        }
+
+
+    }
+
 }
 
 function resetForm(e){
@@ -21,7 +69,6 @@ function resetForm(e){
         document.getElementById("address").value = localStorage.getItem("address").toString();
     }
 }
-
 
 
 function submitForm(e){
@@ -236,6 +283,8 @@ function sendPostRequest(){
     for(var i = 0 ; i < (elements.length) ; i++){
         var item = elements.item(i);
         obj[item.name] = item.value;
+        if(item.name === "endSlot" || item.name === "startSlot" || item.name === "expirationDate" )
+            obj[item.name] = item.value.replace("T", " ") + ":00";
     }
 
     var raw= JSON.stringify(obj);

@@ -21,15 +21,18 @@
     <div id="header" class="container">
         <div id="logo">
             <h1><span class="icon icon-cog"></span>Connect4Help</h1>
-            <div id="divForm">
 
-            </div>
             <div id="menu">
                 <ul>
                     <li class="current_page_item"><a id='home' href="" accesskey="1" title=""></a></li>
                     <li><a id='home2' href="#" accesskey="2" title=""></a></li>
                     <li><a href="#" accesskey="3" title="">Chat</a></li>
+                    <li><a href="../indexLogin.html" onclick="logout()">Logout</a></li>
                 </ul>
+            </div>
+
+            <div id="divForm">
+
             </div>
         </div>
     </div>
@@ -37,7 +40,7 @@
 <div id="page-wrapper">
     <div id="page" class="container">
         <div class="title">
-            <h2>Request  a service</h2>
+            <h2>REQUEST A SERVICE</h2>
         </div>
         <p>Fill the form below to insert a request for a new service</p>
     </div>
@@ -49,9 +52,6 @@
                 <label for="select-category">Service Category</label>
                 <select name="category" id="select-category">
                     <option value="">--- Select Service Category ---</option>
-                    <option value="Compagnia">Compagnia</option>
-                    <option value="Corsa">Corsa</option>
-                    <option value="Spesa">Spesa</option>
                 </select>
             </div>
 
@@ -83,7 +83,9 @@
             <div class="add-request-input-field" id="buttons-container">
 
                 <div class="add-request-input-field" id="div-reset-form">
-                    <a href="#" id="reset-form"><i class="fas fa-trash-alt" ></i></a>
+                    <a href="#" id="reset-form">
+                        <i class="fas fa-trash-alt" area-hidden="true" id="service-form-reset"></i>
+                    </a>
                 </div>
 
                 <div class="add-request-input-field" id="div-submit-form">

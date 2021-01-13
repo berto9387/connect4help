@@ -21,9 +21,17 @@ function homePerformer(){
         createFormSearchBar()
         //richiamo funzione che mi carica i servizi nelle vicinanze
         findServices()
+        document.getElementById("home").parentElement.classList.add("current_page_item")
+    } else{
+        if(document.getElementById("home").parentElement.classList.contains("current_page_item"))
+            document.getElementById("home").parentElement.classList.remove("current_page_item")
     }
-    else if(window.location.href.indexOf("MyServices") != -1){
+    if(window.location.href.indexOf("MyServices") != -1){
         fs()
+        document.getElementById("home2").parentElement.classList.add("current_page_item")
+    } else{
+        if(document.getElementById("home2").parentElement.classList.contains("current_page_item"))
+            document.getElementById("home2").parentElement.classList.remove("current_page_item")
     }
         //richiamo funzione di ricerca nelle zone vicine(findServices + findUserServices)
 
@@ -117,8 +125,20 @@ function homeRequester(){
     document.getElementById('home2').appendChild(text2)
     document.getElementById('home2').href = "RequestService.html"
 
-    if(window.location.href.indexOf("HomeUnique") != -1)
+    if(window.location.href.indexOf("HomeUnique") != -1) {
         fs()
+        document.getElementById("home").parentElement.classList.add("current_page_item")
+    } else{
+        if(document.getElementById("home").parentElement.classList.contains("current_page_item"))
+            document.getElementById("home").parentElement.classList.remove("current_page_item")
+    }
+    if(window.location.href.indexOf("RequestService") != -1) {
+        createBodyRequestService()
+        document.getElementById("home2").parentElement.classList.add("current_page_item")
+    } else{
+        if(document.getElementById("home2").parentElement.classList.contains("current_page_item"))
+            document.getElementById("home2").parentElement.classList.remove("current_page_item")
+    }
 }
 
 

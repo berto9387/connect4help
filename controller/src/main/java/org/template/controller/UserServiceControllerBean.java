@@ -2,6 +2,7 @@ package org.template.controller;
 
 import org.template.interfaces.IUserServiceController;
 import org.template.model.*;
+import org.template.util.OpenStreetMapUtils;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 @Stateless(name = "UserServiceEJB")
 public class UserServiceControllerBean implements IUserServiceController {
@@ -53,6 +55,9 @@ public class UserServiceControllerBean implements IUserServiceController {
         RequestUser ru = new RequestUser();
         ru.setIdUser(requestUser);
         Service ser = new Service();
+        Map<String, Double> coords = OpenStreetMapUtils.getInstance().getCoordinates(address);
+        ser.setLatitude(coords.get("lat"));
+        ser.setLongitude(coords.get("lon"));
         ser.setAddress(address);
         ser.setDetails(details);
         ser.setCategory(c);

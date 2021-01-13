@@ -1,5 +1,6 @@
 package org.template.rest.controller;
 
+import org.template.controller.UserServiceControllerBean;
 import org.template.interfaces.IUserServiceController;
 import org.template.model.Service;
 import org.template.rest.filter.JWTTokenNeeded;
