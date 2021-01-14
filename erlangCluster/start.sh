@@ -2,4 +2,4 @@
 
 cd /vagrant
 
-cp ./fallover.zip  /home/vagrant
+cp ./erlang-chat-server-master.zip  /home/vagrant
