@@ -34,8 +34,8 @@ function findServices(){
         headers: myHeaders,
         redirect: 'follow'
     };
-
-    fetch("http://localhost:8080/rest/api/services?address=Via Vittorio Veneto, pisa&radius="+200000, requestOptions)
+    //*******Per visializzare dati ----> Inserire un raggio più ampio!*************************
+    fetch("http://localhost:8080/rest/api/services?address="+obj2.address+"&radius="+obj2.radius, requestOptions)
         .then(response => response.json()
             .then(jsonBody => ({
                 status: response.status,

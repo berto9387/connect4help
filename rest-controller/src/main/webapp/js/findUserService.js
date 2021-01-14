@@ -212,19 +212,36 @@ function fs(){
 
         body.appendChild(container);
         initCountdown(resultElement.expirationDate,"countdown"+resultElement.idService)
-        initMap(parseInt(resultElement.latitude),parseInt(resultElement.longitude),"map"+resultElement.idService);
-    function initMap(lat,long,where_put) {
-        console.log(lat)
-        const myLatLng = { lat: lat, lng: long };
-        const map = new google.maps.Map(document.getElementById(where_put), {
-            zoom: 4,
-            center: myLatLng,
-        });
-        new google.maps.Marker({
-            position: myLatLng,
-            map,
-            title: "Hello World!",
-        });
+        initMap(parseFloat(resultElement.latitude),parseFloat(resultElement.longitude),"map"+resultElement.idService);
+
+        function initMap(lat,lon,where_put) {
+            console.log(lat)
+            console.log(lon)
+            /*const myLatLng = { lat: lat, lng: long };
+            const map = new google.maps.Map(document.getElementById(where_put), {
+                zoom: 4,
+                center: myLatLng,
+            });
+            new google.maps.Marker({
+                position: myLatLng,
+                map,
+                title: "Hello World!",
+            });*/
+            var zoom           = 18;
+
+            var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+            var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+            var position       = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);
+
+            map = new OpenLayers.Map(where_put);
+            var mapnik         = new OpenLayers.Layer.OSM();
+            map.addLayer(mapnik);
+
+            var markers = new OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);
+            markers.addMarker(new OpenLayers.Marker(position));
+
+            map.setCenter(position, zoom);
     }
 
     function returnDate(date){

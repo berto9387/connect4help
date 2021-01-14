@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -145,6 +146,7 @@ public class Service implements Serializable {
     }
 
     public void setInsertionDate(Timestamp insertionDate) {
+        insertionDate = new Timestamp((new Date()).getTime());
         this.insertionDate = insertionDate;
     }
 

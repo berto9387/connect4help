@@ -10,6 +10,8 @@ public class ServiceRequest {
     private String expirationDate;
     //possibile inserimento foto
 
+    public ServiceRequest(){}
+
 
     public ServiceRequest(String address, String details, String category, String startSlot, String endSlot,
                           String expirationDate) {

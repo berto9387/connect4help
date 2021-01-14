@@ -36,7 +36,7 @@ public class CategoryControllerRestBean {
     @GET
     @RequesterEndPoint
     @Path("/")
-    public Response findServices() {
+    public Response findCategories() {
 
         List<CategoryResponse> categoryResponses =new ArrayList<>();
         List<Category> categories= new ArrayList<>(this.categoryController

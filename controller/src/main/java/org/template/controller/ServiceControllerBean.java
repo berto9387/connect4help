@@ -8,7 +8,9 @@ import org.template.util.OpenStreetMapUtils;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -44,10 +46,12 @@ public class ServiceControllerBean implements IServiceController {
     public Boolean acceptService(Integer idService, Integer idUser) {
         PerformUser u = new PerformUser();
         u.setIdUser(idUser);
+        Timestamp acceptanceDate = new Timestamp((new Date()).getTime());
         Query q = this.em.createQuery(
-                "update Service  set performerUser=:user where performerUser is null and idService = :id");
+                "update Service  set performerUser=:user, acceptanceDate=:date where performerUser is null and idService = :id");
         q.setParameter("user",u);
         q.setParameter("id",idService);
+        q.setParameter("date", acceptanceDate);
         int updateCount = q.executeUpdate();
         return updateCount>0;
     }
