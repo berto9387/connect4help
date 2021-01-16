@@ -6,6 +6,10 @@ import java.sql.Timestamp;
 
 public class ServiceResponse {
     private int idService;
+    private String nameRequester;
+    private String namePerformer;
+    private String surnameRequester;
+    private String surnamePerformer;
     private String address;
     private String details;
     private int requestUser;
@@ -23,6 +27,38 @@ public class ServiceResponse {
     //possibile inserimento foto
 
     public ServiceResponse() {
+    }
+
+    public String getNameRequester() {
+        return nameRequester;
+    }
+
+    public void setNameRequester(String nameRequester) {
+        this.nameRequester = nameRequester;
+    }
+
+    public String getNamePerformer() {
+        return namePerformer;
+    }
+
+    public void setNamePerformer(String namePerformer) {
+        this.namePerformer = namePerformer;
+    }
+
+    public String getSurnameRequester() {
+        return surnameRequester;
+    }
+
+    public void setSurnameRequester(String surnameRequester) {
+        this.surnameRequester = surnameRequester;
+    }
+
+    public String getSurnamePerformer() {
+        return surnamePerformer;
+    }
+
+    public void setSurnamePerformer(String surnamePerformer) {
+        this.surnamePerformer = surnamePerformer;
     }
 
     public int getIdService() {

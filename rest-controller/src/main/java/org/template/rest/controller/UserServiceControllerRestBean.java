@@ -163,6 +163,8 @@ public class UserServiceControllerRestBean {
         ServiceResponse sr = new ServiceResponse();
 
         sr.setIdService(s.getIdService());
+        sr.setNameRequester(s.getRequestUser().getName());
+        sr.setSurnameRequester(s.getRequestUser().getSurname());
         sr.setAddress(s.getAddress());
         sr.setDetails(s.getDetails());
         sr.setCategory(s.getCategory().getName());
@@ -173,8 +175,11 @@ public class UserServiceControllerRestBean {
         sr.setExpirationDate(s.getExpirationDate());
         sr.setInsertionDate(s.getInsertionDate());
         sr.setAcceptanceDate(s.getAcceptanceDate());
-        if(dT.getRole().equals("R"))
+        if(dT.getRole().equals("R")) {
             sr.setPerformerUser(performer);
+            sr.setNamePerformer(s.getPerformerUser().getName());
+            sr.setSurnamePerformer(s.getPerformerUser().getSurname());
+        }
         sr.setRequestUser(s.getRequestUser().getIdUser());
         sr.setLatitude(s.getLatitude());
         sr.setLongitude(s.getLongitude());

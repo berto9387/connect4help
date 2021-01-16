@@ -27,4 +27,3 @@ hs_err_pid*
 /app-ear/target/
 /controller/target/
 /rest-controller/target/
-/erlangCluster/

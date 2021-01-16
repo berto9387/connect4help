@@ -23,7 +23,6 @@ function fs(){
     }
 
     function createCards(result,role,search=false) {
-        console.log(result, role, search)
         for (var i=0; i<result.length;i++){
             createCard(result[i],role,search);
         }
