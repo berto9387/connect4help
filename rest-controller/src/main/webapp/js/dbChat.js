@@ -1,6 +1,8 @@
 var db = new PouchDB('my_database');
 var remoteCouch = false;
-
+db.createIndex({
+    index: {fields: ['idReceiver','timestamp']}
+});
 function addMessage(idReceiver,timestamp,msg,sender) {
     var todo = {
         _id: new Date().toISOString(),
@@ -19,10 +21,10 @@ function addMessage(idReceiver,timestamp,msg,sender) {
 function getChat(idReceiver){
     db.find({
         selector: {idReceiver: idReceiver},
-        fields: ['_id', 'name'],
-        sort: ['name']
+        fields: ['idReceiver','timestamp','msg','sender'],
+        sort: ['timestamp']
     }).then(function (result) {
-        // handle result
+        console.log(result.docs[0]);
     }).catch(function (err) {
         console.log(err);
     });
