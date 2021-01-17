@@ -127,3 +127,4 @@ function createMessageSent(message){
 
     return divMessageBox;
 }
+
