@@ -38,12 +38,18 @@
                     <li><a href="../indexLogin.html" onclick="logout()">Logout</a></li>
                 </ul>
             </div>
-            <div id="divForm">
-
-            </div>
         </div>
     </div>
 </div>
+<div id="page-wrapper">
+    <div id="page" class="container">
+        <div class="title">
+            <h2>CHAT</h2>
+        </div>
+        <p>A simple chat to communicate with your requester/performer users</p>
+    </div>
+</div>
+<div class="wrapper" id="container">
 <div class="wrapper">
     <div class="container-fluid h-100">
         <div class="row justify-content-center">
@@ -112,7 +118,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="input-group">
-                            <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
+                            <textarea id="textMessage" name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
                             <div id="sendMessage" class="input-group-append">
                                 <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                             </div>
@@ -122,6 +128,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
