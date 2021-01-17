@@ -82,6 +82,8 @@ function deleteChat(id_user){
 
     clearElem(chat);
 
+    getChat(id_user);
+
 }
 
 function sendMessage(){
@@ -93,11 +95,13 @@ function sendMessage(){
 
     var chatBox = document.getElementById("chat");
 
-    var messageStyle = createMessageSent(message, true);
+    var err=addMessage(idUser,new Date(),message,true);
+    if (!err) {
+        var messageStyle = createMessageSent(message, true);
 
-    chatBox.appendChild(messageStyle);
-
-    messageBox.value="";
+        chatBox.appendChild(messageStyle);
+    }
+    messageBox.value = "";
 
 
 }
@@ -133,7 +137,6 @@ function createMessageSent(message, sender_receiver){
         divMessageValue.appendChild(content);
         divMessageValue.appendChild(spanTime);
     divMessageBox.appendChild(divMessageValue);
-    //divMessageBox.appendChild(spanTime);
 
     return divMessageBox;
 }
