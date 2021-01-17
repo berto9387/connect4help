@@ -2,4 +2,4 @@
 
 cd /vagrant
 
-cp ./erlang-chat-server-master.zip  /home/vagrant
+cp ./Cowboy-Chat-master.zip  /home/vagrant

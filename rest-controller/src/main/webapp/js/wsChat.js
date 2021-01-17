@@ -1,14 +1,11 @@
 var websocket;
-var server = document.getElementById("server");
-var message = document.getElementById("message");
-var connecting = document.getElementById("connecting");
-var connected = document.getElementById("connected");
-var content = document.getElementById("content");
-var output = document.getElementById("output");
+var content = document.getElementById("status");
 
-server.value = "ws://localhost:8080";
-connected.style.display = "none";
-content.style.display = "none";
+var ENTER="!ENTER-->"+localStorage.getItem("id");
+var EXIT="!EXIT";
+var PING="!PING";
+
+var server = "ws://alpha:8080";
 
 var timerID = 0;
 function keepAlive() {
@@ -26,9 +23,9 @@ function cancelKeepAlive() {
 
 function connect()
 {
-    wsHost = server.value;
-    websocket = new WebSocket(wsHost);
-    showScreen('<b>Connecting to: ' +  wsHost + '</b>');
+
+    websocket = new WebSocket(server);
+    showScreen('<b>Connecting to chat</b>');
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };
@@ -47,9 +44,8 @@ function toggle_connection(){
     };
 };
 
-function sendTxt() {
+function sendTxt(msg) {
     if (websocket.readyState == websocket.OPEN) {
-        var msg = message.value;
         websocket.send(msg);
         showScreen('sending: ' + msg);
     } else {
@@ -59,9 +55,7 @@ function sendTxt() {
 
 function onOpen(evt) {
     showScreen('<span style="color: green;">CONNECTED </span>');
-    connecting.style.display = "none";
-    connected.style.display = "";
-    content.style.display = "";
+    sendTxt(ENTER);
 };
 
 function onClose(evt) {
@@ -77,9 +71,8 @@ function onError(evt) {
 };
 
 function showScreen(html) {
-    var el = document.createElement("p");
-    el.innerHTML = html;
-    output.insertBefore(el, output.firstChild);
+    var content = document.getElementById("status");
+    content.innerHTML = html;
 };
 
 function clearScreen() {
