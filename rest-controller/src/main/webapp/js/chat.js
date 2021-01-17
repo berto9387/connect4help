@@ -93,7 +93,7 @@ function sendMessage(){
 
     var chatBox = document.getElementById("chat");
 
-    var messageStyle = createMessageSent(message);
+    var messageStyle = createMessageSent(message, true);
 
     chatBox.appendChild(messageStyle);
 
@@ -102,20 +102,30 @@ function sendMessage(){
 
 }
 
-function createMessageSent(message){
+function createMessageSent(message, sender_receiver){
     var timeStamp = new Date();
     var divMessageBox = document.createElement("div");
-    divMessageBox.setAttribute("class", "d-flex justify-content-end mb-4");
+    var valueDivBox;
+    var msgCont = "msg_cotainer";
+    var msgTime = "msg_time";
+    if(sender_receiver){
+        valueDivBox = "end"
+        msgCont += "_send";
+        msgTime += "_send";
+    }else{
+        valueDivBox = "start";
+    }
+    divMessageBox.setAttribute("class", "d-flex justify-content-"+valueDivBox+" mb-4");
 
         var divMessageValue = document.createElement("div");
-        divMessageValue.setAttribute("class", "msg_cotainer_send");
+        divMessageValue.setAttribute("class", msgCont);
 
             var content = document.createTextNode(""+message);
 
 
 
             var spanTime = document.createElement("span")
-            spanTime.setAttribute("class", "msg_time_send")
+            spanTime.setAttribute("class", msgTime)
                 var contentSpan = document.createTextNode(""+timeStamp.getHours()+":"+timeStamp.getMinutes()
                     +", "+timeStamp.getDate()+"/"+(timeStamp.getMonth()+1))
             spanTime.appendChild(contentSpan)
