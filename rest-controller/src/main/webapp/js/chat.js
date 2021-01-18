@@ -93,21 +93,24 @@ function sendMessage(){
     if(message.length == 0)
         return;
 
-    var chatBox = document.getElementById("chat");
-    sendTxt(message+"-->"+idUser); //funzione che chiama il socket
-    var err=addMessage(idUser,new Date(),message,true);
-    if (!err) {
-        var messageStyle = createMessageSent(message, true);
+    //var chatBox = document.getElementById("chat");
 
-        chatBox.appendChild(messageStyle);
+    var err=addMessage(idUser,new Date().getTime(),message,true);
+    if (!err) {
+    //    var messageStyle = createMessageSent(message, true, new Date().getTime());
+
+        //chatBox.appendChild(messageStyle);
+
+        sendTxt(message+"-->"+idUser); //funzione che chiama il socket
     }
     messageBox.value = "";
 
 
+
 }
 
-function createMessageSent(message, sender_receiver){
-    var timeStamp = new Date();
+function createMessageSent(message, sender_receiver, timestamp){
+    var timeStamp = new Date(timestamp);
     var divMessageBox = document.createElement("div");
     var valueDivBox;
     var msgCont = "msg_cotainer";

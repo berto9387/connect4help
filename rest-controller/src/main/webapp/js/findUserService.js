@@ -248,7 +248,7 @@ function fs(){
         // Apply each element to the Date function
         var date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
 
-        return date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear();
+        return date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
     }
 
     function returnHour(date){

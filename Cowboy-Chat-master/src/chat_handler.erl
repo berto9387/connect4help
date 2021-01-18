@@ -23,7 +23,7 @@ websocket_handle({text, Msg}, State) ->
       S=State, 
       ok;
     Msg_User == <<"!ENTER">> ->
-      S=Msg_User,
+      S=NickReciver,
       chat_server:enter({self(),NickReciver});
     Msg_User == <<"!EXIT">> -> 
       S=State,

@@ -1,3 +1,4 @@
+window.addEventListener("load", toggle_connection, false);
 var websocket;
 var content = document.getElementById("status");
 
@@ -66,16 +67,9 @@ function onClose(evt) {
 function onMessage(evt) {
     const words = evt.data.split('^'); //[0]->ora [1]->recieve [2]->Msg
     if(words.length==3){
-        var date=words[0].replace(/[\(\)']+/g,'').split(":");
-        var year=new Date().getFullYear();
-        var month=new Date().getMonth();
-        var day=new Date().getDay();
-        var hour=parseInt(date[0]);
-        var minute=parseInt(date[1]);
-        var second=parseInt(date[2]);
-        var timestamp=new Date(Date.UTC(year,month,day,hour,minute,second));
-        console.log(timestamp);
-        addMessage(parseInt(words[1]),timestamp,words[2],false);
+        var dateMillis = parseInt(words[0].replace(/[\(\)']+/g,''));
+
+        addMessage(parseInt(words[1]),dateMillis,words[2],false);
         showScreen('<span style="color: blue;">New message</span>');
     } else{
         showScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');

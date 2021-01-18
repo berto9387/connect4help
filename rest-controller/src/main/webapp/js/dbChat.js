@@ -1,17 +1,26 @@
+
 var db = new PouchDB('my_database');
 var remoteCouch = false;
 
 function addMessage(idReceiver,timestamp,msg,sender) {
+    console.log("Timestamp addMessage: "+timestamp);
     var todo = {
         _id: new Date().toISOString(),
         idReceiver: idReceiver,
-        timestamp: Number(timestamp),
+        timestamp:Number(timestamp),
         msg:msg,
         sender:sender
     };
     db.put(todo, function callback(err, result) {
+        if(!err && idReceiver == idUser) {
+            var messageStyle = createMessageSent(msg, sender, timestamp)
+            var chatBox = document.getElementById("chat");
+            chatBox.appendChild(messageStyle);
+        }
         return err;
     });
+    //console.log(timestamp)
+
 }
 
 function getChat(idReceiver){
@@ -24,11 +33,12 @@ function getChat(idReceiver){
                 idReceiver: idReceiver
             },
             fields: ['idReceiver','timestamp','msg','sender'],
-            sort: [{'timestamp':'desc'}]
+            sort: [{'timestamp':'asc'}]
         }).then(function (result) {
+            console.log(result);
             for(var i=0;i<result.docs.length;i++){
                 var aux=result.docs[i];
-                var messageStyle=createMessageSent(aux.msg, aux.sender); //aggiungere campo timestamp
+                var messageStyle=createMessageSent(aux.msg, aux.sender, aux.timestamp); //aggiungere campo timestamp
                 var chatBox = document.getElementById("chat");
                 chatBox.appendChild(messageStyle);
             }

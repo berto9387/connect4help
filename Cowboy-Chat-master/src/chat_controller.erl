@@ -134,8 +134,8 @@ format_message(Nick, Msg) ->
     FormattedMsg.
 
 format_time() ->
-    {H, M, S} = time(),
-    io_lib:format('(~2..0b:~2..0b:~2..0b)', [H, M, S]).
+    {Mega, Sec, Micro} = os:timestamp(),
+    io_lib:format('(~13..0b)', [(Mega*1000000 + Sec)*1000 + round(Micro/1000)]).
 
 to_string(Value) when is_binary(Value) -> binary_to_list(Value);
 to_string(Value) -> Value.
