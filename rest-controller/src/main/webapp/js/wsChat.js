@@ -10,8 +10,8 @@ var server = "ws://alpha:8080";
 var timerID = 0;
 function keepAlive() {
     var timeout = 20000;
-    if (webSocket.readyState == webSocket.OPEN) {
-        webSocket.send('!PING');
+    if (websocket.readyState == websocket.OPEN) {
+        websocket.send('!PING');
     }
     timerId = setTimeout(keepAlive, timeout);
 }
@@ -56,6 +56,7 @@ function sendTxt(msg) {
 function onOpen(evt) {
     showScreen('<span style="color: green;">CONNECTED </span>');
     sendTxt(ENTER);
+    keepAlive();
 };
 
 function onClose(evt) {
@@ -63,7 +64,22 @@ function onClose(evt) {
 };
 
 function onMessage(evt) {
-    showScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
+    const words = evt.data.split('^'); //[0]->ora [1]->recieve [2]->Msg
+    if(words.length==3){
+        var date=words[0].replace(/[\(\)']+/g,'').split(":");
+        var year=new Date().getFullYear();
+        var month=new Date().getMonth();
+        var day=new Date().getDay();
+        var hour=parseInt(date[0]);
+        var minute=parseInt(date[1]);
+        var second=parseInt(date[2]);
+        var timestamp=new Date(Date.UTC(year,month,day,hour,minute,second));
+        console.log(timestamp);
+        addMessage(parseInt(words[1]),timestamp,words[2],false);
+        showScreen('<span style="color: blue;">New message</span>');
+    } else{
+        showScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
+    }
 };
 
 function onError(evt) {

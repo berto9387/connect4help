@@ -94,7 +94,7 @@ function sendMessage(){
         return;
 
     var chatBox = document.getElementById("chat");
-
+    sendTxt(message+"-->"+idUser); //funzione che chiama il socket
     var err=addMessage(idUser,new Date(),message,true);
     if (!err) {
         var messageStyle = createMessageSent(message, true);
