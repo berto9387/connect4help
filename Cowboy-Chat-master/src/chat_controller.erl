@@ -130,7 +130,7 @@ disconnect_nick(Pid, Users) ->
 %%%=============================================================================
 
 format_message(Nick, Msg) ->
-    FormattedMsg = concat([format_time(), " ", Nick, ":", Msg, "\n"]),
+    FormattedMsg = concat([format_time(), "^", Nick, "^", Msg, "\n"]),
     FormattedMsg.
 
 format_time() ->
