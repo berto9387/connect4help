@@ -5,7 +5,7 @@ function addMessage(idReceiver,timestamp,msg,sender) {
     var todo = {
         _id: new Date().toISOString(),
         idReceiver: idReceiver,
-        timestamp: timestamp,
+        timestamp: Number(timestamp),
         msg:msg,
         sender:sender
     };
@@ -16,12 +16,15 @@ function addMessage(idReceiver,timestamp,msg,sender) {
 
 function getChat(idReceiver){
     db.createIndex({
-        index: {fields: ['idReceiver','timestamp']}
+        index: {fields: ['timestamp']}
     }).then(function () {
         db.find({
-            selector: {idReceiver: idReceiver},
+            selector: {
+                timestamp:{$gt:null},
+                idReceiver: idReceiver
+            },
             fields: ['idReceiver','timestamp','msg','sender'],
-            sort: ['idReceiver','timestamp']
+            sort: [{'timestamp':'desc'}]
         }).then(function (result) {
             for(var i=0;i<result.docs.length;i++){
                 var aux=result.docs[i];

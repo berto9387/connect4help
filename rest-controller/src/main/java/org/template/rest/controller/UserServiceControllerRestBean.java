@@ -177,8 +177,10 @@ public class UserServiceControllerRestBean {
         sr.setAcceptanceDate(s.getAcceptanceDate());
         if(dT.getRole().equals("R")) {
             sr.setPerformerUser(performer);
-            sr.setNamePerformer(s.getPerformerUser().getName());
-            sr.setSurnamePerformer(s.getPerformerUser().getSurname());
+            if(performer!=0) {
+                sr.setNamePerformer(s.getPerformerUser().getName());
+                sr.setSurnamePerformer(s.getPerformerUser().getSurname());
+            }
         }
         sr.setRequestUser(s.getRequestUser().getIdUser());
         sr.setLatitude(s.getLatitude());
