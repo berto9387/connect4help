@@ -1,10 +1,7 @@
-//window.addEventListener("load", fs, false);
 
 function fs(){
 
-
     var myHeaders = new Headers();
-    //myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+localStorage.getItem("token").toString());
     var requestOptions = {
         method: 'GET',
@@ -65,7 +62,6 @@ function fs(){
                                 };
                                 var url = "http://localhost:8080/rest/api/users/" + localStorage.getItem("id") + "/services/" + id;
 
-
                                 fetch(url, requestOptions)
                                     .then(response => response) //Indirizzamentro alla pagina dei servizi
                                     .then(result => removeContainer(id))
@@ -90,7 +86,7 @@ function fs(){
                         var f = function (id) {
                             return function () {
                                 var myHeaders = new Headers();
-                                //myHeaders.append("Content-Type", "application/json");
+
                                 myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token").toString());
                                 var requestOptions = {
                                     method: 'PUT',
@@ -216,16 +212,7 @@ function fs(){
         function initMap(lat,lon,where_put) {
             console.log(lat)
             console.log(lon)
-            /*const myLatLng = { lat: lat, lng: long };
-            const map = new google.maps.Map(document.getElementById(where_put), {
-                zoom: 4,
-                center: myLatLng,
-            });
-            new google.maps.Marker({
-                position: myLatLng,
-                map,
-                title: "Hello World!",
-            });*/
+
             var zoom           = 18;
 
             var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
