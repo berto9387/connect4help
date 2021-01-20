@@ -48,7 +48,7 @@ function toggle_connection(){
 function sendTxt(msg) {
     if (websocket.readyState == websocket.OPEN) {
         websocket.send(msg);
-        showScreen('sending: ' + msg);
+        showScreen('message sent');
     } else {
         showScreen('websocket is not connected');
     };
