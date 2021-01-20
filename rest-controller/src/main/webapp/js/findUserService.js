@@ -1,4 +1,4 @@
-
+var arrayTime=new Array();
 function fs(){
 
     var myHeaders = new Headers();
@@ -95,14 +95,19 @@ function fs(){
                                 };
                                 var url = "http://localhost:8080/rest/api/services/" + id +"/users/" + localStorage.getItem("id");
 
-                                //TODO controllare status
+                                //inserire gestione sincronizzazione servizi accettati
                                 fetch(url, requestOptions)
                                     .then(response => response.status) //Indirizzamentro alla pagina dei servizi
-                                    .then(result => removeContainer(id))
+                                    .then(result => removeContainer(id,result))
                                     .catch(error => console.log('error', error));
 
-                                function removeContainer(id) {
-                                    window.alert("Service " + id + " added");
+                                function removeContainer(id,result) {
+                                    if(result==200 || result==201){
+                                        window.alert("Service " + id + " added");
+                                    }else{
+                                        window.alert("Service " + id + " is already accepted");
+                                    }
+
                                     var el = document.getElementById("container" + id);
                                     el.remove();
                                 }
@@ -183,8 +188,10 @@ function fs(){
                             else{
                                 text.textContent = resultElement.namePerformer + " " + resultElement.surnamePerformer;
                             }
-                        }else if(role==="P")
-                            text.textContent=resultElement.nameRequester + " " + resultElement.surnameRequester;
+                        }else if(role==="P") {
+                            console.log(resultElement);
+                            text.textContent = resultElement.nameRequester + " " + resultElement.surnameRequester;
+                        }
                     description.appendChild(text);
                 info.appendChild(description);
 
@@ -276,6 +283,7 @@ function fs(){
                 document.getElementById(where_put).textContent = "EXPIRED";
             }
         }, 1000);
+        arrayTime.push(x);
     }
 
 }

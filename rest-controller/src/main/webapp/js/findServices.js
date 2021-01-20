@@ -1,12 +1,16 @@
 
+function clearElem(elem){
+    if(elem.firstChild==null)
+        return;
 
+    elem.firstChild.remove();
+    clearElem(elem);
+}
 function clickFindServices(){
+    for(var i=0;i<arrayTime.length;i++)
+        clearInterval(arrayTime[i]);
     var cointeinerCard = document.getElementById("container");
-    var cards = document.getElementsByClassName("container_card");
-    var lunghezza = cards.length;
-    for (var i = 0; i < lunghezza; i++){
-        cointeinerCard.removeChild(cards[i])
-    }
+    clearElem(cointeinerCard);
 
     findServices();
 }
