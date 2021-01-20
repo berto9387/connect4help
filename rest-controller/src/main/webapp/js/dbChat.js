@@ -3,7 +3,7 @@ var db = new PouchDB('my_database');
 var remoteCouch = false;
 
 function addMessage(idReceiver,timestamp,msg,sender) {
-    console.log("Timestamp addMessage: "+timestamp);
+
     var todo = {
         _id: new Date().toISOString(),
         idReceiver: idReceiver,
@@ -16,11 +16,11 @@ function addMessage(idReceiver,timestamp,msg,sender) {
             var messageStyle = createMessageSent(msg, sender, timestamp)
             var chatBox = document.getElementById("chat");
             chatBox.appendChild(messageStyle);
-            chatBox.scrollTop = chatBox.scrollHeight
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
         return err;
     });
-    //console.log(timestamp)
+
 
 }
 
@@ -43,7 +43,7 @@ function getChat(idReceiver){
                 var chatBox = document.getElementById("chat");
                 chatBox.appendChild(messageStyle);
             }
-            console.log(result);
+
         }).catch(function (err) {
             console.log(err);
         });

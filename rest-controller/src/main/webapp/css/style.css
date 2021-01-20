@@ -60,10 +60,17 @@ form.sign-in-form {
   z-index: 2;
 }
 
+
 .title {
   font-size: 2.2rem;
   color: #444;
   margin-bottom: 10px;
+}
+
+#titleLogin{
+  color: #4d84e2;
+  font-size: 5em;
+  text-shadow: 3px 2px 2px black;
 }
 
 .input-field {

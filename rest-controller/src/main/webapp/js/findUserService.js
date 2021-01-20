@@ -1,10 +1,7 @@
-//window.addEventListener("load", fs, false);
-
+var arrayTime=new Array();
 function fs(){
 
-
     var myHeaders = new Headers();
-    //myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer "+localStorage.getItem("token").toString());
     var requestOptions = {
         method: 'GET',
@@ -65,7 +62,6 @@ function fs(){
                                 };
                                 var url = "http://localhost:8080/rest/api/users/" + localStorage.getItem("id") + "/services/" + id;
 
-
                                 fetch(url, requestOptions)
                                     .then(response => response) //Indirizzamentro alla pagina dei servizi
                                     .then(result => removeContainer(id))
@@ -90,7 +86,7 @@ function fs(){
                         var f = function (id) {
                             return function () {
                                 var myHeaders = new Headers();
-                                //myHeaders.append("Content-Type", "application/json");
+
                                 myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token").toString());
                                 var requestOptions = {
                                     method: 'PUT',
@@ -99,14 +95,19 @@ function fs(){
                                 };
                                 var url = "http://localhost:8080/rest/api/services/" + id +"/users/" + localStorage.getItem("id");
 
-                                //TODO controllare status
+                                //inserire gestione sincronizzazione servizi accettati
                                 fetch(url, requestOptions)
                                     .then(response => response.status) //Indirizzamentro alla pagina dei servizi
-                                    .then(result => removeContainer(id))
+                                    .then(result => removeContainer(id,result))
                                     .catch(error => console.log('error', error));
 
-                                function removeContainer(id) {
-                                    window.alert("Service " + id + " added");
+                                function removeContainer(id,result) {
+                                    if(result==200 || result==201){
+                                        window.alert("Service " + id + " added");
+                                    }else{
+                                        window.alert("Service " + id + " is already accepted");
+                                    }
+
                                     var el = document.getElementById("container" + id);
                                     el.remove();
                                 }
@@ -185,10 +186,12 @@ function fs(){
                             if(resultElement.performerUser==0)
                                 text.textContent = "Wait for performer";
                             else{
-                                text.textContent = resultElement.performerUser;
+                                text.textContent = resultElement.namePerformer + " " + resultElement.surnamePerformer;
                             }
-                        }else if(role==="P")
-                            text.textContent=resultElement.requestUser;
+                        }else if(role==="P") {
+                            console.log(resultElement);
+                            text.textContent = resultElement.nameRequester + " " + resultElement.surnameRequester;
+                        }
                     description.appendChild(text);
                 info.appendChild(description);
 
@@ -216,16 +219,7 @@ function fs(){
         function initMap(lat,lon,where_put) {
             console.log(lat)
             console.log(lon)
-            /*const myLatLng = { lat: lat, lng: long };
-            const map = new google.maps.Map(document.getElementById(where_put), {
-                zoom: 4,
-                center: myLatLng,
-            });
-            new google.maps.Marker({
-                position: myLatLng,
-                map,
-                title: "Hello World!",
-            });*/
+
             var zoom           = 18;
 
             var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
@@ -289,6 +283,7 @@ function fs(){
                 document.getElementById(where_put).textContent = "EXPIRED";
             }
         }, 1000);
+        arrayTime.push(x);
     }
 
 }

@@ -90,8 +90,10 @@ public class ServiceControllerRestBean {
         sr.setExpirationDate(s.getExpirationDate());
         sr.setInsertionDate(s.getInsertionDate());
         sr.setAcceptanceDate(s.getAcceptanceDate());
-        sr.setPerformerUser((s.getPerformerUser() == null)? -1 :s.getPerformerUser().getIdUser());
-        sr.setRequestUser((s.getRequestUser()== null)? -1 :s.getRequestUser().getIdUser());
+        sr.setPerformerUser((s.getPerformerUser() == null)? 0 :s.getPerformerUser().getIdUser());
+        sr.setRequestUser(s.getRequestUser().getIdUser());
+        sr.setNameRequester(s.getRequestUser().getName());
+        sr.setSurnameRequester(s.getRequestUser().getSurname());
         sr.setLatitude(s.getLatitude());
         sr.setLongitude(s.getLongitude());
         return sr;
