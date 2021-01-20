@@ -40,6 +40,7 @@ function createBodyRequestService(){
 
 }
 
+//Funzione di utilità per caricare elementi dinamici della pagina
 function setCategorySelectOptions(jsonArray, status){
 
     if(status == 200 || status == 201) {
@@ -62,8 +63,9 @@ function setCategorySelectOptions(jsonArray, status){
 
 }
 
-function resetForm(e){
-    e.preventDefault(); // Evita che va in alto alla pagina ogni volta che resettiamo i campi
+function resetForm(e=null){
+    if(e)
+        e.preventDefault(); // Evita che va in alto alla pagina ogni volta che resettiamo i campi
     document.getElementById("add-request-form").reset();
     if(localStorage.getItem('address').toString() !== " "){
         document.getElementById("address").value = localStorage.getItem("address").toString();
@@ -312,7 +314,10 @@ function sendPostRequest(){
                 throw Error(response.statusText)
             }
         })
-        .then(result => window.alert(result + "OK"))
+        .then(result => {
+            window.alert("Service added");
+            resetForm();
+            })
         .catch(error => console.log('error', error));
     //e.preventDefault();
 }

@@ -16,6 +16,7 @@ function addMessage(idReceiver,timestamp,msg,sender) {
             var messageStyle = createMessageSent(msg, sender, timestamp)
             var chatBox = document.getElementById("chat");
             chatBox.appendChild(messageStyle);
+            chatBox.scrollTop = chatBox.scrollHeight
         }
         return err;
     });
