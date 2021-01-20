@@ -25,8 +25,20 @@ function loadContact(){
 }
 
 function createContacts(result, role) {
+    var valuesSoFar = Object.create(null);
     for (var i=0; i<result.length;i++){
-        createContact(result[i],role);
+        if(result[i].performerUser!=0){
+            if(role=="P")
+                var value=result[i].requestUser;
+            else
+                var value=result[i].performerUser;
+            if (value in valuesSoFar){
+                continue;
+            }
+            valuesSoFar[value] = true;
+            createContact(result[i],role);
+        }
+
     }
 }
 function createContact(result,role){
@@ -40,7 +52,6 @@ function createContact(result,role){
             div2.className="user_info";
                 var span=document.createElement("span");
                 if(role=="P") {
-                    console.log(result)
                     id=result.requestUser; //Errore nel nome(RISOLTO)
                     nome=result.nameRequester;
                     span.textContent = result.nameRequester + " " + result.surnameRequester;

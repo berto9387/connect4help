@@ -181,6 +181,10 @@ public class UserServiceControllerRestBean {
                 sr.setNamePerformer(s.getPerformerUser().getName());
                 sr.setSurnamePerformer(s.getPerformerUser().getSurname());
             }
+        } else{
+            sr.setPerformerUser(performer);
+            sr.setNamePerformer(s.getPerformerUser().getName());
+            sr.setSurnamePerformer(s.getPerformerUser().getSurname());
         }
         sr.setRequestUser(s.getRequestUser().getIdUser());
         sr.setLatitude(s.getLatitude());

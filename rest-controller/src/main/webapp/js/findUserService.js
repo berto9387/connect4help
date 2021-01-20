@@ -181,10 +181,10 @@ function fs(){
                             if(resultElement.performerUser==0)
                                 text.textContent = "Wait for performer";
                             else{
-                                text.textContent = resultElement.performerUser;
+                                text.textContent = resultElement.namePerformer + " " + resultElement.surnamePerformer;
                             }
                         }else if(role==="P")
-                            text.textContent=resultElement.requestUser;
+                            text.textContent=resultElement.nameRequester + " " + resultElement.surnameRequester;
                     description.appendChild(text);
                 info.appendChild(description);
 
