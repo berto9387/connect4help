@@ -2,6 +2,8 @@ package org.template.interfaces;
 
 import org.template.model.Service;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import java.util.Collection;
 
 public interface IServiceController {

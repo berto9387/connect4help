@@ -38,7 +38,7 @@ public class UserServiceControllerRestBean {
     @Context
     private UriInfo uriInfo;
 
-    @EJB
+    @EJB(beanName = "UserServiceEJB")
     private IUserServiceController serviceController;
 
 

@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--todo we are not able to make a rest module for each controller until a bug will be fixed https://java.net/jira/browse/GLASSFISH-18946-->
 
     <artifactId>rest-model</artifactId>
     <packaging>jar</packaging>

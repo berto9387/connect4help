@@ -47,7 +47,7 @@ public class UserControllerRestBean {
     DecodeToken dT;
 
 
-    @EJB(name = "UserControllerEJB")
+    @EJB(beanName = "UserControllerEJB")
     IUserController userController;
 
     @Context

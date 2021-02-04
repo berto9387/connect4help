@@ -26,7 +26,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 @Produces(MediaType.APPLICATION_JSON)
 public class CategoryControllerRestBean {
 
-    @EJB(name = "CategoryControllerEJB")
+    @EJB(beanName = "CategoryControllerEJB")
     ICategoryController categoryController;
 
     public CategoryControllerRestBean(){

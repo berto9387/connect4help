@@ -20,11 +20,12 @@ import java.util.List;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 @Stateless(name = "ServiceControllerRestEJB")
+
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ServiceControllerRestBean {
 
-    @EJB(name = "ServiceControllerEJB")
+    @EJB(beanName = "ServiceControllerEJB")
     IServiceController serviceController;
 
     @Context
