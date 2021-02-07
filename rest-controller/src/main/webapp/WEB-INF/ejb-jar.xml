@@ -7,20 +7,14 @@
 
     <enterprise-beans>
         <session>
+            <ejb-name>CategoryControllerRestEJB</ejb-name>
+            <ejb-class>org.template.rest.controller.CategoryControllerRestBean</ejb-class>
+            <session-type>Stateless</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
+        <session>
             <ejb-name>UserControllerRestEJB</ejb-name>
             <ejb-class>org.template.rest.controller.UserControllerRestBean</ejb-class>
-            <session-type>Stateless</session-type>
-            <transaction-type>Container</transaction-type>
-        </session>
-        <session>
-            <ejb-name>UserServiceControllerRestEJB</ejb-name>
-            <ejb-class>org.template.rest.controller.UserServiceControllerRestBean</ejb-class>
-            <session-type>Stateless</session-type>
-            <transaction-type>Container</transaction-type>
-        </session>
-        <session>
-            <ejb-name>ServiceControllerRestEJB</ejb-name>
-            <ejb-class>org.template.rest.controller.ServiceControllerRestBean</ejb-class>
             <session-type>Stateless</session-type>
             <transaction-type>Container</transaction-type>
         </session>

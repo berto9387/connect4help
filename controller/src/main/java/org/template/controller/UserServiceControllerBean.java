@@ -1,9 +1,11 @@
 package org.template.controller;
 
+import org.template.interfaces.IUserController;
 import org.template.interfaces.IUserServiceController;
 import org.template.model.*;
 import org.template.util.OpenStreetMapUtils;
 
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -16,7 +18,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-@Stateless(name = "UserServiceEJB")
+@Stateless(name = "UserServiceControllerEJB")
 public class UserServiceControllerBean implements IUserServiceController {
 
 

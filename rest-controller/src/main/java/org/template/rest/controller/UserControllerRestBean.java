@@ -3,11 +3,8 @@ package org.template.rest.controller;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.template.interfaces.IUserController;
 import org.template.model.User;
-import org.template.rest.filter.AdminEndPoint;
 import org.template.rest.filter.JWTTokenNeeded;
 import org.template.rest.model.*;
 import org.template.rest.util.DecodeToken;
@@ -19,17 +16,13 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.logging.Level;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -47,7 +40,7 @@ public class UserControllerRestBean {
     DecodeToken dT;
 
 
-    @EJB(beanName = "UserControllerEJB")
+    @EJB(name = "UserControllerEJB")
     IUserController userController;
 
     @Context
@@ -60,7 +53,6 @@ public class UserControllerRestBean {
     /////////////////////////////////////////
     @GET
     @Path("/")
-    @AdminEndPoint
     public Response findAllUsers() {
         List<User> allUsers = this.userController.findAllUser();
         if (allUsers == null)

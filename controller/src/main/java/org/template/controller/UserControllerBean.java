@@ -17,7 +17,6 @@ import java.util.Map;
  * @author Victor Mezrin
  */
 @Stateless(name = "UserControllerEJB")
-@Local(IUserController.class)
 public class UserControllerBean implements IUserController {
 
     @PersistenceContext(unitName = "MainPersistenceUnit")

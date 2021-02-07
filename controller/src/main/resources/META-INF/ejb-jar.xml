@@ -16,7 +16,7 @@
             </env-entry>
         </session>
         <session>
-            <ejb-name>UserServiceEJB</ejb-name>
+            <ejb-name>UserServiceControllerEJB</ejb-name>
             <ejb-class>org.template.controller.UserServiceControllerBean</ejb-class>
             <session-type>Stateless</session-type>
             <transaction-type>Container</transaction-type>
@@ -24,6 +24,12 @@
         <session>
             <ejb-name>ServiceControllerEJB</ejb-name>
             <ejb-class>org.template.controller.ServiceControllerBean</ejb-class>
+            <session-type>Stateless</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
+        <session>
+            <ejb-name>CategoryControllerEJB</ejb-name>
+            <ejb-class>org.template.controller.CategoryControllerBean</ejb-class>
             <session-type>Stateless</session-type>
             <transaction-type>Container</transaction-type>
         </session>

@@ -14,7 +14,6 @@ import javax.persistence.Query;
 import java.util.Collection;
 
 @Stateless(name = "CategoryControllerEJB")
-@Local(ICategoryController.class)
 public class CategoryControllerBean implements ICategoryController {
 
     @PersistenceContext(unitName = "MainPersistenceUnit")

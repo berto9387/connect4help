@@ -15,7 +15,6 @@ public class AppRestApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(AppRestFacadeBean.class);
-        classes.add(AdminEndPointFilter.class);
         classes.add(RequesterEndPointFilter.class);
         classes.add(PerformerEndPointFilter.class);
         classes.add(UserControllerRestBean.class);

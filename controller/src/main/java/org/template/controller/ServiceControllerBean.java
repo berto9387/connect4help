@@ -15,7 +15,6 @@ import java.util.Map;
 
 
 @Stateless(name = "ServiceControllerEJB")
-@Local(IServiceController.class)
 public class ServiceControllerBean implements IServiceController {
 
     @PersistenceContext(unitName = "MainPersistenceUnit")

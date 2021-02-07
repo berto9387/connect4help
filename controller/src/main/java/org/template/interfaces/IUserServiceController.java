@@ -2,8 +2,9 @@ package org.template.interfaces;
 
 import org.template.model.Service;
 
+import javax.ejb.Local;
 import java.util.Collection;
-
+@Local
 public interface IUserServiceController {
     public Collection<Service> getUserServices(int id,String role);
 

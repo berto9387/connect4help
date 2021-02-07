@@ -1,10 +1,7 @@
 package org.template.rest.controller;
 
 import org.template.interfaces.IServiceController;
-import org.template.interfaces.IUserController;
-import org.template.interfaces.IUserServiceController;
 import org.template.model.Service;
-import org.template.rest.filter.JWTTokenNeeded;
 import org.template.rest.filter.PerformerEndPoint;
 import org.template.rest.model.ServiceResponse;
 
@@ -25,7 +22,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 @Produces(MediaType.APPLICATION_JSON)
 public class ServiceControllerRestBean {
 
-    @EJB(beanName = "ServiceControllerEJB")
+    @EJB(name = "ServiceControllerEJB")
     IServiceController serviceController;
 
     @Context
