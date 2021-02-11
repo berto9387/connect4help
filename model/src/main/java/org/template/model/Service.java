@@ -13,7 +13,7 @@ import java.util.Objects;
 @Entity
 @SqlResultSetMapping(name = "ScheduleResult", entities = @EntityResult(entityClass = Service.class))
 @NamedNativeQuery(name = "Schedules",
-        query = "SELECT s.* FROM service s where (6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) - radians(?2)) + sin(radians(?1)) * sin(radians(s.Latitude))))< ?3 and s.IdPerformerUser is null",
+        query = "SELECT s.* FROM service s where (6371 * acos(cos(radians(?1)) * cos(radians(s.Latitude)) * cos(radians(s.Longitude) - radians(?2)) + sin(radians(?1)) * sin(radians(s.Latitude))))< ?3 and s.IdPerformerUser is null and s.ExpirationDate >= current_timestamp",
         resultSetMapping = "ScheduleResult")
 public class Service implements Serializable {
     private int idService;
