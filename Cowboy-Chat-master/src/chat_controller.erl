@@ -1,12 +1,4 @@
-  %%%-----------------------------------------------------------------------------
-%%% @author Amin 
-%%% @copyright 2015 Free software
-%%% @doc Controller is responsible mainly for adding users to the data center 
-%%%      and removing their name when they disconnect from the server.                
-%%%      It does its job via getting requests from chat server.                   
-%%%
-%%% @end
-%%%-----------------------------------------------------------------------------
+
 -module(chat_controller).
 -behaviour(gen_server).
 
@@ -18,8 +10,7 @@
          handle_call/3, 
          handle_cast/2, 
          handle_info/2, 
-         terminate/2,
-         code_change/3]).
+         terminate/2]).
 
 -include("chat.hrl").
 
@@ -59,25 +50,13 @@ handle_call({disconnect, Pid}, _From, Users) ->
 handle_call(_Message, _From, State) ->
     {reply, error, State}.
 
-handle_cast({say, Nick, Msg}, Users) ->
-    broadcast(Nick, Msg, Users),
-    {noreply, Users}; 
 
-handle_cast({nick_list, Socket}, Users) ->
-    nick_list(Socket, Users),
-    {noreply, Users};
 
 handle_cast({private_message, Pid_Sender, {Id_Dest,Id_Sender}, Msg}, Users) ->
     private_message({Id_Dest,Id_Sender}, Pid_Sender, Msg, Users),
     {noreply, Users};
 
-handle_cast({join, Nick}, Users) ->
-    broadcast(Nick, "joined the chat! \n", Users),
-    {noreply, Users};
 
-handle_cast({left, Nick}, Users) ->
-    broadcast(Nick, "left the chat! \n", Users),
-    {noreply, Users};
 
 handle_cast(_Message, State) ->
     {noreply, State}.
@@ -88,21 +67,13 @@ handle_info(_Message, State) ->
 terminate(_Reason, _State) -> 
     ok.
 
-code_change(_OldVersion, State, _Extra) -> 
-    {ok, State}.
+
  
 %%%=============================================================================
 %%% Internal functions
 %%%=============================================================================
 
-broadcast(Nick, Msg, Users) ->
-    FormatMsg = format_message(Nick, Msg),
-    Pids = [Pid || {N, Pid} <- ets:tab2list(Users), N =/= Nick],
-    lists:foreach(fun(Pid) -> Pid ! {send_message, Pid, FormatMsg} end, Pids).
 
-nick_list(Pid, Users) ->
-    Nicks = [N ++ " " || {N, S} <- ets:tab2list(Users), S =/= Pid],
-    Pid ! {send_message, Pid, "Online people: " ++ Nicks ++ "\n"}.
 
 private_message({Id_Dest,Id_Sender}, Pid_Sender, Msg, Users) ->
     FormatMsg = format_message(Id_Sender, Msg),

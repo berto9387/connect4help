@@ -5,8 +5,10 @@
 -export([websocket_info/2]).
 -export([terminate/3]).
 
+%% handler websocket https://ninenines.eu/docs/en/cowboy/2.8/guide/handlers/
 init(Req, Opts) ->
 	{cowboy_websocket, Req, Opts}.
+
 
 websocket_init(State) ->
 	self() ! {send_message, self(), "Sei entrato: inserisci l'id"},
@@ -16,21 +18,28 @@ websocket_init(State) ->
 websocket_handle({text, Msg}, State) ->
   Details=string:lexemes(Msg, "-->"), % msg
   
-  NickReciver=lists:last(Details),
-  Msg_User=hd(Details),
+  
+  Param2=lists:last(Details),
+  Param1=hd(Details),
   if 
-    Msg_User == <<"!PING">> ->
+    Param1 == <<"!PING">> ->
+      %%Command=Param1,
       S=State, 
       ok;
-    Msg_User == <<"!ENTER">> ->
-      S=NickReciver,
-      chat_server:enter({self(),NickReciver});
-    Msg_User == <<"!EXIT">> -> 
+    Param1 == <<"!ENTER">> ->
+      %%Command=Param1,
+      NickSender= Param2,
+      S=NickSender,
+      chat_server:enter({self(),NickSender});
+    Param1 == <<"!EXIT">> ->
+      %%Command=Param1, 
       S=State,
       chat_server:leave(self());
-    true -> 
+    true ->
+      Message=Param1,
+      NickReceiver=Param2, 
       S=State,
-      chat_server:send_message({self(),{NickReciver,S}},Msg_User)
+      chat_server:send_message({self(),{NickReceiver,S}},Message)
   end,
   {ok, S};
 websocket_handle(_Data, State) ->
@@ -38,15 +47,11 @@ websocket_handle(_Data, State) ->
   
 websocket_info({send_message, _ServerPid, Msg}, State) ->
     {reply, {text, Msg}, State};
-websocket_info({timeout, _Ref, Msg}, State) ->
-	%erlang:start_timer(1000, self(), <<"How' you doin'?">>),
-	{[{text, Msg}], State};
 websocket_info(_Info, State) ->
   {[], State}.
 
  
  terminate(_Reason, _Req, _State) ->
-   %problemi con invia messaggio.
     chat_server:leave(self()),
     ok.
 

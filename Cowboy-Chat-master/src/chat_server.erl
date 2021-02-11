@@ -1,12 +1,4 @@
-%%%-----------------------------------------------------------------------------
-%%% @author Amin
-%%% @copyright 2015 Free Software
-%%% @doc Server is responsible to accept connections from clients and manage the    
-%%%      chat sessions.                                                             
-%%%      It works with controller process to keep track of users who join and 
-%%%      leave chat server.                                                               
-%%% @end
-%%%-----------------------------------------------------------------------------
+
 -module(chat_server).
 -behaviour(gen_server).
 
@@ -32,7 +24,7 @@
 
 
 enter({Pid, Id}) ->
-    io:format("~p Joine! ~n", [Pid]),
+    io:format("~p Joined! ~n", [Pid]),
     gen_server:cast(?SERVER, {enter,{Pid,Id}}).
 
 leave(Pid) ->
@@ -45,14 +37,6 @@ send_message({Pid_Sender,{Id_Dest,Id_Sender}}, Message) ->
 
 
 
-%%------------------------------------------------------------------------------
-%% @doc Starts chat server.
-%% 
-%% @spec start_link(Socket::socket()) -> {ok, Pid}
-%% where 
-%%  Pid = pid()   
-%% @end
-%%------------------------------------------------------------------------------
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 

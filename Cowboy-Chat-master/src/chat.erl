@@ -1,10 +1,4 @@
-%%%-----------------------------------------------------------------------------
-%%% @author Amin
-%%% @copyright 2015 Free Software
-%%% @doc Chat server application behaviour. Shall be used to start 
-%%%      the caht application.
-%%% @end
-%%%-----------------------------------------------------------------------------
+
 -module(chat).
 -behaviour(application).
 

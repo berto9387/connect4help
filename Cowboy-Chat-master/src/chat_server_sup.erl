@@ -19,7 +19,7 @@
 -export([init/1]).
 
 %% Helper macro for declaring children of supervisor
--define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
+%%-define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
 
 %% ===================================================================
 %% API functions
@@ -32,7 +32,19 @@ start_link() ->
 %% Supervisor callbacks
 %% ===================================================================
 
+%%init([]) ->
+%%    {ok, { {one_for_one, 5, 10},
+%%           [?CHILD(?SERVER, worker)]} }.
+
 init([]) ->
-    {ok, { {one_for_one, 5, 10},
-           [?CHILD(?SERVER, worker)]} }.
+
+    ServerSpec =  {?SERVER,
+                        {?SERVER, start_link, []},
+                        permanent, 5000, worker, [?SERVER]},
+
+    ChildSpecs = [ServerSpec],
+
+    ok = supervisor:check_childspecs(ChildSpecs),
+    StartSpecs = {{one_for_one, 5, 10}, ChildSpecs},
+    {ok, StartSpecs}.
 

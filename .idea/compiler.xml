@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="app-config" />
         <module name="app-ear" />
-        <module name="controller" />
         <module name="model" />
+        <module name="controller" />
         <module name="rest-model" />
         <module name="rest-controller" />
       </profile>
